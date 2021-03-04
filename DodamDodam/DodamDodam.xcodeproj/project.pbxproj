@@ -13,6 +13,7 @@
 		812B340825F0C2CB00DD299D /* Main.storyboard in Resources */ = {isa = PBXBuildFile; fileRef = 812B340625F0C2CB00DD299D /* Main.storyboard */; };
 		812B340A25F0C2CE00DD299D /* Assets.xcassets in Resources */ = {isa = PBXBuildFile; fileRef = 812B340925F0C2CE00DD299D /* Assets.xcassets */; };
 		812B340D25F0C2CE00DD299D /* LaunchScreen.storyboard in Resources */ = {isa = PBXBuildFile; fileRef = 812B340B25F0C2CE00DD299D /* LaunchScreen.storyboard */; };
+		B399F8CCB79CB2A9C589D9E8 /* Pods_DodamDodam.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = 99B432E3C9A7B8F8482218F5 /* Pods_DodamDodam.framework */; };
 /* End PBXBuildFile section */
 
 /* Begin PBXFileReference section */
@@ -24,6 +25,9 @@
 		812B340925F0C2CE00DD299D /* Assets.xcassets */ = {isa = PBXFileReference; lastKnownFileType = folder.assetcatalog; path = Assets.xcassets; sourceTree = "<group>"; };
 		812B340C25F0C2CE00DD299D /* Base */ = {isa = PBXFileReference; lastKnownFileType = file.storyboard; name = Base; path = Base.lproj/LaunchScreen.storyboard; sourceTree = "<group>"; };
 		812B340E25F0C2CE00DD299D /* Info.plist */ = {isa = PBXFileReference; lastKnownFileType = text.plist.xml; path = Info.plist; sourceTree = "<group>"; };
+		99B432E3C9A7B8F8482218F5 /* Pods_DodamDodam.framework */ = {isa = PBXFileReference; explicitFileType = wrapper.framework; includeInIndex = 0; path = Pods_DodamDodam.framework; sourceTree = BUILT_PRODUCTS_DIR; };
+		B1427A6E0556CBB59E4154B8 /* Pods-DodamDodam.debug.xcconfig */ = {isa = PBXFileReference; includeInIndex = 1; lastKnownFileType = text.xcconfig; name = "Pods-DodamDodam.debug.xcconfig"; path = "Target Support Files/Pods-DodamDodam/Pods-DodamDodam.debug.xcconfig"; sourceTree = "<group>"; };
+		E84992BA5AFA07F9ECBA20A3 /* Pods-DodamDodam.release.xcconfig */ = {isa = PBXFileReference; includeInIndex = 1; lastKnownFileType = text.xcconfig; name = "Pods-DodamDodam.release.xcconfig"; path = "Target Support Files/Pods-DodamDodam/Pods-DodamDodam.release.xcconfig"; sourceTree = "<group>"; };
 /* End PBXFileReference section */
 
 /* Begin PBXFrameworksBuildPhase section */
@@ -31,6 +35,7 @@
 			isa = PBXFrameworksBuildPhase;
 			buildActionMask = 2147483647;
 			files = (
+				B399F8CCB79CB2A9C589D9E8 /* Pods_DodamDodam.framework in Frameworks */,
 			);
 			runOnlyForDeploymentPostprocessing = 0;
 		};
@@ -42,6 +47,8 @@
 			children = (
 				812B33FF25F0C2CB00DD299D /* DodamDodam */,
 				812B33FE25F0C2CB00DD299D /* Products */,
+				A8DE577682F1829B635C0C7A /* Pods */,
+				A9F8B0B6BDD343A6A83515AC /* Frameworks */,
 			);
 			sourceTree = "<group>";
 		};
@@ -67,6 +74,24 @@
 			path = DodamDodam;
 			sourceTree = "<group>";
 		};
+		A8DE577682F1829B635C0C7A /* Pods */ = {
+			isa = PBXGroup;
+			children = (
+				B1427A6E0556CBB59E4154B8 /* Pods-DodamDodam.debug.xcconfig */,
+				E84992BA5AFA07F9ECBA20A3 /* Pods-DodamDodam.release.xcconfig */,
+			);
+			name = Pods;
+			path = Pods;
+			sourceTree = "<group>";
+		};
+		A9F8B0B6BDD343A6A83515AC /* Frameworks */ = {
+			isa = PBXGroup;
+			children = (
+				99B432E3C9A7B8F8482218F5 /* Pods_DodamDodam.framework */,
+			);
+			name = Frameworks;
+			sourceTree = "<group>";
+		};
 /* End PBXGroup section */
 
 /* Begin PBXNativeTarget section */
@@ -74,9 +99,11 @@
 			isa = PBXNativeTarget;
 			buildConfigurationList = 812B341125F0C2CE00DD299D /* Build configuration list for PBXNativeTarget "DodamDodam" */;
 			buildPhases = (
+				D5DC8E1995E73611BF40AC7D /* [CP] Check Pods Manifest.lock */,
 				812B33F925F0C2CB00DD299D /* Sources */,
 				812B33FA25F0C2CB00DD299D /* Frameworks */,
 				812B33FB25F0C2CB00DD299D /* Resources */,
+				FB8E20F137C71AFC2F8B9DB0 /* [CP] Embed Pods Frameworks */,
 			);
 			buildRules = (
 			);
@@ -131,6 +158,48 @@
 			runOnlyForDeploymentPostprocessing = 0;
 		};
 /* End PBXResourcesBuildPhase section */
+
+/* Begin PBXShellScriptBuildPhase section */
+		D5DC8E1995E73611BF40AC7D /* [CP] Check Pods Manifest.lock */ = {
+			isa = PBXShellScriptBuildPhase;
+			buildActionMask = 2147483647;
+			files = (
+			);
+			inputFileListPaths = (
+			);
+			inputPaths = (
+				"${PODS_PODFILE_DIR_PATH}/Podfile.lock",
+				"${PODS_ROOT}/Manifest.lock",
+			);
+			name = "[CP] Check Pods Manifest.lock";
+			outputFileListPaths = (
+			);
+			outputPaths = (
+				"$(DERIVED_FILE_DIR)/Pods-DodamDodam-checkManifestLockResult.txt",
+			);
+			runOnlyForDeploymentPostprocessing = 0;
+			shellPath = /bin/sh;
+			shellScript = "diff \"${PODS_PODFILE_DIR_PATH}/Podfile.lock\" \"${PODS_ROOT}/Manifest.lock\" > /dev/null\nif [ $? != 0 ] ; then\n    # print error to STDERR\n    echo \"error: The sandbox is not in sync with the Podfile.lock. Run 'pod install' or update your CocoaPods installation.\" >&2\n    exit 1\nfi\n# This output is used by Xcode 'outputs' to avoid re-running this script phase.\necho \"SUCCESS\" > \"${SCRIPT_OUTPUT_FILE_0}\"\n";
+			showEnvVarsInLog = 0;
+		};
+		FB8E20F137C71AFC2F8B9DB0 /* [CP] Embed Pods Frameworks */ = {
+			isa = PBXShellScriptBuildPhase;
+			buildActionMask = 2147483647;
+			files = (
+			);
+			inputFileListPaths = (
+				"${PODS_ROOT}/Target Support Files/Pods-DodamDodam/Pods-DodamDodam-frameworks-${CONFIGURATION}-input-files.xcfilelist",
+			);
+			name = "[CP] Embed Pods Frameworks";
+			outputFileListPaths = (
+				"${PODS_ROOT}/Target Support Files/Pods-DodamDodam/Pods-DodamDodam-frameworks-${CONFIGURATION}-output-files.xcfilelist",
+			);
+			runOnlyForDeploymentPostprocessing = 0;
+			shellPath = /bin/sh;
+			shellScript = "\"${PODS_ROOT}/Target Support Files/Pods-DodamDodam/Pods-DodamDodam-frameworks.sh\"\n";
+			showEnvVarsInLog = 0;
+		};
+/* End PBXShellScriptBuildPhase section */
 
 /* Begin PBXSourcesBuildPhase section */
 		812B33F925F0C2CB00DD299D /* Sources */ = {
@@ -283,6 +352,7 @@
 		};
 		812B341225F0C2CE00DD299D /* Debug */ = {
 			isa = XCBuildConfiguration;
+			baseConfigurationReference = B1427A6E0556CBB59E4154B8 /* Pods-DodamDodam.debug.xcconfig */;
 			buildSettings = {
 				ASSETCATALOG_COMPILER_APPICON_NAME = AppIcon;
 				ASSETCATALOG_COMPILER_GLOBAL_ACCENT_COLOR_NAME = AccentColor;
@@ -302,6 +372,7 @@
 		};
 		812B341325F0C2CE00DD299D /* Release */ = {
 			isa = XCBuildConfiguration;
+			baseConfigurationReference = E84992BA5AFA07F9ECBA20A3 /* Pods-DodamDodam.release.xcconfig */;
 			buildSettings = {
 				ASSETCATALOG_COMPILER_APPICON_NAME = AppIcon;
 				ASSETCATALOG_COMPILER_GLOBAL_ACCENT_COLOR_NAME = AccentColor;

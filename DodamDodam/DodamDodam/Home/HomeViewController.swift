@@ -59,6 +59,8 @@ class HomeViewController: UIViewController, FSCalendarDataSource, FSCalendarDele
         
         // date format 설정
         dateFormatter.dateFormat = "yyyy-MM-dd"
+        
+        userInformationSearch()
     }
     
     // calendar setting
@@ -125,7 +127,7 @@ class HomeViewController: UIViewController, FSCalendarDataSource, FSCalendarDele
     }
     
     // 사용자 기본정보
-    func userInformationSearch(){
+    func userInformationSearch() {
 
         let queryString = "SELECT userName, userBirth, userImage FROM dodamSetting"
         var stmt: OpaquePointer?
@@ -151,11 +153,26 @@ class HomeViewController: UIViewController, FSCalendarDataSource, FSCalendarDele
                     formatter.dateFormat = "yyyy-MM-dd"
                     
                     labelUserName.text = "\(userName)"
+//                    imageViewUser.image = UIImage(named: "default.jpg")
+                    
+                    let startDate = dateFormatter.date(from: userBirth)!
+
+                    let interval = currentDate.timeIntervalSince(startDate)
+                    let days = Int(interval / 86400)
+                    print("\(days)일만큼 차이납니다.")
+
+                    
+                    labelBirth.text = "+\(days)일째"
+                    
+                } else if dataView.isEmpty == false {
+                    labelUserName.text = "\(userName)"
                     imageViewUser.image = UIImage(data: dataView)
-//                    labelBirth.text = "\(formatter.string(from: currentDate as Date) - userBirth)"
+                    labelBirth.text = ""
                     
                 } else {
-                    
+                    labelUserName.text = "\(userName)"
+//                    imageViewUser.image = UIImage(named: "default.jpg")
+                    labelBirth.text = ""
                 }
             }
     }
@@ -173,9 +190,9 @@ class HomeViewController: UIViewController, FSCalendarDataSource, FSCalendarDele
             }
             
             while sqlite3_step(stmt) == SQLITE_ROW{  // 읽어올 데이터가 있는지 확인
-                let diaryNumber = sqlite3_column_int(stmt, 0)
-                let diaryTitle = String(cString: sqlite3_column_text(stmt, 1))  // db 타입은 text로 string으로 변환해야 배열에 쓸 수 있다.
-                let diaryContent = String(cString: sqlite3_column_text(stmt, 2))
+//                let diaryNumber = sqlite3_column_int(stmt, 0)
+//                let diaryTitle = String(cString: sqlite3_column_text(stmt, 1))  // db 타입은 text로 string으로 변환해야 배열에 쓸 수 있다.
+//                let diaryContent = String(cString: sqlite3_column_text(stmt, 2))
                 if let diaryImage = sqlite3_column_blob(stmt, 3){
                     let viewCondition = Int(sqlite3_column_bytes(stmt, 3))
                     dataView = Data(bytes: diaryImage, count: viewCondition)

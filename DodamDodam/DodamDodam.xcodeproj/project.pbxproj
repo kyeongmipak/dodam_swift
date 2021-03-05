@@ -16,6 +16,7 @@
 		6253AB3925F0E14E0001BAEC /* FontViewController.swift in Sources */ = {isa = PBXBuildFile; fileRef = 6253AB3825F0E14E0001BAEC /* FontViewController.swift */; };
 		6253AB4225F0E2470001BAEC /* ProfileViewController.swift in Sources */ = {isa = PBXBuildFile; fileRef = 6253AB4125F0E2470001BAEC /* ProfileViewController.swift */; };
 		6253AB4625F0E45D0001BAEC /* AlarmSettingTableViewCell.swift in Sources */ = {isa = PBXBuildFile; fileRef = 6253AB4525F0E45D0001BAEC /* AlarmSettingTableViewCell.swift */; };
+		62AFF16525F1DCE70004AF28 /* SplashScreen.png in Resources */ = {isa = PBXBuildFile; fileRef = 62AFF16425F1DCE70004AF28 /* SplashScreen.png */; };
 		812B340125F0C2CB00DD299D /* AppDelegate.swift in Sources */ = {isa = PBXBuildFile; fileRef = 812B340025F0C2CB00DD299D /* AppDelegate.swift */; };
 		812B340325F0C2CB00DD299D /* SceneDelegate.swift in Sources */ = {isa = PBXBuildFile; fileRef = 812B340225F0C2CB00DD299D /* SceneDelegate.swift */; };
 		812B340825F0C2CB00DD299D /* Main.storyboard in Resources */ = {isa = PBXBuildFile; fileRef = 812B340625F0C2CB00DD299D /* Main.storyboard */; };
@@ -34,6 +35,7 @@
 		6253AB3825F0E14E0001BAEC /* FontViewController.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = FontViewController.swift; sourceTree = "<group>"; };
 		6253AB4125F0E2470001BAEC /* ProfileViewController.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = ProfileViewController.swift; sourceTree = "<group>"; };
 		6253AB4525F0E45D0001BAEC /* AlarmSettingTableViewCell.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = AlarmSettingTableViewCell.swift; sourceTree = "<group>"; };
+		62AFF16425F1DCE70004AF28 /* SplashScreen.png */ = {isa = PBXFileReference; lastKnownFileType = image.png; name = SplashScreen.png; path = "../../../Image경로/SplashScreen.png"; sourceTree = "<group>"; };
 		812B33FD25F0C2CB00DD299D /* DodamDodam.app */ = {isa = PBXFileReference; explicitFileType = wrapper.application; includeInIndex = 0; path = DodamDodam.app; sourceTree = BUILT_PRODUCTS_DIR; };
 		812B340025F0C2CB00DD299D /* AppDelegate.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = AppDelegate.swift; sourceTree = "<group>"; };
 		812B340225F0C2CB00DD299D /* SceneDelegate.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = SceneDelegate.swift; sourceTree = "<group>"; };
@@ -80,6 +82,14 @@
 			path = Home;
 			sourceTree = "<group>";
 		};
+		62AFF15B25F1D7650004AF28 /* Images */ = {
+			isa = PBXGroup;
+			children = (
+				62AFF16425F1DCE70004AF28 /* SplashScreen.png */,
+			);
+			path = Images;
+			sourceTree = "<group>";
+		};
 		812B33F425F0C2CB00DD299D = {
 			isa = PBXGroup;
 			children = (
@@ -101,6 +111,7 @@
 		812B33FF25F0C2CB00DD299D /* DodamDodam */ = {
 			isa = PBXGroup;
 			children = (
+				62AFF15B25F1D7650004AF28 /* Images */,
 				6253AB1E25F0DD680001BAEC /* Home */,
 				6253AB1C25F0DD310001BAEC /* Setting */,
 				812B340025F0C2CB00DD299D /* AppDelegate.swift */,
@@ -190,6 +201,7 @@
 			isa = PBXResourcesBuildPhase;
 			buildActionMask = 2147483647;
 			files = (
+				62AFF16525F1DCE70004AF28 /* SplashScreen.png in Resources */,
 				812B340D25F0C2CE00DD299D /* LaunchScreen.storyboard in Resources */,
 				812B340A25F0C2CE00DD299D /* Assets.xcassets in Resources */,
 				812B340825F0C2CB00DD299D /* Main.storyboard in Resources */,

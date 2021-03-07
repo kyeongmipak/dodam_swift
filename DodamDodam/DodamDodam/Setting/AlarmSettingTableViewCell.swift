@@ -20,4 +20,7 @@ class AlarmSettingTableViewCell: UITableViewCell {
         // Configure the view for the selected state
     }
 
+    @IBAction func alarmSwitch(_ sender: UISwitch) {
+        print("select")
+    }
 }

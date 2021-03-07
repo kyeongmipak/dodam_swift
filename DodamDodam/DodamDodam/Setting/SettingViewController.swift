@@ -73,6 +73,7 @@ class SettingViewController: UIViewController, UITableViewDelegate, UITableViewD
                 return
             }
         }
+        
     }
         func tableView(_ tableView: UITableView, numberOfRowsInSection section: Int) -> Int {
             switch section {
@@ -85,6 +86,7 @@ class SettingViewController: UIViewController, UITableViewDelegate, UITableViewD
              }
         }
         
+    
         func tableView(_ tableView: UITableView, cellForRowAt indexPath: IndexPath) -> UITableViewCell {
             
             if indexPath.section < 1 {
@@ -97,6 +99,7 @@ class SettingViewController: UIViewController, UITableViewDelegate, UITableViewD
                 return customCell
             }
         }
+    
     /*
     // MARK: - Navigation
 

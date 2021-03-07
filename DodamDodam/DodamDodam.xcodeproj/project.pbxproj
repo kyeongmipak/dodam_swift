@@ -7,6 +7,7 @@
 	objects = {
 
 /* Begin PBXBuildFile section */
+		5F9C2FD125F5448D00462866 /* AlarmSettingViewController.swift in Sources */ = {isa = PBXBuildFile; fileRef = 5F9C2FD025F5448D00462866 /* AlarmSettingViewController.swift */; };
 		6253AB2125F0DDD50001BAEC /* HomeViewController.swift in Sources */ = {isa = PBXBuildFile; fileRef = 6253AB2025F0DDD50001BAEC /* HomeViewController.swift */; };
 		6253AB2625F0DE3C0001BAEC /* StatisticsViewController.swift in Sources */ = {isa = PBXBuildFile; fileRef = 6253AB2525F0DE3C0001BAEC /* StatisticsViewController.swift */; };
 		6253AB2925F0DFDE0001BAEC /* SettingViewController.swift in Sources */ = {isa = PBXBuildFile; fileRef = 6253AB2825F0DFDE0001BAEC /* SettingViewController.swift */; };
@@ -26,6 +27,7 @@
 /* End PBXBuildFile section */
 
 /* Begin PBXFileReference section */
+		5F9C2FD025F5448D00462866 /* AlarmSettingViewController.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = AlarmSettingViewController.swift; sourceTree = "<group>"; };
 		6253AB2025F0DDD50001BAEC /* HomeViewController.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = HomeViewController.swift; sourceTree = "<group>"; };
 		6253AB2525F0DE3C0001BAEC /* StatisticsViewController.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = StatisticsViewController.swift; sourceTree = "<group>"; };
 		6253AB2825F0DFDE0001BAEC /* SettingViewController.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = SettingViewController.swift; sourceTree = "<group>"; };
@@ -68,6 +70,7 @@
 				6253AB3825F0E14E0001BAEC /* FontViewController.swift */,
 				6253AB4125F0E2470001BAEC /* ProfileViewController.swift */,
 				6253AB4525F0E45D0001BAEC /* AlarmSettingTableViewCell.swift */,
+				5F9C2FD025F5448D00462866 /* AlarmSettingViewController.swift */,
 			);
 			path = Setting;
 			sourceTree = "<group>";
@@ -259,6 +262,7 @@
 			files = (
 				6253AB2925F0DFDE0001BAEC /* SettingViewController.swift in Sources */,
 				812B340125F0C2CB00DD299D /* AppDelegate.swift in Sources */,
+				5F9C2FD125F5448D00462866 /* AlarmSettingViewController.swift in Sources */,
 				812B340325F0C2CB00DD299D /* SceneDelegate.swift in Sources */,
 				6253AB4625F0E45D0001BAEC /* AlarmSettingTableViewCell.swift in Sources */,
 				6253AB3925F0E14E0001BAEC /* FontViewController.swift in Sources */,

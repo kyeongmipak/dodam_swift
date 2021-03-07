@@ -62,7 +62,6 @@ class SettingViewController: UIViewController, UITableViewDelegate, UITableViewD
             case 1: self.performSegue(withIdentifier: "theme", sender: nil)
                 
             case 2: self.performSegue(withIdentifier: "font", sender: nil)
-            //            case 3: self.performSegue(withIdentifier: "pushAlarm", sender: nil)
             default:
                 return
             }

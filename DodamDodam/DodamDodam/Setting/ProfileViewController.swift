@@ -35,21 +35,15 @@ class ProfileViewController: UIViewController {
     @IBAction func birthDayPicker(_ sender: UIDatePicker) {
         let datePickerView = sender
         
-        
         let date = NSDate()
-   
-    
-    
-   
         
-        // DateFormatter 클래스 상수 선언
+        // DateFormatter Class constant declaration
         let formatter = DateFormatter()
 
         
-        // Locale 설정 "ko" 한국 기준
+        // Locale Settings "ko" korea standard
         formatter.locale = Locale(identifier: "ko")
-        // formatter의 dateFormat 속성을 설정
-        // 년도 - 월 - 일 요일 (오전/오후) 시간 : 분 : 초
+        // formatter dateFormat property Settings
         formatter.dateFormat = "yyyy-MM-dd"
         
         

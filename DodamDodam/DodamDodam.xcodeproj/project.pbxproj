@@ -17,12 +17,13 @@
 		6253AB3925F0E14E0001BAEC /* FontViewController.swift in Sources */ = {isa = PBXBuildFile; fileRef = 6253AB3825F0E14E0001BAEC /* FontViewController.swift */; };
 		6253AB4225F0E2470001BAEC /* ProfileViewController.swift in Sources */ = {isa = PBXBuildFile; fileRef = 6253AB4125F0E2470001BAEC /* ProfileViewController.swift */; };
 		6253AB4625F0E45D0001BAEC /* AlarmSettingTableViewCell.swift in Sources */ = {isa = PBXBuildFile; fileRef = 6253AB4525F0E45D0001BAEC /* AlarmSettingTableViewCell.swift */; };
-		62AFF16525F1DCE70004AF28 /* SplashScreen.png in Resources */ = {isa = PBXBuildFile; fileRef = 62AFF16425F1DCE70004AF28 /* SplashScreen.png */; };
 		812B340125F0C2CB00DD299D /* AppDelegate.swift in Sources */ = {isa = PBXBuildFile; fileRef = 812B340025F0C2CB00DD299D /* AppDelegate.swift */; };
 		812B340325F0C2CB00DD299D /* SceneDelegate.swift in Sources */ = {isa = PBXBuildFile; fileRef = 812B340225F0C2CB00DD299D /* SceneDelegate.swift */; };
 		812B340825F0C2CB00DD299D /* Main.storyboard in Resources */ = {isa = PBXBuildFile; fileRef = 812B340625F0C2CB00DD299D /* Main.storyboard */; };
 		812B340A25F0C2CE00DD299D /* Assets.xcassets in Resources */ = {isa = PBXBuildFile; fileRef = 812B340925F0C2CE00DD299D /* Assets.xcassets */; };
 		812B340D25F0C2CE00DD299D /* LaunchScreen.storyboard in Resources */ = {isa = PBXBuildFile; fileRef = 812B340B25F0C2CE00DD299D /* LaunchScreen.storyboard */; };
+		817ECD0B25F6023700BB3F8B /* Share.swift in Sources */ = {isa = PBXBuildFile; fileRef = 817ECD0A25F6023700BB3F8B /* Share.swift */; };
+		817ECD0F25F6028200BB3F8B /* SelectEmotionViewController.swift in Sources */ = {isa = PBXBuildFile; fileRef = 817ECD0E25F6028200BB3F8B /* SelectEmotionViewController.swift */; };
 		B399F8CCB79CB2A9C589D9E8 /* Pods_DodamDodam.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = 99B432E3C9A7B8F8482218F5 /* Pods_DodamDodam.framework */; };
 /* End PBXBuildFile section */
 
@@ -37,7 +38,6 @@
 		6253AB3825F0E14E0001BAEC /* FontViewController.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = FontViewController.swift; sourceTree = "<group>"; };
 		6253AB4125F0E2470001BAEC /* ProfileViewController.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = ProfileViewController.swift; sourceTree = "<group>"; };
 		6253AB4525F0E45D0001BAEC /* AlarmSettingTableViewCell.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = AlarmSettingTableViewCell.swift; sourceTree = "<group>"; };
-		62AFF16425F1DCE70004AF28 /* SplashScreen.png */ = {isa = PBXFileReference; lastKnownFileType = image.png; name = SplashScreen.png; path = "../../../Image경로/SplashScreen.png"; sourceTree = "<group>"; };
 		812B33FD25F0C2CB00DD299D /* DodamDodam.app */ = {isa = PBXFileReference; explicitFileType = wrapper.application; includeInIndex = 0; path = DodamDodam.app; sourceTree = BUILT_PRODUCTS_DIR; };
 		812B340025F0C2CB00DD299D /* AppDelegate.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = AppDelegate.swift; sourceTree = "<group>"; };
 		812B340225F0C2CB00DD299D /* SceneDelegate.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = SceneDelegate.swift; sourceTree = "<group>"; };
@@ -45,6 +45,8 @@
 		812B340925F0C2CE00DD299D /* Assets.xcassets */ = {isa = PBXFileReference; lastKnownFileType = folder.assetcatalog; path = Assets.xcassets; sourceTree = "<group>"; };
 		812B340C25F0C2CE00DD299D /* Base */ = {isa = PBXFileReference; lastKnownFileType = file.storyboard; name = Base; path = Base.lproj/LaunchScreen.storyboard; sourceTree = "<group>"; };
 		812B340E25F0C2CE00DD299D /* Info.plist */ = {isa = PBXFileReference; lastKnownFileType = text.plist.xml; path = Info.plist; sourceTree = "<group>"; };
+		817ECD0A25F6023700BB3F8B /* Share.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = Share.swift; sourceTree = "<group>"; };
+		817ECD0E25F6028200BB3F8B /* SelectEmotionViewController.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = SelectEmotionViewController.swift; sourceTree = "<group>"; };
 		99B432E3C9A7B8F8482218F5 /* Pods_DodamDodam.framework */ = {isa = PBXFileReference; explicitFileType = wrapper.framework; includeInIndex = 0; path = Pods_DodamDodam.framework; sourceTree = BUILT_PRODUCTS_DIR; };
 		B1427A6E0556CBB59E4154B8 /* Pods-DodamDodam.debug.xcconfig */ = {isa = PBXFileReference; includeInIndex = 1; lastKnownFileType = text.xcconfig; name = "Pods-DodamDodam.debug.xcconfig"; path = "Target Support Files/Pods-DodamDodam/Pods-DodamDodam.debug.xcconfig"; sourceTree = "<group>"; };
 		E84992BA5AFA07F9ECBA20A3 /* Pods-DodamDodam.release.xcconfig */ = {isa = PBXFileReference; includeInIndex = 1; lastKnownFileType = text.xcconfig; name = "Pods-DodamDodam.release.xcconfig"; path = "Target Support Files/Pods-DodamDodam/Pods-DodamDodam.release.xcconfig"; sourceTree = "<group>"; };
@@ -79,18 +81,9 @@
 			isa = PBXGroup;
 			children = (
 				6253AB2025F0DDD50001BAEC /* HomeViewController.swift */,
-				6253AB2C25F0E02A0001BAEC /* RegisterViewController.swift */,
 				6253AB2F25F0E0BA0001BAEC /* DetailViewController.swift */,
 			);
 			path = Home;
-			sourceTree = "<group>";
-		};
-		62AFF15B25F1D7650004AF28 /* Images */ = {
-			isa = PBXGroup;
-			children = (
-				62AFF16425F1DCE70004AF28 /* SplashScreen.png */,
-			);
-			path = Images;
 			sourceTree = "<group>";
 		};
 		812B33F425F0C2CB00DD299D = {
@@ -114,8 +107,8 @@
 		812B33FF25F0C2CB00DD299D /* DodamDodam */ = {
 			isa = PBXGroup;
 			children = (
-				62AFF15B25F1D7650004AF28 /* Images */,
 				6253AB1E25F0DD680001BAEC /* Home */,
+				817ECD0D25F6025A00BB3F8B /* RegisterDiary */,
 				6253AB1C25F0DD310001BAEC /* Setting */,
 				812B340025F0C2CB00DD299D /* AppDelegate.swift */,
 				812B340225F0C2CB00DD299D /* SceneDelegate.swift */,
@@ -124,8 +117,18 @@
 				812B340B25F0C2CE00DD299D /* LaunchScreen.storyboard */,
 				812B340E25F0C2CE00DD299D /* Info.plist */,
 				6253AB2525F0DE3C0001BAEC /* StatisticsViewController.swift */,
+				817ECD0A25F6023700BB3F8B /* Share.swift */,
 			);
 			path = DodamDodam;
+			sourceTree = "<group>";
+		};
+		817ECD0D25F6025A00BB3F8B /* RegisterDiary */ = {
+			isa = PBXGroup;
+			children = (
+				817ECD0E25F6028200BB3F8B /* SelectEmotionViewController.swift */,
+				6253AB2C25F0E02A0001BAEC /* RegisterViewController.swift */,
+			);
+			path = RegisterDiary;
 			sourceTree = "<group>";
 		};
 		A8DE577682F1829B635C0C7A /* Pods */ = {
@@ -204,7 +207,6 @@
 			isa = PBXResourcesBuildPhase;
 			buildActionMask = 2147483647;
 			files = (
-				62AFF16525F1DCE70004AF28 /* SplashScreen.png in Resources */,
 				812B340D25F0C2CE00DD299D /* LaunchScreen.storyboard in Resources */,
 				812B340A25F0C2CE00DD299D /* Assets.xcassets in Resources */,
 				812B340825F0C2CB00DD299D /* Main.storyboard in Resources */,
@@ -271,6 +273,8 @@
 				6253AB2125F0DDD50001BAEC /* HomeViewController.swift in Sources */,
 				6253AB2625F0DE3C0001BAEC /* StatisticsViewController.swift in Sources */,
 				6253AB3625F0E12F0001BAEC /* ThemeViewController.swift in Sources */,
+				817ECD0B25F6023700BB3F8B /* Share.swift in Sources */,
+				817ECD0F25F6028200BB3F8B /* SelectEmotionViewController.swift in Sources */,
 				6253AB3025F0E0BA0001BAEC /* DetailViewController.swift in Sources */,
 			);
 			runOnlyForDeploymentPostprocessing = 0;

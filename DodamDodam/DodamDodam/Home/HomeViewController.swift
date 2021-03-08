@@ -24,7 +24,6 @@ class HomeViewController: UIViewController, FSCalendarDataSource, FSCalendarDele
     var dataView:Data = Data()
     
     var imageArray = [UIImage?]()  // file name이 아닌 image들이 array로 들어간다.
-    var imageFileName = ["w1.jpg","w2.jpg","w3.jpg","w4.jpg","w5.jpg","w6.jpg","w7.jpg","w8.jpg","w9.jpg","w10.jpg"]
     
     override func viewDidLoad() {
         super.viewDidLoad()
@@ -128,7 +127,9 @@ class HomeViewController: UIViewController, FSCalendarDataSource, FSCalendarDele
     
     // 사용자 기본정보
     func userInformationSearch() {
-
+        var userName = ""
+        var userBirth = ""
+        
         let queryString = "SELECT userName, userBirth, userImage FROM dodamSetting"
         var stmt: OpaquePointer?
        
@@ -139,42 +140,74 @@ class HomeViewController: UIViewController, FSCalendarDataSource, FSCalendarDele
             }
             
             while sqlite3_step(stmt) == SQLITE_ROW{  // 읽어올 데이터가 있는지 확인
-                let userName = sqlite3_column_int(stmt, 0)
-                let userBirth = String(cString: sqlite3_column_text(stmt, 1))  // db 타입은 text로 string으로 변환해야 배열에 쓸 수 있다.\
+                userName = String(cString: sqlite3_column_text(stmt, 0))
+                userBirth = String(cString: sqlite3_column_text(stmt, 1))  // db 타입은 text로 string으로 변환해야 배열에 쓸 수 있다.\
                 if let userImage = sqlite3_column_blob(stmt, 2){
                     let view = Int(sqlite3_column_bytes(stmt, 2))
                     dataView = Data(bytes: userImage, count: view)
                 }
-                
-                if userBirth.isEmpty == false {
-                    let currentDate = NSDate()
-                    let formatter = DateFormatter()
-                    formatter.locale = Locale(identifier: "ko") // ko : 한국형 format
-                    formatter.dateFormat = "yyyy-MM-dd"
-                    
-                    labelUserName.text = "\(userName)"
-//                    imageViewUser.image = UIImage(named: "default.jpg")
-                    
-                    let startDate = dateFormatter.date(from: userBirth)!
-
-                    let interval = currentDate.timeIntervalSince(startDate)
-                    let days = Int(interval / 86400)
-                    print("\(days)일만큼 차이납니다.")
-
-                    
-                    labelBirth.text = "+\(days)일째"
-                    
-                } else if dataView.isEmpty == false {
-                    labelUserName.text = "\(userName)"
+            }
+        
+        // 3.7 kyeongmi 입력 부분
+        // 프로필 데이터 값 존재에 따른 출력
+        if userBirth.isEmpty == true {
+            if userName.isEmpty == true {
+                if dataView.isEmpty == true {
+                    labelUserName.text = "도담 Baby 누구?"
+                    imageViewUser.image = UIImage(named: "profile.png")
+                    labelBirth.text = "태어나지 않았어요!"
+                } else {
+                    labelUserName.text = "도담 Baby 누구?"
                     imageViewUser.image = UIImage(data: dataView)
-                    labelBirth.text = ""
-                    
+                    labelBirth.text = "태어나지 않았어요!"
+                }
+            } else {
+                if dataView.isEmpty == true {
+                    labelUserName.text = "\(userName)"
+                    imageViewUser.image = UIImage(named: "profile.png")
+                    labelBirth.text = "태어나지 않았어요!"
                 } else {
                     labelUserName.text = "\(userName)"
-//                    imageViewUser.image = UIImage(named: "default.jpg")
-                    labelBirth.text = ""
+                    imageViewUser.image = UIImage(data: dataView)
+                    labelBirth.text = "태어나지 않았어요!"
                 }
             }
+        } else {
+            let currentDate = NSDate()
+            let formatter = DateFormatter()
+            formatter.locale = Locale(identifier: "ko") // ko : 한국형 format
+            formatter.dateFormat = "yyyy-MM-dd"
+
+            let startDate = dateFormatter.date(from: userBirth)!
+
+            let interval = currentDate.timeIntervalSince(startDate)
+            let days = Int(interval / 86400)
+            print("\(days)일만큼 차이납니다.")
+            labelBirth.text = "+\(days)일째"
+            
+            if userName.isEmpty == true {
+                if dataView.isEmpty == true {
+                    labelUserName.text = "도담 Baby 누구?"
+                    imageViewUser.image = UIImage(named: "profile.png")
+                    labelBirth.text = "태어나지 않았어요!"
+                } else {
+                    labelUserName.text = "도담 Baby 누구?"
+                    imageViewUser.image = UIImage(data: dataView)
+                    labelBirth.text = "태어나지 않았어요!"
+                }
+            } else {
+                if dataView.isEmpty == true {
+                    labelUserName.text = "\(userName)"
+                    imageViewUser.image = UIImage(named: "profile.png")
+                    labelBirth.text = "태어나지 않았어요!"
+                } else {
+                    labelUserName.text = "\(userName)"
+                    imageViewUser.image = UIImage(data: dataView)
+                    labelBirth.text = "태어나지 않았어요!"
+                }
+            }
+        }
+    
     }
     
     // 날짜 선택 시

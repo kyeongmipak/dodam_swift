@@ -23,7 +23,7 @@ class AlarmSettingTableViewCell: UITableViewCell {
     @IBAction func alarmSwitch(_ sender: UISwitch) {
         print("select")
         if let url = URL(string: UIApplication.openSettingsURLString) {
-            UIApplication.shared.openURL(url)
+            UIApplication.shared.open(url, options: [:], completionHandler: nil)
     }
     }
 }

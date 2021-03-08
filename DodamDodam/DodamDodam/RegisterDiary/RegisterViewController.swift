@@ -15,8 +15,7 @@ class RegisterViewController: UIViewController, UIImagePickerControllerDelegate 
     @IBOutlet weak var dailyTitle: UITextField!
     @IBOutlet weak var dailyImage: UIImageView!
     @IBOutlet weak var dailyContent: UITextView!
-    
-    
+
     var emtionImage = 0
     
     // 카메라, 앨범 실행
@@ -65,6 +64,7 @@ class RegisterViewController: UIViewController, UIImagePickerControllerDelegate 
         }
         
     }
+    
     @IBAction func imageAddBtn(_ sender: UIButton) {
         let alert =  UIAlertController(title: "사진 선택", message: "골라주세요.", preferredStyle: .actionSheet)
 
@@ -85,6 +85,8 @@ class RegisterViewController: UIViewController, UIImagePickerControllerDelegate 
         alert.addAction(cancel)
         present(alert, animated: true, completion: nil)
     }
+    
+    
     @IBAction func registerAction(_ sender: UIButton) {
         date = ""
         checkDate(dateCheck: dailyDate.text!)
@@ -180,7 +182,7 @@ class RegisterViewController: UIViewController, UIImagePickerControllerDelegate 
             present(resultAlert, animated: true, completion: nil)
         }
     }
-    
+
     
     func placeholderSetting() {
         dailyContent.delegate = self // txtvReview가 유저가 선언한 outlet

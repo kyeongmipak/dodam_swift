@@ -35,9 +35,10 @@ class HomeViewController: UIViewController, FSCalendarDataSource, FSCalendarDele
           if sqlite3_open(fileURL.path, &db) != SQLITE_OK {
               print("error opening database")
           }
+        print(fileURL.path)
         
         // Make a SQLite Table for Diary
-        if sqlite3_exec(db, "CREATE TABLE IF NOT EXISTS dodamDiary (diaryNumber INTEGER PRIMARY KEY AUTOINCREMENT, diaryTitle TEXT, diaryContent TEXT, diaryImage BLOB, diaryDate TEXT)", nil, nil, nil) != SQLITE_OK {
+        if sqlite3_exec(db, "CREATE TABLE IF NOT EXISTS dodamDiary (diaryNumber INTEGER PRIMARY KEY AUTOINCREMENT, diaryTitle TEXT, diaryContent TEXT, diaryImage BLOB, diaryDate TEXT, diaryEmotion TEXT)", nil, nil, nil) != SQLITE_OK {
             let errmsg = String(cString: sqlite3_errmsg(db)!)
             print("error creating table: \(errmsg)")
         }
@@ -60,6 +61,7 @@ class HomeViewController: UIViewController, FSCalendarDataSource, FSCalendarDele
         dateFormatter.dateFormat = "yyyy-MM-dd"
         
         userInformationSearch()
+        calendar.reloadData()
     }
     
     // calendar setting
@@ -102,7 +104,7 @@ class HomeViewController: UIViewController, FSCalendarDataSource, FSCalendarDele
         // 날짜를 원하는 형식으로 저장하기 위한 방법입니다.
         let dateFormatter = DateFormatter()
         dateFormatter.dateFormat = "yyyy-MM-dd"
-//        modalPresentView.date = dateFormatter.string(from: date)
+        modalPresentView.date = dateFormatter.string(from: date)
         self.present(modalPresentView, animated: true, completion: nil)
     }
     
@@ -120,9 +122,10 @@ class HomeViewController: UIViewController, FSCalendarDataSource, FSCalendarDele
     }
     
     override func viewWillAppear(_ animated: Bool) {
+        calendar.reloadData()
         registerDates.removeAll()
         dateSelectAction()
-        calendar.reloadData()
+        
     }
     
     // 사용자 기본정보

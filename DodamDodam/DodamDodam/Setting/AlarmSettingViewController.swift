@@ -17,6 +17,7 @@ class AlarmSettingViewController: UIViewController, UNUserNotificationCenterDele
     var alarmminute = ""
     
     
+    @IBOutlet weak var notificationTimeKeeping: UIBarButtonItem!
     
     override func viewDidLoad() {
         super.viewDidLoad()
@@ -33,12 +34,17 @@ class AlarmSettingViewController: UIViewController, UNUserNotificationCenterDele
             guard noProblem else { return print("No Problem") }
             self.setupNotificationActions()
             
+            
         }
+        
+        
         }
     
     
-    @IBAction func btnAlarmSetting(_ sender: UIButton) {
-        triggerTimeIntervalNotifications()
+    @IBAction func AllowNotification(_ sender: UIButton) {
+        if let url = URL(string: UIApplication.openSettingsURLString) {
+            UIApplication.shared.open(url, options: [:], completionHandler: nil)
+        }
     }
     
     @IBAction func changeDatePicker(_ sender: UIDatePicker) {
@@ -55,12 +61,27 @@ class AlarmSettingViewController: UIViewController, UNUserNotificationCenterDele
         
         selectTime = formatter.string(from: datePickerView.date)
         print(selectTime)
+        UserDefaults.standard.set(selectTime, forKey: "TimeKeeper")
         alarmTime = selectTime.components(separatedBy: [":"])
         print("alarmTime",alarmTime)
         alarmHour = alarmTime[0]
         alarmminute = alarmTime[1]
         print("alarmHour",alarmHour)
         print("alarmminute",alarmminute)
+    }
+    
+    @IBAction func NotificationSetting(_ sender: Any) {
+        
+        triggerTimeIntervalNotifications()
+      
+        self.navigationController?.popViewController(animated: true)
+        print("setting")
+        
+    }
+    
+    
+    @objc func tick() {
+        selectTime = DateFormatter.localizedString(from: Date(), dateStyle: .none, timeStyle: .medium)
     }
     
     
@@ -83,16 +104,11 @@ class AlarmSettingViewController: UIViewController, UNUserNotificationCenterDele
         let request = UNNotificationRequest(identifier: "notice", content: content, trigger: trigger)
         
         center.add(request) { (error) in
-            if let error = error {
+            if error != nil {
             }
         }
     }
 
-    @objc func tick() {
-        selectTime = DateFormatter.localizedString(from: Date(), dateStyle: .none, timeStyle: .medium)
-    }
- 
-    
     func setupNotificationActions(){
         let center = UNUserNotificationCenter.current()
         let destructiveAction = UNNotificationAction(identifier: "DESID", title: "확인", options: UNNotificationActionOptions(rawValue: 0))
@@ -117,6 +133,8 @@ class AlarmSettingViewController: UIViewController, UNUserNotificationCenterDele
         }
     
     }
+    
+    
     
     
 }

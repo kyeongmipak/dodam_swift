@@ -157,30 +157,6 @@
                                                     </subviews>
                                                 </tableViewCellContentView>
                                             </tableViewCell>
-                                            <tableViewCell clipsSubviews="YES" contentMode="scaleToFill" preservesSuperviewLayoutMargins="YES" selectionStyle="default" indentationWidth="10" reuseIdentifier="SettingAlarmCell" id="DRl-PY-Z6c" customClass="AlarmSettingTableViewCell" customModule="DodamDodam" customModuleProvider="target">
-                                                <rect key="frame" x="0.0" y="71.666667938232422" width="358" height="43.666667938232422"/>
-                                                <autoresizingMask key="autoresizingMask"/>
-                                                <tableViewCellContentView key="contentView" opaque="NO" clipsSubviews="YES" multipleTouchEnabled="YES" contentMode="center" preservesSuperviewLayoutMargins="YES" insetsLayoutMarginsFromSafeArea="NO" tableViewCell="DRl-PY-Z6c" id="vCl-ju-2Sa" customClass="AlarmSettingTableViewCell" customModule="DodamDodam" customModuleProvider="target">
-                                                    <rect key="frame" x="0.0" y="0.0" width="358" height="43.666667938232422"/>
-                                                    <autoresizingMask key="autoresizingMask"/>
-                                                    <subviews>
-                                                        <switch opaque="NO" contentMode="scaleToFill" horizontalHuggingPriority="750" verticalHuggingPriority="750" fixedFrame="YES" contentHorizontalAlignment="center" contentVerticalAlignment="center" on="YES" translatesAutoresizingMaskIntoConstraints="NO" id="7AR-wm-O3w">
-                                                            <rect key="frame" x="270" y="6" width="49" height="31"/>
-                                                            <autoresizingMask key="autoresizingMask" flexibleMaxX="YES" flexibleMaxY="YES"/>
-                                                            <connections>
-                                                                <action selector="alarmSwitch:" destination="DRl-PY-Z6c" eventType="valueChanged" id="uta-Lo-TN7"/>
-                                                            </connections>
-                                                        </switch>
-                                                        <label opaque="NO" userInteractionEnabled="NO" contentMode="left" horizontalHuggingPriority="251" verticalHuggingPriority="251" fixedFrame="YES" text="푸시알림" textAlignment="natural" lineBreakMode="tailTruncation" baselineAdjustment="alignBaselines" adjustsFontSizeToFit="NO" translatesAutoresizingMaskIntoConstraints="NO" id="qhH-qI-NxW">
-                                                            <rect key="frame" x="20" y="11" width="59" height="21"/>
-                                                            <autoresizingMask key="autoresizingMask" flexibleMaxX="YES" flexibleMaxY="YES"/>
-                                                            <fontDescription key="fontDescription" type="system" pointSize="17"/>
-                                                            <nil key="textColor"/>
-                                                            <nil key="highlightedColor"/>
-                                                        </label>
-                                                    </subviews>
-                                                </tableViewCellContentView>
-                                            </tableViewCell>
                                         </prototypes>
                                     </tableView>
                                 </subviews>
@@ -291,14 +267,14 @@
                                             </datePicker>
                                         </subviews>
                                     </stackView>
-                                    <stackView opaque="NO" contentMode="scaleToFill" axis="vertical" translatesAutoresizingMaskIntoConstraints="NO" id="7JI-JD-xfL">
-                                        <rect key="frame" x="150" y="552" width="60" height="30"/>
+                                    <stackView opaque="NO" contentMode="scaleToFill" axis="vertical" alignment="center" translatesAutoresizingMaskIntoConstraints="NO" id="7JI-JD-xfL">
+                                        <rect key="frame" x="152" y="552" width="56" height="30"/>
                                         <subviews>
                                             <button opaque="NO" contentMode="scaleToFill" contentHorizontalAlignment="center" contentVerticalAlignment="center" buttonType="system" lineBreakMode="middleTruncation" translatesAutoresizingMaskIntoConstraints="NO" id="5bR-cv-H64">
-                                                <rect key="frame" x="0.0" y="0.0" width="60" height="30"/>
-                                                <state key="normal" title="알림 설정 "/>
+                                                <rect key="frame" x="0.0" y="0.0" width="56" height="30"/>
+                                                <state key="normal" title="알림 허용"/>
                                                 <connections>
-                                                    <action selector="btnAlarmSetting:" destination="ICi-ke-OZu" eventType="touchUpInside" id="gha-Tg-5vx"/>
+                                                    <action selector="AllowNotification:" destination="ICi-ke-OZu" eventType="touchUpInside" id="gha-Tg-5vx"/>
                                                 </connections>
                                             </button>
                                         </subviews>
@@ -315,7 +291,16 @@
                             <constraint firstItem="MxX-Sp-1Pu" firstAttribute="trailing" secondItem="FXz-yE-rx8" secondAttribute="trailing" constant="15" id="jTt-JJ-PA8"/>
                         </constraints>
                     </view>
-                    <navigationItem key="navigationItem" id="3RV-Dq-w2H"/>
+                    <navigationItem key="navigationItem" id="3RV-Dq-w2H">
+                        <barButtonItem key="rightBarButtonItem" systemItem="done" id="hLj-m9-LHD">
+                            <connections>
+                                <action selector="NotificationSetting:" destination="ICi-ke-OZu" id="Edd-0s-y2B"/>
+                            </connections>
+                        </barButtonItem>
+                    </navigationItem>
+                    <connections>
+                        <outlet property="notificationTimeKeeping" destination="hLj-m9-LHD" id="1yw-SO-cdB"/>
+                    </connections>
                 </viewController>
                 <placeholder placeholderIdentifier="IBFirstResponder" id="dpS-6y-DrH" userLabel="First Responder" customClass="UIResponder" sceneMemberID="firstResponder"/>
             </objects>

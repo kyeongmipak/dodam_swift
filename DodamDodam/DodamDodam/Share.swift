@@ -9,5 +9,5 @@ import Foundation
 
 struct Share{
     static var imageFileName = ["Sleep.png","Frown.png", "Pain.png", "Surprised.png", "Angry.png", "Lovely.png", "Sad.png", "Shame.png", "Pleasure.png", "Normal.png", "Bored.png", "Unknown.png"]
-
+    
 }

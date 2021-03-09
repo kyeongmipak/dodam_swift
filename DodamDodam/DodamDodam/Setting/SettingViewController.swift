@@ -17,7 +17,7 @@ class SettingViewController: UIViewController, UITableViewDelegate, UITableViewD
     
     let customCellIdentifier: String = "SettingAlarmCell"
     let cellIdentifier: String = "SettingCell"
-    let optionList: [String] = ["프로필", "테마", "폰트"]
+    let optionList: [String] = ["프로필", "테마", "폰트", "푸시 알림"]
     
     
     override func viewDidLoad() {
@@ -30,8 +30,14 @@ class SettingViewController: UIViewController, UITableViewDelegate, UITableViewD
         
         // Remove cell underline
         tableView.tableFooterView = UIView(frame: CGRect.zero)
+        
+        
+       
     }
     
+    override func viewWillAppear(_ animated: Bool) {
+        tableView.reloadData()
+    }
     
     // return Sections
     func numberOfSections(in tableView: UITableView) -> Int {
@@ -41,11 +47,18 @@ class SettingViewController: UIViewController, UITableViewDelegate, UITableViewD
     // Footer Title
       func tableView(_ tableView: UITableView, titleForFooterInSection section: Int) -> String? {
         if section == 1 {
-          return "알림 시간은 입니다."
+             // Load
+            return "알림 시간은 매일 \(String(describing: UserDefaults.standard.value(forKey: "TimeKeeper")!))입니다!"
         }
         return nil
       }
     
+
+    
+    func tableView(_ tableView: UITableView, heightForFooterInSection section: Int) -> CGFloat {
+           return CGFloat.leastNonzeroMagnitude
+       }
+
     
     func tableView(_ tableView: UITableView, titleForHeaderInSection section: Int) -> String? {
         return ""
@@ -58,16 +71,9 @@ class SettingViewController: UIViewController, UITableViewDelegate, UITableViewD
         if indexPath.section < 1 {
             switch indexPath.row {
             case 0: self.performSegue(withIdentifier: "profile", sender: nil)
-                
             case 1: self.performSegue(withIdentifier: "theme", sender: nil)
-                
             case 2: self.performSegue(withIdentifier: "font", sender: nil)
-            default:
-                return
-            }
-        }else{
-            switch indexPath.row {
-            case 0: self.performSegue(withIdentifier: "pushAlarm", sender: nil)
+            case 3: self.performSegue(withIdentifier: "pushAlarm", sender: nil)
             default:
                 return
             }
@@ -78,8 +84,8 @@ class SettingViewController: UIViewController, UITableViewDelegate, UITableViewD
             switch section {
              case 0:
                  return optionList.count
-             case 1:
-                 return 1
+//             case 1:
+//                 return 1
              default:
                  return 0
              }
@@ -88,15 +94,15 @@ class SettingViewController: UIViewController, UITableViewDelegate, UITableViewD
     
         func tableView(_ tableView: UITableView, cellForRowAt indexPath: IndexPath) -> UITableViewCell {
             
-            if indexPath.section < 1 {
+//            if indexPath.section < 1 {
                 let cell: UITableViewCell = tableView.dequeueReusableCell(withIdentifier: self.cellIdentifier, for: indexPath)
                 let text: String =  optionList[indexPath.row]
                 cell.textLabel?.text = text
                 return cell
-            } else {
-                let customCell: AlarmSettingTableViewCell = tableView.dequeueReusableCell(withIdentifier: self.customCellIdentifier, for: indexPath) as! AlarmSettingTableViewCell
-                return customCell
-            }
+//            } else {
+//                let customCell: AlarmSettingTableViewCell = tableView.dequeueReusableCell(withIdentifier: self.customCellIdentifier, for: indexPath) as! AlarmSettingTableViewCell
+//                return customCell
+//            }
         }
     
     /*

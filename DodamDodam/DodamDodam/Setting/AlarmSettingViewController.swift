@@ -21,31 +21,13 @@ class AlarmSettingViewController: UIViewController, UNUserNotificationCenterDele
     
     override func viewDidLoad() {
         super.viewDidLoad()
-        let center = UNUserNotificationCenter.current()
-        let options: UNAuthorizationOptions = [.alert, .sound]
-        
-        center.delegate = self
-        
-        // Request permission from user
-        center.requestAuthorization(options: options) { (noProblem, error) in
-            if let error = error {
-                print(error.localizedDescription)
-            }
-            guard noProblem else { return print("No Problem") }
-            self.setupNotificationActions()
-            
-            
-        }
-        
+  
+        setupNotificationActions()
         
         }
     
     
-    @IBAction func AllowNotification(_ sender: UIButton) {
-        if let url = URL(string: UIApplication.openSettingsURLString) {
-            UIApplication.shared.open(url, options: [:], completionHandler: nil)
-        }
-    }
+
     
     @IBAction func changeDatePicker(_ sender: UIDatePicker) {
         // 전달된 인수 저장
@@ -61,7 +43,7 @@ class AlarmSettingViewController: UIViewController, UNUserNotificationCenterDele
         
         selectTime = formatter.string(from: datePickerView.date)
         print(selectTime)
-        UserDefaults.standard.set(selectTime, forKey: "TimeKeeper")
+//        UserDefaults.standard.set(selectTime, forKey: "TimeKeeper")
         alarmTime = selectTime.components(separatedBy: [":"])
         print("alarmTime",alarmTime)
         alarmHour = alarmTime[0]

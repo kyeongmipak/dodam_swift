@@ -9,7 +9,7 @@ import UIKit
 import FSCalendar
 import SQLite3
 
-class HomeViewController: UIViewController, FSCalendarDataSource, FSCalendarDelegate {
+class HomeViewController: UIViewController, FSCalendarDataSource, FSCalendarDelegate, UNUserNotificationCenterDelegate {
 
     @IBOutlet weak var calendar: FSCalendar!
     @IBOutlet weak var imageViewUser: UIImageView!
@@ -62,6 +62,18 @@ class HomeViewController: UIViewController, FSCalendarDataSource, FSCalendarDele
         
         userInformationSearch()
         calendar.reloadData()
+        
+        
+        UNUserNotificationCenter.current().requestAuthorization(options: [.alert,.sound,.badge], completionHandler: {didAllow,Error in
+            if didAllow {
+                UserDefaults.standard.set("doAllow", forKey: "TimeKeeper")
+                print("Push: 권한 허용")
+            } else {
+                UserDefaults.standard.set("notAllow", forKey: "TimeKeeper")
+                print("Push: 권한 거부")
+            }
+        })
+        
     }
     
     // calendar setting

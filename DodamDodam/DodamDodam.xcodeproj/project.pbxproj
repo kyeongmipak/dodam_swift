@@ -16,7 +16,6 @@
 		6253AB3625F0E12F0001BAEC /* ThemeViewController.swift in Sources */ = {isa = PBXBuildFile; fileRef = 6253AB3525F0E12F0001BAEC /* ThemeViewController.swift */; };
 		6253AB3925F0E14E0001BAEC /* FontViewController.swift in Sources */ = {isa = PBXBuildFile; fileRef = 6253AB3825F0E14E0001BAEC /* FontViewController.swift */; };
 		6253AB4225F0E2470001BAEC /* ProfileViewController.swift in Sources */ = {isa = PBXBuildFile; fileRef = 6253AB4125F0E2470001BAEC /* ProfileViewController.swift */; };
-		6253AB4625F0E45D0001BAEC /* AlarmSettingTableViewCell.swift in Sources */ = {isa = PBXBuildFile; fileRef = 6253AB4525F0E45D0001BAEC /* AlarmSettingTableViewCell.swift */; };
 		812B340125F0C2CB00DD299D /* AppDelegate.swift in Sources */ = {isa = PBXBuildFile; fileRef = 812B340025F0C2CB00DD299D /* AppDelegate.swift */; };
 		812B340325F0C2CB00DD299D /* SceneDelegate.swift in Sources */ = {isa = PBXBuildFile; fileRef = 812B340225F0C2CB00DD299D /* SceneDelegate.swift */; };
 		812B340825F0C2CB00DD299D /* Main.storyboard in Resources */ = {isa = PBXBuildFile; fileRef = 812B340625F0C2CB00DD299D /* Main.storyboard */; };
@@ -37,7 +36,6 @@
 		6253AB3525F0E12F0001BAEC /* ThemeViewController.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = ThemeViewController.swift; sourceTree = "<group>"; };
 		6253AB3825F0E14E0001BAEC /* FontViewController.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = FontViewController.swift; sourceTree = "<group>"; };
 		6253AB4125F0E2470001BAEC /* ProfileViewController.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = ProfileViewController.swift; sourceTree = "<group>"; };
-		6253AB4525F0E45D0001BAEC /* AlarmSettingTableViewCell.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = AlarmSettingTableViewCell.swift; sourceTree = "<group>"; };
 		812B33FD25F0C2CB00DD299D /* DodamDodam.app */ = {isa = PBXFileReference; explicitFileType = wrapper.application; includeInIndex = 0; path = DodamDodam.app; sourceTree = BUILT_PRODUCTS_DIR; };
 		812B340025F0C2CB00DD299D /* AppDelegate.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = AppDelegate.swift; sourceTree = "<group>"; };
 		812B340225F0C2CB00DD299D /* SceneDelegate.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = SceneDelegate.swift; sourceTree = "<group>"; };
@@ -71,7 +69,6 @@
 				6253AB3525F0E12F0001BAEC /* ThemeViewController.swift */,
 				6253AB3825F0E14E0001BAEC /* FontViewController.swift */,
 				6253AB4125F0E2470001BAEC /* ProfileViewController.swift */,
-				6253AB4525F0E45D0001BAEC /* AlarmSettingTableViewCell.swift */,
 				5F9C2FD025F5448D00462866 /* AlarmSettingViewController.swift */,
 			);
 			path = Setting;
@@ -266,7 +263,6 @@
 				812B340125F0C2CB00DD299D /* AppDelegate.swift in Sources */,
 				5F9C2FD125F5448D00462866 /* AlarmSettingViewController.swift in Sources */,
 				812B340325F0C2CB00DD299D /* SceneDelegate.swift in Sources */,
-				6253AB4625F0E45D0001BAEC /* AlarmSettingTableViewCell.swift in Sources */,
 				6253AB3925F0E14E0001BAEC /* FontViewController.swift in Sources */,
 				6253AB2D25F0E02A0001BAEC /* RegisterViewController.swift in Sources */,
 				6253AB4225F0E2470001BAEC /* ProfileViewController.swift in Sources */,

@@ -30,9 +30,13 @@ class SettingViewController: UIViewController, UITableViewDelegate, UITableViewD
         
         // Remove cell underline
         tableView.tableFooterView = UIView(frame: CGRect.zero)
-        
-        
+    
        
+
+
+      
+
+
     }
     
     override func viewWillAppear(_ animated: Bool) {
@@ -48,8 +52,10 @@ class SettingViewController: UIViewController, UITableViewDelegate, UITableViewD
       func tableView(_ tableView: UITableView, titleForFooterInSection section: Int) -> String? {
         if section == 1 {
              // Load
-            return "알림 시간은 매일 \(String(describing: UserDefaults.standard.value(forKey: "TimeKeeper")!))입니다!"
+//            return "알림 시간은 매일 \(String(describing: UserDefaults.standard.value(forKey: "TimeKeeper")!))입니다!"
         }
+        
+
         return nil
       }
     
@@ -73,7 +79,22 @@ class SettingViewController: UIViewController, UITableViewDelegate, UITableViewD
             case 0: self.performSegue(withIdentifier: "profile", sender: nil)
             case 1: self.performSegue(withIdentifier: "theme", sender: nil)
             case 2: self.performSegue(withIdentifier: "font", sender: nil)
-            case 3: self.performSegue(withIdentifier: "pushAlarm", sender: nil)
+            case 3:
+                if String(describing: UserDefaults.standard.value(forKey: "TimeKeeper")!) == "notAllow"{
+                    let resultAlert = UIAlertController(title: "Dodam 알림", message: "푸시 알림을 허용해주세요!", preferredStyle: UIAlertController.Style.actionSheet)
+                    let okAction = UIAlertAction(title: "취소", style: UIAlertAction.Style.cancel, handler:nil)
+                    let moveToSetting = UIAlertAction(title: "설정창으로 이동", style: UIAlertAction.Style.default, handler: {ACTION in
+                        if let url = URL(string: UIApplication.openSettingsURLString) {
+                            UIApplication.shared.open(url, options: [:], completionHandler: nil)
+                        }
+                        self.navigationController?.popViewController(animated: true)
+                    })
+                    resultAlert.addAction(okAction)
+                    resultAlert.addAction(moveToSetting)
+                    self.present(resultAlert, animated: true, completion: nil)
+            }else  {
+                self.performSegue(withIdentifier: "pushAlarm", sender: nil)
+            }
             default:
                 return
             }

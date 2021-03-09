@@ -19,6 +19,7 @@ class SettingViewController: UIViewController, UITableViewDelegate, UITableViewD
     let cellIdentifier: String = "SettingCell"
     let optionList: [String] = ["프로필", "테마", "폰트", "푸시 알림"]
     
+    private var observer: NSObjectProtocol?
     
     override func viewDidLoad() {
         super.viewDidLoad()
@@ -32,11 +33,15 @@ class SettingViewController: UIViewController, UITableViewDelegate, UITableViewD
         tableView.tableFooterView = UIView(frame: CGRect.zero)
     
        
-
-
-      
-
-
+        // 알림센터에 옵저버를 적용
+        observer = NotificationCenter.default.addObserver(forName: UIApplication.willEnterForegroundNotification,
+                                                          object: nil,
+                                                          queue: .main) {
+            [unowned self] notification in
+            // background에서 foreground로 돌아오는 경우 실행 될 코드
+            notificationAllow()
+        
+        }
     }
     
     override func viewWillAppear(_ animated: Bool) {
@@ -125,6 +130,19 @@ class SettingViewController: UIViewController, UITableViewDelegate, UITableViewD
 //                return customCell
 //            }
         }
+
+    func notificationAllow(){
+        UNUserNotificationCenter.current().requestAuthorization(options: [.alert,.sound], completionHandler: {didAllow,Error in
+            if didAllow {
+                UserDefaults.standard.set("doAllow", forKey: "TimeKeeper")
+                print("Push: 권한 허용")
+            } else {
+                UserDefaults.standard.set("notAllow", forKey: "TimeKeeper")
+                print("Push: 권한 거부")
+            }
+        })
+    }
+
     
     /*
     // MARK: - Navigation

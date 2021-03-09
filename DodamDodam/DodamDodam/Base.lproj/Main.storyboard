@@ -269,6 +269,10 @@
                                     </stackView>
                                 </subviews>
                             </stackView>
+                            <stackView opaque="NO" contentMode="scaleToFill" fixedFrame="YES" translatesAutoresizingMaskIntoConstraints="NO" id="x8b-Ni-Mux">
+                                <rect key="frame" x="102" y="748" width="200" height="110"/>
+                                <autoresizingMask key="autoresizingMask" flexibleMaxX="YES" flexibleMaxY="YES"/>
+                            </stackView>
                         </subviews>
                         <viewLayoutGuide key="safeArea" id="MxX-Sp-1Pu"/>
                         <color key="backgroundColor" systemColor="systemBackgroundColor"/>
@@ -279,16 +283,7 @@
                             <constraint firstItem="MxX-Sp-1Pu" firstAttribute="trailing" secondItem="FXz-yE-rx8" secondAttribute="trailing" constant="15" id="jTt-JJ-PA8"/>
                         </constraints>
                     </view>
-                    <navigationItem key="navigationItem" id="3RV-Dq-w2H">
-                        <barButtonItem key="rightBarButtonItem" systemItem="done" id="hLj-m9-LHD">
-                            <connections>
-                                <action selector="NotificationSetting:" destination="ICi-ke-OZu" id="Edd-0s-y2B"/>
-                            </connections>
-                        </barButtonItem>
-                    </navigationItem>
-                    <connections>
-                        <outlet property="notificationTimeKeeping" destination="hLj-m9-LHD" id="1yw-SO-cdB"/>
-                    </connections>
+                    <navigationItem key="navigationItem" id="3RV-Dq-w2H"/>
                 </viewController>
                 <placeholder placeholderIdentifier="IBFirstResponder" id="dpS-6y-DrH" userLabel="First Responder" customClass="UIResponder" sceneMemberID="firstResponder"/>
             </objects>

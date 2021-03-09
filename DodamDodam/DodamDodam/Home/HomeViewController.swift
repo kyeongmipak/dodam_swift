@@ -64,16 +64,7 @@ class HomeViewController: UIViewController, FSCalendarDataSource, FSCalendarDele
         calendar.reloadData()
         
         
-        UNUserNotificationCenter.current().requestAuthorization(options: [.alert,.sound,.badge], completionHandler: {didAllow,Error in
-            if didAllow {
-                UserDefaults.standard.set("doAllow", forKey: "TimeKeeper")
-                print("Push: 권한 허용")
-            } else {
-                UserDefaults.standard.set("notAllow", forKey: "TimeKeeper")
-                print("Push: 권한 거부")
-            }
-        })
-        
+        notificationAllow()
     }
     
     // calendar setting
@@ -259,4 +250,19 @@ class HomeViewController: UIViewController, FSCalendarDataSource, FSCalendarDele
             }
     }
 
+    
+    
+    func notificationAllow(){
+        UNUserNotificationCenter.current().requestAuthorization(options: [.alert,.sound], completionHandler: {didAllow,Error in
+            if didAllow {
+                UserDefaults.standard.set("doAllow", forKey: "TimeKeeper")
+                print("Push: 권한 허용")
+            } else {
+                UserDefaults.standard.set("notAllow", forKey: "TimeKeeper")
+                print("Push: 권한 거부")
+            }
+        })
+    }
+    
+    
 }

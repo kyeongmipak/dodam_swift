@@ -14,10 +14,10 @@ class AlarmSettingViewController: UIViewController, UNUserNotificationCenterDele
     var selectTime = ""
     var alarmTime: [String] = []
     var alarmHour = ""
-    var alarmminute = ""
+    var alarmMinute = ""
     
     
-    @IBOutlet weak var notificationTimeKeeping: UIBarButtonItem!
+ 
     
     override func viewDidLoad() {
         super.viewDidLoad()
@@ -47,19 +47,18 @@ class AlarmSettingViewController: UIViewController, UNUserNotificationCenterDele
         alarmTime = selectTime.components(separatedBy: [":"])
         print("alarmTime",alarmTime)
         alarmHour = alarmTime[0]
-        alarmminute = alarmTime[1]
+        alarmMinute = alarmTime[1]
         print("alarmHour",alarmHour)
-        print("alarmminute",alarmminute)
+        print("alarmminute",alarmMinute)
     }
     
-    @IBAction func NotificationSetting(_ sender: Any) {
-        
-        triggerTimeIntervalNotifications()
+    
+ 
+    
       
-        self.navigationController?.popViewController(animated: true)
-        print("setting")
+      
         
-    }
+    
     
     
     @objc func tick() {
@@ -79,7 +78,7 @@ class AlarmSettingViewController: UIViewController, UNUserNotificationCenterDele
         
         var date = DateComponents()
         date.hour = Int(alarmHour)
-        date.minute = Int(alarmminute)
+        date.minute = Int(alarmMinute)
         let trigger = UNCalendarNotificationTrigger(dateMatching: date, repeats: true)
         
 

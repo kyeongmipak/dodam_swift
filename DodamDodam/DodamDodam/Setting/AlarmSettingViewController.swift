@@ -52,11 +52,14 @@ class AlarmSettingViewController: UIViewController, UNUserNotificationCenterDele
         print("alarmminute",alarmMinute)
     }
     
-    
- 
+   
     
       
-      
+    @IBAction func alarmSetting(_ sender: UIButton) {
+        triggerTimeIntervalNotifications()
+        self.navigationController?.popViewController(animated: true)
+    }
+    
         
     
     

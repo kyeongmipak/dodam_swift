@@ -50,7 +50,9 @@ class HomeViewController: UIViewController, FSCalendarDataSource, FSCalendarDele
             let errmsg = String(cString: sqlite3_errmsg(db)!)
             print("error creating table: \(errmsg)")
         }
-        
+        // 지은 추가 +++++++
+        readTheme()
+        // +++++++++
         
         // field값을 사용할 때
         calendar.dataSource = self
@@ -68,6 +70,180 @@ class HomeViewController: UIViewController, FSCalendarDataSource, FSCalendarDele
         
         notificationAllow()
     }
+    
+    
+    // 지은 추가
+    // 불러오기 ***********************************
+    func readTheme() {
+        
+        let queryString = "SELECT * FROM dodamSetting"
+        var stmt: OpaquePointer?
+        
+        if sqlite3_prepare(db, queryString, -1, &stmt, nil) != SQLITE_OK {
+            let errmsg = String(cString: sqlite3_errmsg(db)!)
+            print("error preparing select: \(errmsg)")
+            return
+        }
+        
+        if sqlite3_step(stmt) != SQLITE_ROW {
+            
+            // 제일 처음 실행할 때 값 생성
+            // TableViewController 의 tempInsert() 부분을 전체 복붙해옴
+            var stmt: OpaquePointer?
+            
+            // 이게 있어야 한글을 입력해도 무관하다.
+            let SQLITE_TRANSIENT = unsafeBitCast(-1, to: sqlite3_destructor_type.self) // <-- 중요!!!!!
+            let queryString = "INSERT INTO dodamSetting (settingTheme, userName, userBirth) VALUES (?, ?, ?)"
+            
+            // ? 있으니 prepare 해주기
+            if sqlite3_prepare(db, queryString, -1, &stmt, nil) != SQLITE_OK {
+                let errmsg = String(cString: sqlite3_errmsg(db)!)
+                print("error preparing insert: \(errmsg)")
+                return
+            }
+            // ? 첫번째 sname
+            if sqlite3_bind_text(stmt, 1, "systemTeal", -1, SQLITE_TRANSIENT) != SQLITE_OK {
+                let errmsg = String(cString: sqlite3_errmsg(db)!)
+                print("error binding theme: \(errmsg)")
+                return
+            }
+            
+            // ? 첫번째 sname
+            if sqlite3_bind_text(stmt, 2, "dodamName", -1, SQLITE_TRANSIENT) != SQLITE_OK {
+                let errmsg = String(cString: sqlite3_errmsg(db)!)
+                print("error binding theme: \(errmsg)")
+                return
+            }
+            
+            // ? 첫번째 sname
+            if sqlite3_bind_text(stmt, 3, "1999-01-02", -1, SQLITE_TRANSIENT) != SQLITE_OK {
+                let errmsg = String(cString: sqlite3_errmsg(db)!)
+                print("error binding theme: \(errmsg)")
+                return
+            }
+            // sqlite 실행
+            if sqlite3_step(stmt) != SQLITE_DONE {
+                let errmsg = String(cString: sqlite3_errmsg(db)!)
+                print("failure inserting : \(errmsg)")
+                return
+            }
+            
+        }
+        // bean 에 집어 넣어서 append 시키면 일이 끝남
+        // (stmt)에 읽어올 데이터가 있는지 확인하는 과정
+        while sqlite3_step(stmt) == SQLITE_ROW {
+            // 제일 처음에 들어오는 값은 키값이므로 키값으로 넣는다.
+            let id = sqlite3_column_int(stmt, 0)
+            // 입력받을때 text 값으로 입력했으니 Bean 에 String 값으로 생성해뒀기에 Text를 String 값으로 변환한다.
+            let theme = String(cString: sqlite3_column_text(stmt, 4))
+            
+            print(id, theme)
+            
+            if theme == "brown" {
+                self.navigationController?.navigationBar.barTintColor = .brown
+                UITabBar.appearance().barTintColor = .brown
+                self.tabBarController?.tabBar.barTintColor = .brown
+                UIButton.appearance().backgroundColor = .brown
+            }else if theme == "red" {
+                self.navigationController?.navigationBar.barTintColor = .red
+                UITabBar.appearance().barTintColor = .red
+                self.tabBarController?.tabBar.barTintColor = .red
+                UIButton.appearance().backgroundColor = .red
+            }else if theme == "systemTeal" {
+                self.navigationController?.navigationBar.barTintColor = .systemTeal
+                UITabBar.appearance().barTintColor = .systemTeal
+                self.tabBarController?.tabBar.barTintColor = .systemTeal
+                UIButton.appearance().backgroundColor = .systemTeal
+            }
+            else if theme == "yellow" {
+                self.navigationController?.navigationBar.barTintColor = .yellow
+                UITabBar.appearance().barTintColor = .yellow
+                self.tabBarController?.tabBar.barTintColor = .yellow
+                UIButton.appearance().backgroundColor = .yellow
+            }
+            else if theme == "systemPink" {
+                self.navigationController?.navigationBar.barTintColor = .systemPink
+                UITabBar.appearance().barTintColor = .systemPink
+                self.tabBarController?.tabBar.barTintColor = .systemPink
+                UIButton.appearance().backgroundColor = .systemPink
+            }
+            else if theme == "blue" {
+                self.navigationController?.navigationBar.barTintColor = .blue
+                UITabBar.appearance().barTintColor = .blue
+                self.tabBarController?.tabBar.barTintColor = .blue
+                UIButton.appearance().backgroundColor = .blue
+            }
+            
+            
+            
+        }
+        
+    }
+    
+    
+    // 불러오기 ***********************************
+    func selectTheme() {
+        
+        let queryString = "SELECT * FROM dodamSetting"
+        var stmt: OpaquePointer?
+        
+        if sqlite3_prepare(db, queryString, -1, &stmt, nil) != SQLITE_OK {
+            let errmsg = String(cString: sqlite3_errmsg(db)!)
+            print("error preparing select: \(errmsg)")
+            return
+        }
+        
+        // bean 에 집어 넣어서 append 시키면 일이 끝남
+        // (stmt)에 읽어올 데이터가 있는지 확인하는 과정
+        while sqlite3_step(stmt) == SQLITE_ROW {
+            // 제일 처음에 들어오는 값은 키값이므로 키값으로 넣는다.
+            let id = sqlite3_column_int(stmt, 0)
+            // 입력받을때 text 값으로 입력했으니 Bean 에 String 값으로 생성해뒀기에 Text를 String 값으로 변환한다.
+            let theme = String(cString: sqlite3_column_text(stmt, 4))
+            
+            print(id, theme)
+            
+            if theme == "brown" {
+                self.navigationController?.navigationBar.barTintColor = .brown
+                UITabBar.appearance().barTintColor = .brown
+                self.tabBarController?.tabBar.barTintColor = .brown
+                UIButton.appearance().backgroundColor = .brown
+            }else if theme == "red" {
+                self.navigationController?.navigationBar.barTintColor = .red
+                UITabBar.appearance().barTintColor = .red
+                self.tabBarController?.tabBar.barTintColor = .red
+                UIButton.appearance().backgroundColor = .red
+            }else if theme == "systemTeal" {
+                self.navigationController?.navigationBar.barTintColor = .systemTeal
+                UITabBar.appearance().barTintColor = .systemTeal
+                self.tabBarController?.tabBar.barTintColor = .systemTeal
+                UIButton.appearance().backgroundColor = .systemTeal
+            }
+            else if theme == "yellow" {
+                self.navigationController?.navigationBar.barTintColor = .yellow
+                UITabBar.appearance().barTintColor = .yellow
+                self.tabBarController?.tabBar.barTintColor = .yellow
+                UIButton.appearance().backgroundColor = .yellow
+            }
+            else if theme == "systemPink" {
+                self.navigationController?.navigationBar.barTintColor = .systemPink
+                UITabBar.appearance().barTintColor = .systemPink
+                self.tabBarController?.tabBar.barTintColor = .systemPink
+                UIButton.appearance().backgroundColor = .systemPink
+            }
+            else if theme == "blue" {
+                self.navigationController?.navigationBar.barTintColor = .blue
+                UITabBar.appearance().barTintColor = .blue
+                self.tabBarController?.tabBar.barTintColor = .blue
+                UIButton.appearance().backgroundColor = .blue
+            }
+            
+        }
+        
+    }
+    
+    // 지은 추가 ***********************************
+    
     
     // calendar setting
     func calendarSetting() {
@@ -174,6 +350,9 @@ class HomeViewController: UIViewController, FSCalendarDataSource, FSCalendarDele
     }
     
     override func viewWillAppear(_ animated: Bool) {
+        // 지은 추가----------
+        selectTheme()
+        // --------------
         registerDates.removeAll()
         dateSelectAction()
         calendar.reloadData()

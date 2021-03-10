@@ -363,7 +363,10 @@
                                                 <constraints>
                                                     <constraint firstAttribute="height" constant="60" id="ZS6-Vj-dGn"/>
                                                 </constraints>
-                                                <state key="normal" title="Button"/>
+                                                <state key="normal" title="테마 변경하기"/>
+                                                <connections>
+                                                    <action selector="themeChange:" destination="b8z-Bl-23x" eventType="touchUpInside" id="h78-uH-nJR"/>
+                                                </connections>
                                             </button>
                                         </subviews>
                                     </stackView>
@@ -380,6 +383,15 @@
                         </constraints>
                     </view>
                     <navigationItem key="navigationItem" id="77s-FA-nt8"/>
+                    <connections>
+                        <outlet property="selectTheme" destination="LBp-ct-uKU" id="sqq-Ni-D2b"/>
+                        <outlet property="themeBlue" destination="KPR-9L-yzd" id="kSe-LO-ica"/>
+                        <outlet property="themeBrown" destination="NQA-Ez-x8m" id="RpX-Qm-z42"/>
+                        <outlet property="themePink" destination="F5m-an-gyS" id="Vxt-El-EU2"/>
+                        <outlet property="themeSky" destination="6y2-TC-4U0" id="K8f-hM-otU"/>
+                        <outlet property="themeYellow" destination="dPv-vA-irQ" id="caY-UW-cil"/>
+                        <outlet property="tnemeRed" destination="Mzh-CR-Cjq" id="Hyq-6J-A2G"/>
+                    </connections>
                 </viewController>
                 <placeholder placeholderIdentifier="IBFirstResponder" id="vj0-Uq-R0Q" userLabel="First Responder" customClass="UIResponder" sceneMemberID="firstResponder"/>
             </objects>

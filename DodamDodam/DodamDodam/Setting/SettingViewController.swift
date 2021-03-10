@@ -17,7 +17,7 @@ class SettingViewController: UIViewController, UITableViewDelegate, UITableViewD
     
     let customCellIdentifier: String = "SettingAlarmCell"
     let cellIdentifier: String = "SettingCell"
-    let optionList: [String] = ["프로필", "테마", "폰트", "푸시 알림"]
+    let optionList: [String] = ["프로필", "테마", "푸시 알림"]
     
     private var observer: NSObjectProtocol?
     
@@ -83,8 +83,7 @@ class SettingViewController: UIViewController, UITableViewDelegate, UITableViewD
             switch indexPath.row {
             case 0: self.performSegue(withIdentifier: "profile", sender: nil)
             case 1: self.performSegue(withIdentifier: "theme", sender: nil)
-            case 2: self.performSegue(withIdentifier: "font", sender: nil)
-            case 3:
+            case 2:
                 if String(describing: UserDefaults.standard.value(forKey: "TimeKeeper")!) == "notAllow"{
                     let resultAlert = UIAlertController(title: "Dodam 알림", message: "푸시 알림을 허용해주세요!", preferredStyle: UIAlertController.Style.actionSheet)
                     let okAction = UIAlertAction(title: "취소", style: UIAlertAction.Style.cancel, handler:nil)

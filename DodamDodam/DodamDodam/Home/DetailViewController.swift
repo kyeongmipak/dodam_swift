@@ -18,6 +18,7 @@ class DetailViewController: UIViewController {
     @IBOutlet weak var modifyButton: UIButton!
     @IBOutlet weak var deleteButton: UIButton!
     
+    @IBOutlet weak var imageStack: UIStackView!
     
     var conditionImage:UIImage = UIImage()
     var viewNumber = ""
@@ -45,6 +46,10 @@ class DetailViewController: UIViewController {
        
     }
     
+    // 수정 버튼 액션
+    @IBAction func modifyDiaryBtn(_ sender: UIButton) {
+        
+    }
     
     @IBAction func deleteDiaryBtn(_ sender: UIButton) {
         if nilCheck() == 0 {
@@ -123,13 +128,15 @@ class DetailViewController: UIViewController {
         } else {
             diaryTitle.text = viewTitle
             diaryContent.text = viewContent
-            dailyImage.image = UIImage(data: dataDaily)
-            if emotionImage.image != nil {
-                emotionImage.image = UIImage(named: Share.imageFileName[Int(viewEmotion)!])
+            emotionImage.image = UIImage(named: Share.imageFileName[Int(viewEmotion)!])
+        
+            if dataDaily.isEmpty == false {
+                imageStack.isHidden = false
+                dailyImage.image = UIImage(data: dataDaily)
         
             } else {
-                emotionImage.isHidden = true
-               
+                imageStack.isHidden = true
+
             }
             
             //----------------------

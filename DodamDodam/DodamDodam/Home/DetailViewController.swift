@@ -15,6 +15,8 @@ class DetailViewController: UIViewController {
     @IBOutlet weak var dailyImage: UIImageView!
     @IBOutlet weak var diaryTitle: UILabel!
     @IBOutlet weak var diaryContent: UITextView!
+    @IBOutlet weak var modifyButton: UIButton!
+    @IBOutlet weak var deleteButton: UIButton!
     
     
     var conditionImage:UIImage = UIImage()
@@ -57,17 +59,17 @@ class DetailViewController: UIViewController {
                let okAction = UIAlertAction(title: "네", style: UIAlertAction.Style.default, handler: {ACTION in
                    self.deleteAction()
                    // 현재 화면 사라짐
-                self.presentingViewController?.dismiss(animated: true, completion: nil)
-                guard (self.storyboard? .instantiateViewController (withIdentifier: "HomeViewController") as? HomeViewController) != nil else {
-                            fatalError ()
-                        }
+                NotificationCenter.default.post(name: Notification.Name(rawValue: "callDetailPage"), object: nil)
                
+
+                self.presentingViewController?.dismiss(animated: true, completion: nil)
                })
                resultAlert.addAction(cancelAction)
                resultAlert.addAction(okAction)
                present(resultAlert, animated: true, completion: nil)
         }
     }
+    
     
     // sqlite 실행
     func sqlAction() {
@@ -103,25 +105,41 @@ class DetailViewController: UIViewController {
 
             }
             
-            // view 화면 출력
-            if viewTitle.isEmpty == true {
-                diaryTitle.text = "작성된 일기가 없습니다!"
-                diaryContent.text = ""
-                diaryContent.backgroundColor = .white
-                
-            } else {
-                diaryTitle.text = viewTitle
-                diaryContent.text = viewContent
+        // view 화면 출력
+        if viewTitle.isEmpty == true {
+            diaryTitle.text = "작성된 일기가 없습니다!"
+            diaryContent.text = ""
+            diaryContent.backgroundColor = .white
+            emotionImage.isHidden = true
+
+            //----------------------
+            // 3/10 수정
+            // btn 보여지는것
+            deleteButton.isHidden = true
+            modifyButton.isHidden = true
+            //----------------------
+
+            
+        } else {
+            diaryTitle.text = viewTitle
+            diaryContent.text = viewContent
+            dailyImage.image = UIImage(data: dataDaily)
+            if emotionImage.image != nil {
                 emotionImage.image = UIImage(named: Share.imageFileName[Int(viewEmotion)!])
-                if UIImage(data: dataDaily) != nil {
-                    dailyImage.isHidden = false
-                    dailyImage.image = UIImage(data: dataDaily)
-                } else {
-                    dailyImage.isHidden = true
-                }
-               
+        
+            } else {
+                emotionImage.isHidden = true
                
             }
+            
+            //----------------------
+            // 3/10 수정
+            // btn 보여지는것
+            deleteButton.isHidden = false
+            modifyButton.isHidden = false
+            //----------------------
+
+        }
         
     }
     
@@ -165,5 +183,18 @@ class DetailViewController: UIViewController {
         }
         return count
     }
+    
+    //----------------------
+    // 3/10 수정
+    override func prepare(for segue: UIStoryboardSegue, sender: Any?) {
+        
+//        if segue.identifier == "MovediaryModify"{
+//           let modifyView = segue.destination as! RegisterViewController
+////            modifyView.receivedDate = diaryDate.text!
+//
+//        }
+
+    }
+    //----------------------
 
 }

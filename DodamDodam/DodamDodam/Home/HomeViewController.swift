@@ -22,6 +22,8 @@ class HomeViewController: UIViewController, FSCalendarDataSource, FSCalendarDele
     var db: OpaquePointer?  // <----- db는 OpaquePointer 타입을 쓴다.
     var registerDates: [Date] = []
     var dataView:Data = Data()
+    var diaryDate = ""
+    var selectedDate = ""
     
     var imageArray = [UIImage?]()  // file name이 아닌 image들이 array로 들어간다.
     
@@ -100,7 +102,9 @@ class HomeViewController: UIViewController, FSCalendarDataSource, FSCalendarDele
     }
     
     // 날짜 선택 시 콜백 메소드
-    func calendar(_ calendar: FSCalendar, didSelect date: Date, at monthPosition: FSCalendarMonthPosition) {
+    func calendar(_ calendar: FSCalendar, didSelect date: Date, at monthPosition:
+    FSCalendarMonthPosition) {
+        selectedDate = dateFormatter.string(from: date)
         
         guard let modalPresentView = self.storyboard?.instantiateViewController(identifier: "DetailViewController") as? DetailViewController else { return }
         
@@ -108,7 +112,46 @@ class HomeViewController: UIViewController, FSCalendarDataSource, FSCalendarDele
         let dateFormatter = DateFormatter()
         dateFormatter.dateFormat = "yyyy-MM-dd"
         modalPresentView.date = dateFormatter.string(from: date)
-        self.present(modalPresentView, animated: true, completion: nil)
+//        self.present(modalPresentView, animated: true, completion: nil)
+        
+        // --------------------------
+        // 3/10 추가
+        let currentDate = NSDate()
+        let interval = date.timeIntervalSince(currentDate as Date)
+
+        if interval > 0 && registerDates.contains(date) != true {
+            let resultAlert = UIAlertController(title: "알림", message: "작성된 다이어리가 없습니다.\n다이어리 작성하시겠습니까?", preferredStyle: UIAlertController.Style.actionSheet)
+              let cancelAction = UIAlertAction(title: "취소", style: UIAlertAction.Style.default, handler: nil)
+              let okAction = UIAlertAction(title: "작성하러가기", style: UIAlertAction.Style.default, handler: {ACTION in
+                let vcName = self.storyboard?.instantiateViewController(withIdentifier: "SelectEmotionViewController") as? SelectEmotionViewController
+                vcName!.modalTransitionStyle = .coverVertical
+                vcName!.receivedDate = dateFormatter.string(from: date)
+                print("여기는?", dateFormatter.string(from: date))
+                    self.navigationController?.pushViewController(vcName!, animated: true)
+              })
+              resultAlert.addAction(okAction)
+              resultAlert.addAction(cancelAction)
+              present(resultAlert, animated: true, completion: nil)
+          
+        } else if interval <= 0 && registerDates.contains(date) != true {
+            let resultAlert = UIAlertController(title: "알림", message: "작성된 다이어리가 없습니다.\n다이어리 작성하시겠습니까?", preferredStyle: UIAlertController.Style.actionSheet)
+              let cancelAction = UIAlertAction(title: "취소", style: UIAlertAction.Style.default, handler: nil)
+              let okAction = UIAlertAction(title: "작성하러가기", style: UIAlertAction.Style.default, handler: {ACTION in
+                    let vcName = self.storyboard?.instantiateViewController(withIdentifier: "SelectEmotionViewController") as? SelectEmotionViewController
+                vcName!.modalTransitionStyle = .coverVertical
+                vcName!.receivedDate = dateFormatter.string(from: date)
+                print("여기는?", dateFormatter.string(from: date))
+                    self.navigationController?.pushViewController(vcName!, animated: true)
+              })
+              resultAlert.addAction(okAction)
+              resultAlert.addAction(cancelAction)
+              present(resultAlert, animated: true, completion: nil)
+                
+        } else {
+            self.present(modalPresentView, animated: true, completion: nil)
+            
+        }
+        // --------------------------
     }
     
     // 날짜 선택 해제 시 콜백 메소드
@@ -124,12 +167,25 @@ class HomeViewController: UIViewController, FSCalendarDataSource, FSCalendarDele
         return 0
     }
     
+    // 3.9
+    //---------------------------
+    override func viewDidDisappear(_ animated: Bool) {
+        NotificationCenter.default.removeObserver(self)
+    }
+    
     override func viewWillAppear(_ animated: Bool) {
-        calendar.reloadData()
         registerDates.removeAll()
         dateSelectAction()
-        
+        calendar.reloadData()
+        NotificationCenter.default.addObserver(self, selector: #selector(reloadPage(_:)), name: Notification.Name(rawValue: "callDetailPage"), object: nil)
+
     }
+    @objc func reloadPage(_ notification: Notification) { // add stuff }
+        dateSelectAction()
+        calendar.reloadData()
+        print("여기 오나?")
+    }
+    //---------------------------
     
     // 사용자 기본정보
     func userInformationSearch() {
@@ -195,21 +251,21 @@ class HomeViewController: UIViewController, FSCalendarDataSource, FSCalendarDele
                 if dataView.isEmpty == true {
                     labelUserName.text = "도담 Baby 누구?"
                     imageViewUser.image = UIImage(named: "profile.png")
-                    labelBirth.text = "태어나지 않았어요!"
+                   
                 } else {
                     labelUserName.text = "도담 Baby 누구?"
                     imageViewUser.image = UIImage(data: dataView)
-                    labelBirth.text = "태어나지 않았어요!"
+                    
                 }
             } else {
                 if dataView.isEmpty == true {
                     labelUserName.text = "\(userName)"
                     imageViewUser.image = UIImage(named: "profile.png")
-                    labelBirth.text = "태어나지 않았어요!"
+                    
                 } else {
                     labelUserName.text = "\(userName)"
                     imageViewUser.image = UIImage(data: dataView)
-                    labelBirth.text = "태어나지 않았어요!"
+                   
                 }
             }
         }
@@ -218,7 +274,7 @@ class HomeViewController: UIViewController, FSCalendarDataSource, FSCalendarDele
     
     // 날짜 선택 시
     func dateSelectAction(){
-
+        registerDates = []
         let queryString = "SELECT * FROM dodamDiary"
         var stmt: OpaquePointer?
        
@@ -237,7 +293,7 @@ class HomeViewController: UIViewController, FSCalendarDataSource, FSCalendarDele
                     dataView = Data(bytes: diaryImage, count: viewCondition)
                 }
                 
-                let diaryDate = String(cString: sqlite3_column_text(stmt, 4))
+               diaryDate = String(cString: sqlite3_column_text(stmt, 4))
                 
                 if diaryDate.isEmpty == false {
                     let formatter = DateFormatter()
@@ -262,6 +318,13 @@ class HomeViewController: UIViewController, FSCalendarDataSource, FSCalendarDele
                 print("Push: 권한 거부")
             }
         })
+    }
+    
+    override func prepare(for segue: UIStoryboardSegue, sender: Any?) {
+        if segue.identifier == "sgSelectEmotionMove" {
+            let emotionView = segue.destination as! SelectEmotionViewController
+            emotionView.receivedDate = selectedDate
+        }
     }
     
     

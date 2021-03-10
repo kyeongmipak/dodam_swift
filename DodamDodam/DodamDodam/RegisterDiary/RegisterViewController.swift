@@ -17,6 +17,7 @@ class RegisterViewController: UIViewController, UIImagePickerControllerDelegate 
     @IBOutlet weak var dailyContent: UITextView!
 
     var emtionImage = 0
+    var registerDate = ""
     
     // 카메라, 앨범 실행
     //-------------------------
@@ -38,8 +39,11 @@ class RegisterViewController: UIViewController, UIImagePickerControllerDelegate 
         let formatter = DateFormatter()
         formatter.locale = Locale(identifier: "ko") // ko : 한국형 format
         formatter.dateFormat = "yyyy-MM-dd"
-        
-        dailyDate.text = formatter.string(from: date as Date)
+        if registerDate == "" {
+            dailyDate.text = formatter.string(from: date as Date)
+        } else {
+            dailyDate.text = registerDate
+        }
       
         dailyTitle.layer.borderWidth = 1.0
         dailyTitle.layer.borderColor = UIColor.lightGray.cgColor
@@ -63,6 +67,11 @@ class RegisterViewController: UIViewController, UIImagePickerControllerDelegate 
             print("error opening database")
         }
         
+    }
+    
+    func receivedItem(selectedDate: String, selectedEmotion: Int) {
+        registerDate = selectedDate
+        emtionImage = selectedEmotion
     }
     
     @IBAction func imageAddBtn(_ sender: UIButton) {
@@ -325,6 +334,11 @@ class RegisterViewController: UIViewController, UIImagePickerControllerDelegate 
         } else {
             return 1
         }
+    }
+    
+    // 아무곳이나 눌러 softkeyboard 지우기
+    override func touchesBegan(_ touches: Set<UITouch>, with event: UIEvent?) {
+        self.view.endEditing(true)
     }
 
 }

@@ -23,13 +23,14 @@ class SelectEmotionViewController: UIViewController {
     @IBOutlet weak var unknownEmotion: UIImageView!
     
     var emotion = 0
+    var receivedDate = ""
     
     override func viewDidLoad() {
         super.viewDidLoad()
         
         // 이미지 클릭 이벤트
         imageAction()
-        
+        print("viewdidload ", receivedDate)
     
     }
 
@@ -182,7 +183,8 @@ class SelectEmotionViewController: UIViewController {
     override func prepare(for segue: UIStoryboardSegue, sender: Any?) {
         if segue.identifier == "sgRegisterMove"{
            let registerView = segue.destination as! RegisterViewController
-            registerView.emtionImage = emotion
+            registerView.receivedItem(selectedDate: receivedDate, selectedEmotion: emotion)
+            print("prepare ", receivedDate)
         }
     }
     

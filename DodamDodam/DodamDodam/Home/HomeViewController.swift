@@ -149,40 +149,45 @@ class HomeViewController: UIViewController, FSCalendarDataSource, FSCalendarDele
             print(id, theme)
             
             if theme == "brown" {
-                self.navigationController?.navigationBar.barTintColor = .brown
-                UITabBar.appearance().barTintColor = .brown
-                self.tabBarController?.tabBar.barTintColor = .brown
-                UIButton.appearance().backgroundColor = .brown
+                self.navigationController?.navigationBar.barTintColor = .init(red: 220.0/255.0, green:197.0/255.0,  blue: 253.0/255.0, alpha: 1)
+                UITabBar.appearance().barTintColor = .init(red: 220.0/255.0, green:197.0/255.0,  blue: 253.0/255.0, alpha: 1)
+                self.tabBarController?.tabBar.barTintColor = .init(red: 220.0/255.0, green:197.0/255.0,  blue: 253.0/255.0, alpha: 1)
+//                UIButton.appearance().backgroundColor = .brown
+//                Share.customButton = "blue"
             }else if theme == "red" {
-                self.navigationController?.navigationBar.barTintColor = .red
-                UITabBar.appearance().barTintColor = .red
-                self.tabBarController?.tabBar.barTintColor = .red
-                UIButton.appearance().backgroundColor = .red
+                self.navigationController?.navigationBar.barTintColor = .init(red: 253.0/255.0, green:179.0/255.0,  blue: 219.0/255.0, alpha: 1)
+                UITabBar.appearance().barTintColor = .init(red: 253.0/255.0, green:179.0/255.0,  blue: 219.0/255.0, alpha: 1)
+                self.tabBarController?.tabBar.barTintColor = .init(red: 253.0/255.0, green:179.0/255.0,  blue: 219.0/255.0, alpha: 1)
+//                UIButton.appearance().backgroundColor = .red
+//                Share.customButton = "blue"
             }else if theme == "systemTeal" {
-                self.navigationController?.navigationBar.barTintColor = .systemTeal
-                UITabBar.appearance().barTintColor = .systemTeal
-                self.tabBarController?.tabBar.barTintColor = .systemTeal
-                UIButton.appearance().backgroundColor = .systemTeal
+                self.navigationController?.navigationBar.barTintColor = .init(red: 223.0/255.0, green:255.0/255.0,  blue: 230.0/255.0, alpha: 1)
+                UITabBar.appearance().barTintColor = .init(red: 223.0/255.0, green:255.0/255.0,  blue: 230.0/255.0, alpha: 1)
+                self.tabBarController?.tabBar.barTintColor = .init(red: 223.0/255.0, green:255.0/255.0,  blue: 230.0/255.0, alpha: 1)
+//                UIButton.appearance().backgroundColor = .systemTeal
+//                Share.customButton = "blue"
             }
             else if theme == "yellow" {
-                self.navigationController?.navigationBar.barTintColor = .yellow
-                UITabBar.appearance().barTintColor = .yellow
-                self.tabBarController?.tabBar.barTintColor = .yellow
-                UIButton.appearance().backgroundColor = .yellow
+                self.navigationController?.navigationBar.barTintColor = .init(red: 251.0/255.0, green:254.0/255.0,  blue: 182.0/255.0, alpha: 1)
+                UITabBar.appearance().barTintColor = .init(red: 251.0/255.0, green:254.0/255.0,  blue: 182.0/255.0, alpha: 1)
+                self.tabBarController?.tabBar.barTintColor = .init(red: 251.0/255.0, green:254.0/255.0,  blue: 182.0/255.0, alpha: 1)
+//                UIButton.appearance().backgroundColor = .yellow
+//                Share.customButton = "blue"
             }
             else if theme == "systemPink" {
-                self.navigationController?.navigationBar.barTintColor = .systemPink
-                UITabBar.appearance().barTintColor = .systemPink
-                self.tabBarController?.tabBar.barTintColor = .systemPink
-                UIButton.appearance().backgroundColor = .systemPink
+                self.navigationController?.navigationBar.barTintColor = .init(red: 253.0/255.0, green:197.0/255.0,  blue: 172.0/255.0, alpha: 1)
+                UITabBar.appearance().barTintColor = .init(red: 253.0/255.0, green:197.0/255.0,  blue: 172.0/255.0, alpha: 1)
+                self.tabBarController?.tabBar.barTintColor = .init(red: 253.0/255.0, green:197.0/255.0,  blue: 172.0/255.0, alpha: 1)
+//                UIButton.appearance().backgroundColor = .systemPink
+//                Share.customButton = "blue"
             }
             else if theme == "blue" {
-                self.navigationController?.navigationBar.barTintColor = .blue
-                UITabBar.appearance().barTintColor = .blue
-                self.tabBarController?.tabBar.barTintColor = .blue
-                UIButton.appearance().backgroundColor = .blue
+                self.navigationController?.navigationBar.barTintColor = .init(red: 206.0/255.0, green:221.0/255.0,  blue: 254.0/255.0, alpha: 1)
+                UITabBar.appearance().barTintColor = .init(red: 206.0/255.0, green:221.0/255.0,  blue: 254.0/255.0, alpha: 1)
+                self.tabBarController?.tabBar.barTintColor = .init(red: 206.0/255.0, green:221.0/255.0,  blue: 254.0/255.0, alpha: 1)
+//                UIButton.appearance().backgroundColor = .blue
+//                Share.customButton = "blue"
             }
-            
             
             
         }
@@ -212,39 +217,46 @@ class HomeViewController: UIViewController, FSCalendarDataSource, FSCalendarDele
             
             print(id, theme)
             
+            
             if theme == "brown" {
-                self.navigationController?.navigationBar.barTintColor = .brown
-                UITabBar.appearance().barTintColor = .brown
-                self.tabBarController?.tabBar.barTintColor = .brown
-                UIButton.appearance().backgroundColor = .brown
+                self.navigationController?.navigationBar.barTintColor = .init(red: 220.0/255.0, green:197.0/255.0,  blue: 253.0/255.0, alpha: 1)
+                UITabBar.appearance().barTintColor = .init(red: 220.0/255.0, green:197.0/255.0,  blue: 253.0/255.0, alpha: 1)
+                self.tabBarController?.tabBar.barTintColor = .init(red: 220.0/255.0, green:197.0/255.0,  blue: 253.0/255.0, alpha: 1)
+//                UIButton.appearance().backgroundColor = .brown
+//                Share.customButton = "blue"
             }else if theme == "red" {
-                self.navigationController?.navigationBar.barTintColor = .red
-                UITabBar.appearance().barTintColor = .red
-                self.tabBarController?.tabBar.barTintColor = .red
-                UIButton.appearance().backgroundColor = .red
+                self.navigationController?.navigationBar.barTintColor = .init(red: 253.0/255.0, green:179.0/255.0,  blue: 219.0/255.0, alpha: 1)
+                UITabBar.appearance().barTintColor = .init(red: 253.0/255.0, green:179.0/255.0,  blue: 219.0/255.0, alpha: 1)
+                self.tabBarController?.tabBar.barTintColor = .init(red: 253.0/255.0, green:179.0/255.0,  blue: 219.0/255.0, alpha: 1)
+//                UIButton.appearance().backgroundColor = .red
+//                Share.customButton = "blue"
             }else if theme == "systemTeal" {
-                self.navigationController?.navigationBar.barTintColor = .systemTeal
-                UITabBar.appearance().barTintColor = .systemTeal
-                self.tabBarController?.tabBar.barTintColor = .systemTeal
-                UIButton.appearance().backgroundColor = .systemTeal
+                self.navigationController?.navigationBar.barTintColor = .init(red: 223.0/255.0, green:255.0/255.0,  blue: 230.0/255.0, alpha: 1)
+                UITabBar.appearance().barTintColor = .init(red: 223.0/255.0, green:255.0/255.0,  blue: 230.0/255.0, alpha: 1)
+                self.tabBarController?.tabBar.barTintColor = .init(red: 223.0/255.0, green:255.0/255.0,  blue: 230.0/255.0, alpha: 1)
+//                UIButton.appearance().backgroundColor = .systemTeal
+//                Share.customButton = "blue"
             }
             else if theme == "yellow" {
-                self.navigationController?.navigationBar.barTintColor = .yellow
-                UITabBar.appearance().barTintColor = .yellow
-                self.tabBarController?.tabBar.barTintColor = .yellow
-                UIButton.appearance().backgroundColor = .yellow
+                self.navigationController?.navigationBar.barTintColor = .init(red: 251.0/255.0, green:254.0/255.0,  blue: 182.0/255.0, alpha: 1)
+                UITabBar.appearance().barTintColor = .init(red: 251.0/255.0, green:254.0/255.0,  blue: 182.0/255.0, alpha: 1)
+                self.tabBarController?.tabBar.barTintColor = .init(red: 251.0/255.0, green:254.0/255.0,  blue: 182.0/255.0, alpha: 1)
+//                UIButton.appearance().backgroundColor = .yellow
+//                Share.customButton = "blue"
             }
             else if theme == "systemPink" {
-                self.navigationController?.navigationBar.barTintColor = .systemPink
-                UITabBar.appearance().barTintColor = .systemPink
-                self.tabBarController?.tabBar.barTintColor = .systemPink
-                UIButton.appearance().backgroundColor = .systemPink
+                self.navigationController?.navigationBar.barTintColor = .init(red: 253.0/255.0, green:197.0/255.0,  blue: 172.0/255.0, alpha: 1)
+                UITabBar.appearance().barTintColor = .init(red: 253.0/255.0, green:197.0/255.0,  blue: 172.0/255.0, alpha: 1)
+                self.tabBarController?.tabBar.barTintColor = .init(red: 253.0/255.0, green:197.0/255.0,  blue: 172.0/255.0, alpha: 1)
+//                UIButton.appearance().backgroundColor = .systemPink
+//                Share.customButton = "blue"
             }
             else if theme == "blue" {
-                self.navigationController?.navigationBar.barTintColor = .blue
-                UITabBar.appearance().barTintColor = .blue
-                self.tabBarController?.tabBar.barTintColor = .blue
-                UIButton.appearance().backgroundColor = .blue
+                self.navigationController?.navigationBar.barTintColor = .init(red: 206.0/255.0, green:221.0/255.0,  blue: 254.0/255.0, alpha: 1)
+                UITabBar.appearance().barTintColor = .init(red: 206.0/255.0, green:221.0/255.0,  blue: 254.0/255.0, alpha: 1)
+                self.tabBarController?.tabBar.barTintColor = .init(red: 206.0/255.0, green:221.0/255.0,  blue: 254.0/255.0, alpha: 1)
+//                UIButton.appearance().backgroundColor = .blue
+//                Share.customButton = "blue"
             }
             
         }

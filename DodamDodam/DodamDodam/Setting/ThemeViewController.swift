@@ -82,12 +82,12 @@ class ThemeViewController: UIViewController {
     // 갈색 테마
     @objc func touchToBrown(sender: UITapGestureRecognizer) {
         if (sender.state == .ended) {
-            self.navigationController?.navigationBar.barTintColor = .brown
-            UITabBar.appearance().barTintColor = .brown
-            self.tabBarController?.tabBar.barTintColor = .brown
+            self.navigationController?.navigationBar.barTintColor = .init(red: 220.0/255.0, green:197.0/255.0,  blue: 253.0/255.0, alpha: 1)
+            UITabBar.appearance().barTintColor = .init(red: 220.0/255.0, green:197.0/255.0,  blue: 253.0/255.0, alpha: 1)
+            self.tabBarController?.tabBar.barTintColor = .init(red: 220.0/255.0, green:197.0/255.0,  blue: 253.0/255.0, alpha: 1)
             
             // 버튼 배경 지정
-            UIButton.appearance().backgroundColor = .brown
+//            UIButton.appearance().backgroundColor = .brown
             
             selectTheme.text = "brown"
         }
@@ -95,12 +95,12 @@ class ThemeViewController: UIViewController {
     // 빨간색 테마
     @objc func touchToRed(sender: UITapGestureRecognizer) {
         if (sender.state == .ended) {
-            self.navigationController?.navigationBar.barTintColor = .red
-            UITabBar.appearance().barTintColor = .red
-            self.tabBarController?.tabBar.barTintColor = .red
+            self.navigationController?.navigationBar.barTintColor = .init(red: 253.0/255.0, green:179.0/255.0,  blue: 219.0/255.0, alpha: 1)
+            UITabBar.appearance().barTintColor = .init(red: 253.0/255.0, green:179.0/255.0,  blue: 219.0/255.0, alpha: 1)
+            self.tabBarController?.tabBar.barTintColor = .init(red: 253.0/255.0, green:179.0/255.0,  blue: 219.0/255.0, alpha: 1)
             
             // 버튼 배경 지정
-            UIButton.appearance().backgroundColor = .red
+//            UIButton.appearance().backgroundColor = .red
             
             selectTheme.text = "red"
             
@@ -109,13 +109,13 @@ class ThemeViewController: UIViewController {
     // 하늘색 테마
     @objc func touchToSky(sender: UITapGestureRecognizer) {
         if (sender.state == .ended) {
-            self.navigationController?.navigationBar.barTintColor = .systemTeal
-            UITabBar.appearance().barTintColor = .systemTeal
-            self.tabBarController?.tabBar.barTintColor = .systemTeal
+            self.navigationController?.navigationBar.barTintColor = .init(red: 223.0/255.0, green:255.0/255.0,  blue: 230.0/255.0, alpha: 1)
+            UITabBar.appearance().barTintColor = .init(red: 223.0/255.0, green:255.0/255.0,  blue: 230.0/255.0, alpha: 1)
+            self.tabBarController?.tabBar.barTintColor = .init(red: 223.0/255.0, green:255.0/255.0,  blue: 230.0/255.0, alpha: 1)
             
             
             // 버튼 배경 지정
-            UIButton.appearance().backgroundColor = .systemTeal
+//            UIButton.appearance().backgroundColor = .systemTeal
             
             selectTheme.text = "systemTeal"
         }
@@ -123,12 +123,12 @@ class ThemeViewController: UIViewController {
     // 노란색 테마
     @objc func touchToYellow(sender: UITapGestureRecognizer) {
         if (sender.state == .ended) {
-            self.navigationController?.navigationBar.barTintColor = .yellow
-            UITabBar.appearance().barTintColor = .yellow
-            self.tabBarController?.tabBar.barTintColor = .yellow
+            self.navigationController?.navigationBar.barTintColor = .init(red: 251.0/255.0, green:254.0/255.0,  blue: 182.0/255.0, alpha: 1)
+            UITabBar.appearance().barTintColor = .init(red: 251.0/255.0, green:254.0/255.0,  blue: 182.0/255.0, alpha: 1)
+            self.tabBarController?.tabBar.barTintColor = .init(red: 251.0/255.0, green:254.0/255.0,  blue: 182.0/255.0, alpha: 1)
             
             // 버튼 배경 지정
-            UIButton.appearance().backgroundColor = .yellow
+//            UIButton.appearance().backgroundColor = .yellow
             
             selectTheme.text = "yellow"
         }
@@ -136,12 +136,12 @@ class ThemeViewController: UIViewController {
     // 핑크색 테마
     @objc func touchToPink(sender: UITapGestureRecognizer) {
         if (sender.state == .ended) {
-            self.navigationController?.navigationBar.barTintColor = .systemPink
-            UITabBar.appearance().barTintColor = .systemPink
-            self.tabBarController?.tabBar.barTintColor = .systemPink
+            self.navigationController?.navigationBar.barTintColor = .init(red: 253.0/255.0, green:197.0/255.0,  blue: 172.0/255.0, alpha: 1)
+            UITabBar.appearance().barTintColor = .init(red: 253.0/255.0, green:197.0/255.0,  blue: 172.0/255.0, alpha: 1)
+            self.tabBarController?.tabBar.barTintColor = .init(red: 253.0/255.0, green:197.0/255.0,  blue: 172.0/255.0, alpha: 1)
             
             // 버튼 배경 지정
-            UIButton.appearance().backgroundColor = .systemPink
+//            UIButton.appearance().backgroundColor = .systemPink
             
             selectTheme.text = "systemPink"
         }
@@ -149,12 +149,12 @@ class ThemeViewController: UIViewController {
     // 파란색 테마
     @objc func touchToBlue(sender: UITapGestureRecognizer) {
         if (sender.state == .ended) {
-            self.navigationController?.navigationBar.barTintColor = .blue
-            UITabBar.appearance().barTintColor = .blue
-            self.tabBarController?.tabBar.barTintColor = .blue
+            self.navigationController?.navigationBar.barTintColor = .init(red: 206.0/255.0, green:221.0/255.0,  blue: 254.0/255.0, alpha: 1)
+            UITabBar.appearance().barTintColor = .init(red: 206.0/255.0, green:221.0/255.0,  blue: 254.0/255.0, alpha: 1)
+            self.tabBarController?.tabBar.barTintColor = .init(red: 206.0/255.0, green:221.0/255.0,  blue: 254.0/255.0, alpha: 1)
             
             // 버튼 배경 지정
-            UIButton.appearance().backgroundColor = .blue
+//            UIButton.appearance().backgroundColor = .blue
             
             selectTheme.text = "blue"
         }

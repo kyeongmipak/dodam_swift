@@ -247,7 +247,7 @@
                                         <subviews>
                                             <button opaque="NO" contentMode="scaleToFill" contentHorizontalAlignment="center" contentVerticalAlignment="center" buttonType="system" lineBreakMode="middleTruncation" translatesAutoresizingMaskIntoConstraints="NO" id="Jf2-RV-Vae">
                                                 <rect key="frame" x="0.0" y="0.0" width="390" height="60"/>
-                                                <color key="backgroundColor" red="0.76978579430000005" green="0.47164157470000001" blue="0.15370564619999999" alpha="1" colorSpace="custom" customColorSpace="displayP3"/>
+                                                <color key="backgroundColor" red="0.87450980389999999" green="1" blue="0.90194922690000001" alpha="1" colorSpace="custom" customColorSpace="displayP3"/>
                                                 <constraints>
                                                     <constraint firstAttribute="height" constant="60" id="HyL-SZ-3Fe"/>
                                                 </constraints>
@@ -305,15 +305,15 @@
                                                 <subviews>
                                                     <imageView clipsSubviews="YES" userInteractionEnabled="NO" contentMode="scaleAspectFit" horizontalHuggingPriority="251" verticalHuggingPriority="251" image="circle.fill" catalog="system" translatesAutoresizingMaskIntoConstraints="NO" id="NQA-Ez-x8m">
                                                         <rect key="frame" x="0.0" y="1" width="130" height="38.666666666666671"/>
-                                                        <color key="tintColor" red="0.68586457919592814" green="0.51662266583053962" blue="0.3202160210447329" alpha="1" colorSpace="custom" customColorSpace="displayP3"/>
+                                                        <color key="tintColor" red="0.86426049469999999" green="0.77175027129999996" blue="0.9961046576" alpha="1" colorSpace="custom" customColorSpace="displayP3"/>
                                                     </imageView>
                                                     <imageView clipsSubviews="YES" userInteractionEnabled="NO" contentMode="scaleAspectFit" horizontalHuggingPriority="251" verticalHuggingPriority="251" image="circle.fill" catalog="system" translatesAutoresizingMaskIntoConstraints="NO" id="Mzh-CR-Cjq">
                                                         <rect key="frame" x="130" y="1" width="130" height="38.666666666666671"/>
-                                                        <color key="tintColor" red="1" green="0.14913141730000001" blue="0.0" alpha="1" colorSpace="custom" customColorSpace="sRGB"/>
+                                                        <color key="tintColor" red="0.99469453100000005" green="0.80321985480000002" blue="0.84706068040000004" alpha="1" colorSpace="custom" customColorSpace="displayP3"/>
                                                     </imageView>
                                                     <imageView clipsSubviews="YES" userInteractionEnabled="NO" contentMode="scaleAspectFit" horizontalHuggingPriority="251" verticalHuggingPriority="251" image="circle.fill" catalog="system" translatesAutoresizingMaskIntoConstraints="NO" id="6y2-TC-4U0">
                                                         <rect key="frame" x="260" y="1" width="130" height="38.666666666666671"/>
-                                                        <color key="tintColor" systemColor="systemTealColor"/>
+                                                        <color key="tintColor" red="0.89817082879999999" green="1" blue="0.90979313849999999" alpha="1" colorSpace="custom" customColorSpace="displayP3"/>
                                                     </imageView>
                                                 </subviews>
                                                 <constraints>
@@ -325,16 +325,17 @@
                                                 <subviews>
                                                     <imageView clipsSubviews="YES" userInteractionEnabled="NO" contentMode="scaleAspectFit" horizontalHuggingPriority="251" verticalHuggingPriority="251" image="circle.fill" catalog="system" translatesAutoresizingMaskIntoConstraints="NO" id="dPv-vA-irQ">
                                                         <rect key="frame" x="0.0" y="1" width="130" height="38.666666666666671"/>
-                                                        <color key="tintColor" systemColor="systemYellowColor"/>
+                                                        <color key="tintColor" red="0.98431372549999996" green="0.9961046576" blue="0.71206304890000005" alpha="1" colorSpace="custom" customColorSpace="displayP3"/>
                                                     </imageView>
                                                     <imageView clipsSubviews="YES" userInteractionEnabled="NO" contentMode="scaleAspectFit" horizontalHuggingPriority="251" verticalHuggingPriority="251" image="circle.fill" catalog="system" translatesAutoresizingMaskIntoConstraints="NO" id="F5m-an-gyS">
                                                         <rect key="frame" x="130" y="1" width="130" height="38.666666666666671"/>
-                                                        <color key="tintColor" red="1" green="0.5409764051" blue="0.84731429820000004" alpha="1" colorSpace="custom" customColorSpace="sRGB"/>
+                                                        <color key="tintColor" red="0.99344414469999998" green="0.77431029080000002" blue="0.67448759079999998" alpha="1" colorSpace="custom" customColorSpace="displayP3"/>
                                                     </imageView>
                                                     <imageView clipsSubviews="YES" userInteractionEnabled="NO" contentMode="scaleAspectFit" horizontalHuggingPriority="251" verticalHuggingPriority="251" image="circle.fill" catalog="system" translatesAutoresizingMaskIntoConstraints="NO" id="KPR-9L-yzd">
                                                         <rect key="frame" x="260" y="1" width="130" height="38.666666666666671"/>
                                                     </imageView>
                                                 </subviews>
+                                                <color key="tintColor" red="0.80622047190000001" green="0.86804515120000003" blue="0.99609678980000005" alpha="1" colorSpace="custom" customColorSpace="displayP3"/>
                                                 <constraints>
                                                     <constraint firstAttribute="height" constant="40" id="H7I-vw-jWF"/>
                                                 </constraints>
@@ -359,10 +360,11 @@
                                             </view>
                                             <button opaque="NO" contentMode="scaleToFill" contentHorizontalAlignment="center" contentVerticalAlignment="center" buttonType="system" lineBreakMode="middleTruncation" translatesAutoresizingMaskIntoConstraints="NO" id="i5D-gp-itp">
                                                 <rect key="frame" x="0.0" y="316" width="390" height="60"/>
-                                                <color key="backgroundColor" red="0.75077110830000005" green="0.45999142929999998" blue="0.1499089217" alpha="1" colorSpace="custom" customColorSpace="displayP3"/>
+                                                <color key="backgroundColor" red="0.87450980389999999" green="1" blue="0.90194922690000001" alpha="1" colorSpace="custom" customColorSpace="displayP3"/>
                                                 <constraints>
                                                     <constraint firstAttribute="height" constant="60" id="ZS6-Vj-dGn"/>
                                                 </constraints>
+                                                <color key="tintColor" white="0.0" alpha="1" colorSpace="custom" customColorSpace="genericGamma22GrayColorSpace"/>
                                                 <state key="normal" title="테마 변경하기"/>
                                                 <connections>
                                                     <action selector="themeChange:" destination="b8z-Bl-23x" eventType="touchUpInside" id="h78-uH-nJR"/>
@@ -431,6 +433,8 @@
                         <rect key="frame" x="0.0" y="0.0" width="1000" height="1000"/>
                         <autoresizingMask key="autoresizingMask"/>
                         <color key="backgroundColor" white="0.0" alpha="0.0" colorSpace="custom" customColorSpace="genericGamma22GrayColorSpace"/>
+                        <color key="tintColor" white="0.0" alpha="1" colorSpace="custom" customColorSpace="genericGamma22GrayColorSpace"/>
+                        <color key="selectedImageTintColor" white="0.0" alpha="1" colorSpace="custom" customColorSpace="genericGamma22GrayColorSpace"/>
                     </tabBar>
                     <connections>
                         <segue destination="BYZ-38-t0r" kind="relationship" relationship="viewControllers" id="KSR-32-sRi"/>
@@ -573,7 +577,8 @@
                                         <subviews>
                                             <button opaque="NO" contentMode="scaleToFill" contentHorizontalAlignment="center" contentVerticalAlignment="center" buttonType="system" lineBreakMode="middleTruncation" translatesAutoresizingMaskIntoConstraints="NO" id="t1X-SK-AHg">
                                                 <rect key="frame" x="0.0" y="0.0" width="390" height="60"/>
-                                                <color key="backgroundColor" red="0.76978579430000005" green="0.47164157470000001" blue="0.15370564619999999" alpha="1" colorSpace="custom" customColorSpace="displayP3"/>
+                                                <color key="backgroundColor" red="0.87450980389999999" green="1" blue="0.90194922690000001" alpha="1" colorSpace="custom" customColorSpace="displayP3"/>
+                                                <color key="tintColor" white="0.0" alpha="1" colorSpace="custom" customColorSpace="genericGamma22GrayColorSpace"/>
                                                 <state key="normal" title="완료"/>
                                                 <connections>
                                                     <action selector="btnProfileRegister:" destination="eFs-k3-Xtp" eventType="touchUpInside" id="NYN-7p-bNT"/>
@@ -624,7 +629,7 @@
                                     <label opaque="NO" userInteractionEnabled="NO" contentMode="left" horizontalHuggingPriority="251" verticalHuggingPriority="251" text="도담 Baby 기분은?" textAlignment="center" lineBreakMode="tailTruncation" baselineAdjustment="alignBaselines" adjustsFontSizeToFit="NO" translatesAutoresizingMaskIntoConstraints="NO" id="B5O-eS-bhd">
                                         <rect key="frame" x="0.0" y="0.0" width="290" height="20.333333333333332"/>
                                         <fontDescription key="fontDescription" type="boldSystem" pointSize="17"/>
-                                        <color key="textColor" systemColor="systemBlueColor"/>
+                                        <color key="textColor" white="0.0" alpha="1" colorSpace="custom" customColorSpace="genericGamma22GrayColorSpace"/>
                                         <nil key="highlightedColor"/>
                                     </label>
                                     <stackView opaque="NO" contentMode="scaleToFill" distribution="fillEqually" spacing="30" translatesAutoresizingMaskIntoConstraints="NO" id="sMz-iX-56B">
@@ -851,7 +856,8 @@
                                         <subviews>
                                             <button opaque="NO" contentMode="scaleToFill" contentHorizontalAlignment="center" contentVerticalAlignment="center" buttonType="system" lineBreakMode="middleTruncation" translatesAutoresizingMaskIntoConstraints="NO" id="773-Vf-F0P">
                                                 <rect key="frame" x="0.0" y="0.0" width="195" height="60"/>
-                                                <color key="backgroundColor" red="0.76978579430000005" green="0.47164157470000001" blue="0.15370564619999999" alpha="1" colorSpace="custom" customColorSpace="displayP3"/>
+                                                <color key="backgroundColor" red="0.87450980389999999" green="1" blue="0.90194922690000001" alpha="1" colorSpace="custom" customColorSpace="displayP3"/>
+                                                <color key="tintColor" white="0.0" alpha="1" colorSpace="custom" customColorSpace="genericGamma22GrayColorSpace"/>
                                                 <state key="normal" title="수정"/>
                                                 <connections>
                                                     <action selector="modifyDiaryBtn:" destination="CU0-Ic-Qj9" eventType="touchUpInside" id="2BB-i2-eFn"/>
@@ -859,7 +865,8 @@
                                             </button>
                                             <button opaque="NO" contentMode="scaleToFill" contentHorizontalAlignment="center" contentVerticalAlignment="center" buttonType="system" lineBreakMode="middleTruncation" translatesAutoresizingMaskIntoConstraints="NO" id="l2P-YV-yd6">
                                                 <rect key="frame" x="195" y="0.0" width="195" height="60"/>
-                                                <color key="backgroundColor" red="0.76978579430000005" green="0.47164157470000001" blue="0.15370564619999999" alpha="1" colorSpace="custom" customColorSpace="displayP3"/>
+                                                <color key="backgroundColor" red="0.87450980389999999" green="1" blue="0.90194922690000001" alpha="1" colorSpace="custom" customColorSpace="displayP3"/>
+                                                <color key="tintColor" white="0.0" alpha="1" colorSpace="custom" customColorSpace="genericGamma22GrayColorSpace"/>
                                                 <state key="normal" title="삭제"/>
                                                 <connections>
                                                     <action selector="deleteDiaryBtn:" destination="CU0-Ic-Qj9" eventType="touchUpInside" id="44v-l6-Ney"/>
@@ -972,13 +979,19 @@
                                         <subviews>
                                             <button opaque="NO" contentMode="scaleToFill" horizontalHuggingPriority="249" contentHorizontalAlignment="center" contentVerticalAlignment="center" buttonType="system" lineBreakMode="middleTruncation" translatesAutoresizingMaskIntoConstraints="NO" id="OIx-O1-cFX">
                                                 <rect key="frame" x="0.0" y="0.0" width="195" height="60"/>
-                                                <state key="normal" title=" 사진" image="camera.fill" catalog="system"/>
+                                                <color key="backgroundColor" red="0.87450980389999999" green="1" blue="0.90194922690000001" alpha="1" colorSpace="custom" customColorSpace="displayP3"/>
+                                                <color key="tintColor" white="0.0" alpha="1" colorSpace="custom" customColorSpace="genericGamma22GrayColorSpace"/>
+                                                <state key="normal" title=" 사진" image="camera.fill" catalog="system">
+                                                    <color key="titleColor" white="0.0" alpha="1" colorSpace="custom" customColorSpace="genericGamma22GrayColorSpace"/>
+                                                </state>
                                                 <connections>
                                                     <action selector="imageAddBtn:" destination="mLa-Gi-PIb" eventType="touchUpInside" id="KV5-uz-ieG"/>
                                                 </connections>
                                             </button>
                                             <button opaque="NO" contentMode="scaleToFill" contentHorizontalAlignment="center" contentVerticalAlignment="center" buttonType="system" lineBreakMode="middleTruncation" translatesAutoresizingMaskIntoConstraints="NO" id="NKu-Sy-01d">
                                                 <rect key="frame" x="195" y="0.0" width="195" height="60"/>
+                                                <color key="backgroundColor" red="0.87450980389999999" green="1" blue="0.90194922690000001" alpha="1" colorSpace="custom" customColorSpace="displayP3"/>
+                                                <color key="tintColor" white="0.0" alpha="1" colorSpace="custom" customColorSpace="genericGamma22GrayColorSpace"/>
                                                 <state key="normal" title=" 완료" image="checkmark.square" catalog="system"/>
                                                 <connections>
                                                     <action selector="registerAction:" destination="mLa-Gi-PIb" eventType="touchUpInside" id="kJ5-IC-DZG"/>
@@ -1041,9 +1054,6 @@
         </systemColor>
         <systemColor name="systemBackgroundColor">
             <color white="1" alpha="1" colorSpace="custom" customColorSpace="genericGamma22GrayColorSpace"/>
-        </systemColor>
-        <systemColor name="systemBlueColor">
-            <color red="0.0" green="0.47843137254901963" blue="1" alpha="1" colorSpace="custom" customColorSpace="sRGB"/>
         </systemColor>
         <systemColor name="systemTealColor">
             <color red="0.35294117647058826" green="0.78431372549019607" blue="0.98039215686274506" alpha="1" colorSpace="custom" customColorSpace="sRGB"/>

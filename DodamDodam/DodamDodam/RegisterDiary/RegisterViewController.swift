@@ -102,6 +102,11 @@ class RegisterViewController: UIViewController, UIImagePickerControllerDelegate 
         
     }
     
+    func receivedItem(selectedDate: String, selectedEmotion: Int) {
+        registerDate = selectedDate
+        emtionImage = selectedEmotion
+    }
+    
     //-------------------------
     // 3/10 수정 필요
     // 이미지 클릭 시 사진 선택 가능

@@ -32,6 +32,15 @@ class HomeViewController: UIViewController, FSCalendarDataSource, FSCalendarDele
 
         registerDates.removeAll()
         
+        // make a circle image
+        imageViewUser.layer.cornerRadius = (imageViewUser.frame.size.width) / 2
+        imageViewUser.layer.masksToBounds = true
+        // profile border color
+        imageViewUser.layer.borderWidth = 1.0
+        imageViewUser.layer.borderColor = UIColor.lightGray.cgColor
+        
+        
+        
         let fileURL = try! FileManager.default.url(for: .documentDirectory, in: .userDomainMask, appropriateFor: nil, create: false).appendingPathComponent("Dodam.sqlite") // sqlite 파일명 기입(파일명은 내가 설정할 수 있다. 다만 확장자는 sqlite를 써준다.)
                 
           if sqlite3_open(fileURL.path, &db) != SQLITE_OK {
@@ -109,14 +118,14 @@ class HomeViewController: UIViewController, FSCalendarDataSource, FSCalendarDele
             }
             
             // ? 첫번째 sname
-            if sqlite3_bind_text(stmt, 2, "dodamName", -1, SQLITE_TRANSIENT) != SQLITE_OK {
+            if sqlite3_bind_text(stmt, 2, "", -1, SQLITE_TRANSIENT) != SQLITE_OK {
                 let errmsg = String(cString: sqlite3_errmsg(db)!)
                 print("error binding theme: \(errmsg)")
                 return
             }
             
             // ? 첫번째 sname
-            if sqlite3_bind_text(stmt, 3, "1999-01-02", -1, SQLITE_TRANSIENT) != SQLITE_OK {
+            if sqlite3_bind_text(stmt, 3, "", -1, SQLITE_TRANSIENT) != SQLITE_OK {
                 let errmsg = String(cString: sqlite3_errmsg(db)!)
                 print("error binding theme: \(errmsg)")
                 return
@@ -346,7 +355,7 @@ class HomeViewController: UIViewController, FSCalendarDataSource, FSCalendarDele
     // 3.9
     //---------------------------
     override func viewDidDisappear(_ animated: Bool) {
-        NotificationCenter.default.removeObserver(self)
+//        NotificationCenter.default.removeObserver(self)
     }
     
     override func viewWillAppear(_ animated: Bool) {
@@ -357,10 +366,10 @@ class HomeViewController: UIViewController, FSCalendarDataSource, FSCalendarDele
         dateSelectAction()
         calendar.reloadData()
         NotificationCenter.default.addObserver(self, selector: #selector(reloadPage(_:)), name: Notification.Name(rawValue: "callDetailPage"), object: nil)
-
     }
     @objc func reloadPage(_ notification: Notification) { // add stuff }
         dateSelectAction()
+        userInformationSearch()
         calendar.reloadData()
         print("여기 오나?")
     }

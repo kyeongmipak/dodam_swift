@@ -183,7 +183,7 @@ class SelectEmotionViewController: UIViewController {
     override func prepare(for segue: UIStoryboardSegue, sender: Any?) {
         if segue.identifier == "sgRegisterMove"{
            let registerView = segue.destination as! RegisterViewController
-            registerView.receivedItem(selectedDate: receivedDate, selectedEmotion: emotion)
+//            registerView.receivedItem(selectedDate: receivedDate, selectedEmotion: emotion)
             print("prepare ", receivedDate)
         }
     }

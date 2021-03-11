@@ -97,7 +97,6 @@ class ProfileViewController: UIViewController,UIImagePickerControllerDelegate,UI
         
         
         if selectDate == ""{
-            print("selectDate를 선택하지 않고 업데이트 할경우")
             selectDate = userBirth!
         }
         

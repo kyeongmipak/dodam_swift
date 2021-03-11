@@ -48,17 +48,34 @@ class DetailViewController: UIViewController {
     
     // 수정 버튼 액션
     @IBAction func modifyDiaryBtn(_ sender: UIButton) {
+        let resultAlert = UIAlertController(title: "알림", message: "수정하시겠습니까?", preferredStyle: UIAlertController.Style.actionSheet)
+          let cancelAction = UIAlertAction(title: "아니요", style: UIAlertAction.Style.default, handler: nil)
+          let okAction = UIAlertAction(title: "네, 알겠습니다.", style: UIAlertAction.Style.default, handler: {ACTION in
+              // 현재 화면 사라짐
+//                  self.dismiss(animated: true)
+
+            guard let vc = self.storyboard?.instantiateViewController(withIdentifier: "RegisterViewController") as? RegisterViewController else { return }
+            vc.receivedDate = self.diaryDate.text!
+            vc.emtionImage = Int(self.viewEmotion)!
+                    self.present(vc, animated: true, completion: nil)
+
+          })
+          resultAlert.addAction(okAction)
+          resultAlert.addAction(cancelAction)
+          present(resultAlert, animated: true, completion: nil)
+        
+    
         
     }
     
     @IBAction func deleteDiaryBtn(_ sender: UIButton) {
-        if nilCheck() == 0 {
-            let resultAlert = UIAlertController(title: "알림", message: "작성된 일기가 없습니다.", preferredStyle: UIAlertController.Style.alert)
-               let okAction = UIAlertAction(title: "네", style: UIAlertAction.Style.default, handler: nil)
-            resultAlert.addAction(okAction)
-            present(resultAlert, animated: true, completion: nil)
-            
-        } else {
+//        if nilCheck() == 0 {
+//            let resultAlert = UIAlertController(title: "알림", message: "작성된 일기가 없습니다.", preferredStyle: UIAlertController.Style.alert)
+//               let okAction = UIAlertAction(title: "네", style: UIAlertAction.Style.default, handler: nil)
+//            resultAlert.addAction(okAction)
+//            present(resultAlert, animated: true, completion: nil)
+//
+//        } else {
             let resultAlert = UIAlertController(title: "확인", message: "삭제하시겠습니까", preferredStyle: UIAlertController.Style.alert)
                let cancelAction = UIAlertAction(title: "아니요", style: UIAlertAction.Style.default, handler: nil)
                let okAction = UIAlertAction(title: "네", style: UIAlertAction.Style.default, handler: {ACTION in
@@ -72,7 +89,7 @@ class DetailViewController: UIViewController {
                resultAlert.addAction(cancelAction)
                resultAlert.addAction(okAction)
                present(resultAlert, animated: true, completion: nil)
-        }
+//        }
     }
     
     
@@ -178,18 +195,18 @@ class DetailViewController: UIViewController {
         print("Diary delete successfully")
     }
     
-    // check
-    func nilCheck() -> Int {
-        var count = 0
-        let checkTitle = diaryTitle.text?.trimmingCharacters(in: .whitespacesAndNewlines)
-        if checkTitle == "작성된 일기가 없습니다!" || checkTitle == "" {
-            count = 0
-            
-        } else {
-            count = 1
-        }
-        return count
-    }
+//    // check
+//    func nilCheck() -> Int {
+//        var count = 0
+//        let checkTitle = diaryTitle.text?.trimmingCharacters(in: .whitespacesAndNewlines)
+//        if checkTitle == "작성된 일기가 없습니다!" || checkTitle == "" {
+//            count = 0
+//
+//        } else {
+//            count = 1
+//        }
+//        return count
+//    }
     
     //----------------------
     // 3/10 수정

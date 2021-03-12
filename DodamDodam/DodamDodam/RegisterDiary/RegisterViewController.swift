@@ -8,8 +8,8 @@
 import UIKit
 import SQLite3
 
-class RegisterViewController: UIViewController, UIImagePickerControllerDelegate & UINavigationControllerDelegate, UITextFieldDelegate, UITextViewDelegate {
-    
+class RegisterViewController: UIViewController, UIImagePickerControllerDelegate & UINavigationControllerDelegate, UITextFieldDelegate, UITextViewDelegate{
+   
     @IBOutlet weak var dailyEmotion: UIImageView!
     @IBOutlet weak var dailyDate: UITextField!
     @IBOutlet weak var dailyTitle: UITextField!
@@ -18,6 +18,8 @@ class RegisterViewController: UIViewController, UIImagePickerControllerDelegate 
 
     var emtionImage = 0
     var registerDate = ""
+    var modifyCheck = 0
+    var modifyEmotion = 0
     
     // 카메라, 앨범 실행
     //-------------------------
@@ -38,12 +40,12 @@ class RegisterViewController: UIViewController, UIImagePickerControllerDelegate 
     var viewContent = ""
     var viewEmotion = ""
     //-------------------------
-    
     let SQLITE_TRANSIENT = unsafeBitCast(-1, to: sqlite3_destructor_type.self)
     
     override func viewDidLoad() {
         super.viewDidLoad()
 
+        
         let date = NSDate()
         let formatter = DateFormatter()
         formatter.locale = Locale(identifier: "ko") // ko : 한국형 format
@@ -100,6 +102,10 @@ class RegisterViewController: UIViewController, UIImagePickerControllerDelegate 
         
     }
     
+    override func viewWillLayoutSubviews() {
+        print("넘어온값?", modifyEmotion)
+    }
+    
     // Receive data to SelectEmotionViewController
     func receivedItem(selectedDate: String, selectedEmotion: Int) {
         registerDate = selectedDate
@@ -112,6 +118,8 @@ class RegisterViewController: UIViewController, UIImagePickerControllerDelegate 
     @objc func imageTapped(sender: UITapGestureRecognizer) {
         
         guard let modalPresentView = self.storyboard?.instantiateViewController(identifier: "SelectEmotionViewController") as? SelectEmotionViewController else { return }
+        modalPresentView.modifyCheck = modifyCheck
+        print("register modify check :", modifyCheck)
         self.present(modalPresentView, animated: true, completion: nil)
     }
     //-------------------------

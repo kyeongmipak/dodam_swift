@@ -24,6 +24,7 @@ class SelectEmotionViewController: UIViewController {
     
     var emotion = 0
     var receivedDate = ""
+    var modifyCheck = 0
     
     override func viewDidLoad() {
         super.viewDidLoad()
@@ -31,6 +32,8 @@ class SelectEmotionViewController: UIViewController {
         // 이미지 클릭 이벤트
         imageAction()
         print("viewdidload ", receivedDate)
+        
+        print("select modify check :", modifyCheck)
     
     }
 
@@ -99,15 +102,28 @@ class SelectEmotionViewController: UIViewController {
     // sleep
     @objc func sleepImageTapped(sender: UITapGestureRecognizer) {
         emotion = 0
-        self.performSegue(withIdentifier: "sgRegisterMove", sender: self)
+        if modifyCheck == 1 {
+//            guard let vc = self.storyboard?.instantiateViewController(withIdentifier: "RegisterViewController") as? RegisterViewController else { return }
+//            vc.modifyEmotion = emotion
+            self.presentingViewController?.dismiss(animated: true, completion: nil)
+            
+        } else {
+            self.performSegue(withIdentifier: "sgRegisterMove", sender: self)
+        }
 
     }
     
     // frown
     @objc func frownImageTapped(sender: UITapGestureRecognizer) {
         emotion = 1
-        self.performSegue(withIdentifier: "sgRegisterMove", sender: self)
-
+        if modifyCheck == 1 {
+//            guard let vc = self.storyboard?.instantiateViewController(withIdentifier: "RegisterViewController") as? RegisterViewController else { return }
+//            vc.modifyEmotion = emotion
+////            self.navigationController!.pushViewController(vc, animated: true)
+            self.presentingViewController?.dismiss(animated: true, completion: nil)
+        } else {
+            self.performSegue(withIdentifier: "sgRegisterMove", sender: self)
+        }
     }
     
     // pain

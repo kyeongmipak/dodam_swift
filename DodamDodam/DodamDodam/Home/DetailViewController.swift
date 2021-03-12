@@ -46,6 +46,7 @@ class DetailViewController: UIViewController {
         // Execute SQL for watching a written diary
         sqlAction()
        
+        diaryContent.isUserInteractionEnabled = false
     }
     
     // Excute modify when modify's button click
@@ -58,6 +59,7 @@ class DetailViewController: UIViewController {
             registerView!.modalTransitionStyle = .coverVertical
             registerView!.receivedDate = self.diaryDate.text!
             registerView!.emtionImage = Int(self.viewEmotion)!
+            registerView!.modifyCheck = 1
             self.navigationController?.pushViewController(registerView!, animated: true)
 
           })

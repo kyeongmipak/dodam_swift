@@ -196,9 +196,8 @@ class ProfileViewController: UIViewController,UIImagePickerControllerDelegate,UI
     }
     
     
-    // 사용자 기본정보
+    // Search user's information
     func userInformationSearch() {
-        
         
         let queryString = "SELECT userName, userBirth, userImage FROM dodamSetting"
         var stmt: OpaquePointer?

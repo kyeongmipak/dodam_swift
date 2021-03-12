@@ -16,37 +16,36 @@ class HomeViewController: UIViewController, FSCalendarDataSource, FSCalendarDele
     @IBOutlet weak var labelUserName: UILabel!
     @IBOutlet weak var labelBirth: UILabel!
     
-    // 데이트 포맷 선언
     let dateFormatter = DateFormatter()
     
-    var db: OpaquePointer?  // <----- db는 OpaquePointer 타입을 쓴다.
+    // Use OpaquePointer type for DB
+    var db: OpaquePointer?
     var registerDates: [Date] = []
     var dataView:Data = Data()
     var diaryDate = ""
     var selectedDate = ""
-    
-    var imageArray = [UIImage?]()  // file name이 아닌 image들이 array로 들어간다.
-    
+        
     override func viewDidLoad() {
         super.viewDidLoad()
-
+        
+        //  init registerDates
         registerDates.removeAll()
         
         // make a circle image
         imageViewUser.layer.cornerRadius = (imageViewUser.frame.size.width) / 2
         imageViewUser.layer.masksToBounds = true
+        
         // profile border color
         imageViewUser.layer.borderWidth = 1.0
         imageViewUser.layer.borderColor = UIColor.lightGray.cgColor
         
         
-        
-        let fileURL = try! FileManager.default.url(for: .documentDirectory, in: .userDomainMask, appropriateFor: nil, create: false).appendingPathComponent("Dodam.sqlite") // sqlite 파일명 기입(파일명은 내가 설정할 수 있다. 다만 확장자는 sqlite를 써준다.)
+        // Open SQLite file
+        let fileURL = try! FileManager.default.url(for: .documentDirectory, in: .userDomainMask, appropriateFor: nil, create: false).appendingPathComponent("Dodam.sqlite")
                 
           if sqlite3_open(fileURL.path, &db) != SQLITE_OK {
               print("error opening database")
           }
-        print(fileURL.path)
         
         // Make a SQLite Table for Diary
         if sqlite3_exec(db, "CREATE TABLE IF NOT EXISTS dodamDiary (diaryNumber INTEGER PRIMARY KEY AUTOINCREMENT, diaryTitle TEXT, diaryContent TEXT, diaryImage BLOB, diaryDate TEXT, diaryEmotion TEXT)", nil, nil, nil) != SQLITE_OK {
@@ -59,23 +58,24 @@ class HomeViewController: UIViewController, FSCalendarDataSource, FSCalendarDele
             let errmsg = String(cString: sqlite3_errmsg(db)!)
             print("error creating table: \(errmsg)")
         }
+        
         // 지은 추가 +++++++
         readTheme()
         // +++++++++
         
-        // field값을 사용할 때
+        // Connect Calendar
         calendar.dataSource = self
-        // new 개념으로 함수를 사용할 때
         calendar.delegate = self
         
+        // Set Calendar Option
         calendarSetting()
         
-        // date format 설정
+        // Set date format
         dateFormatter.dateFormat = "yyyy-MM-dd"
         
+        // Set userName, userImage, userBirth
         userInformationSearch()
-        calendar.reloadData()
-        
+//        calendar.reloadData()
         
         notificationAllow()
     }
@@ -266,102 +266,96 @@ class HomeViewController: UIViewController, FSCalendarDataSource, FSCalendarDele
     // 지은 추가 ***********************************
     
     
-    // calendar setting
+    // Set calendar
     func calendarSetting() {
-        // header 설정 변경
+        // Set calendar's header
         calendar.headerHeight = 50
         calendar.appearance.headerMinimumDissolvedAlpha = 0.0
         calendar.appearance.headerDateFormat = "YYYY년 M월"
         calendar.appearance.headerTitleColor = .black
         calendar.appearance.headerTitleFont = UIFont.systemFont(ofSize: 24)
 
-        // 달력의 평일 날짜 색깔
+        // Set calendar's weekday color
         calendar.appearance.titleDefaultColor = .black
 
-        // 달력의 토,일 날짜 색깔
+        // Set calendar's weekend color
         calendar.appearance.titleWeekendColor = .red
 
-        // 달력의 맨 위의 년도, 월의 색깔
+        // Set calendar's month color
         calendar.appearance.headerTitleColor = .systemPink
 
-        // 달력의 요일 글자 색깔
+        // Set calendar's day of the week color
         calendar.appearance.weekdayTextColor = .blue
+        // Set calendar's day of the week font and size
         calendar.appearance.weekdayFont = UIFont(name: "Henderson BCG Sans", size: 30)
             
-
+        // Set calendar's language
         calendar.locale = Locale(identifier: "ko_KR")
         
-        // 스와이프 스크롤 작동 여부 ( 활성화하면 좌측 우측 상단에 다음달 살짝 보임, 비활성화하면 사라짐 )
+        // Set calendar's scrollEnabled
         calendar.scrollEnabled = true
-        // 스와이프 스크롤 방향 ( 버티칼로 스와이프 설정하면 좌측 우측 상단 다음달 표시 없어짐, 호리젠탈은 보임 )
+        // Set calendar's scrollDirection
         calendar.scrollDirection = .vertical
 
     }
     
-    // 날짜 선택 시 콜백 메소드
+    // Callback method when calendar's date selected
     func calendar(_ calendar: FSCalendar, didSelect date: Date, at monthPosition:
     FSCalendarMonthPosition) {
         selectedDate = dateFormatter.string(from: date)
-        
-//        guard let modalPresentView = self.storyboard?.instantiateViewController(identifier: "DetailViewController") as? DetailViewController else { return }
-//
-        // 날짜를 원하는 형식으로 저장하기 위한 방법입니다.
-        let dateFormatter = DateFormatter()
-        dateFormatter.dateFormat = "yyyy-MM-dd"
-//        modalPresentView.date = dateFormatter.string(from: date)
-//        self.present(modalPresentView, animated: true, completion: nil)
-        
+
+
         // --------------------------
         // 3/10 추가
         let currentDate = NSDate()
         let interval = date.timeIntervalSince(currentDate as Date)
 
+        // Move SelectEmotionViewController When it is  later than the current date and there is not a written diary
         if interval > 0 && registerDates.contains(date) != true {
             let resultAlert = UIAlertController(title: "알림", message: "작성된 다이어리가 없습니다.\n다이어리 작성하시겠습니까?", preferredStyle: UIAlertController.Style.actionSheet)
               let cancelAction = UIAlertAction(title: "취소", style: UIAlertAction.Style.default, handler: nil)
               let okAction = UIAlertAction(title: "작성하러가기", style: UIAlertAction.Style.default, handler: {ACTION in
                 let vcName = self.storyboard?.instantiateViewController(withIdentifier: "SelectEmotionViewController") as? SelectEmotionViewController
                 vcName!.modalTransitionStyle = .coverVertical
-                vcName!.receivedDate = dateFormatter.string(from: date)
-                print("여기는?", dateFormatter.string(from: date))
+                vcName!.receivedDate = self.dateFormatter.string(from: date)
+                print("여기는?", self.dateFormatter.string(from: date))
                     self.navigationController?.pushViewController(vcName!, animated: true)
               })
               resultAlert.addAction(okAction)
               resultAlert.addAction(cancelAction)
               present(resultAlert, animated: true, completion: nil)
-          
+            
+          // Move SelectEmotionViewController When it is earlier than the current date and there is not a written diary
         } else if interval <= 0 && registerDates.contains(date) != true {
             let resultAlert = UIAlertController(title: "알림", message: "작성된 다이어리가 없습니다.\n다이어리 작성하시겠습니까?", preferredStyle: UIAlertController.Style.actionSheet)
               let cancelAction = UIAlertAction(title: "취소", style: UIAlertAction.Style.default, handler: nil)
               let okAction = UIAlertAction(title: "작성하러가기", style: UIAlertAction.Style.default, handler: {ACTION in
-                    let vcName = self.storyboard?.instantiateViewController(withIdentifier: "SelectEmotionViewController") as? SelectEmotionViewController
-                vcName!.modalTransitionStyle = .coverVertical
-                vcName!.receivedDate = dateFormatter.string(from: date)
-                print("여기는?", dateFormatter.string(from: date))
-                    self.navigationController?.pushViewController(vcName!, animated: true)
+                    let selectEmotionView = self.storyboard?.instantiateViewController(withIdentifier: "SelectEmotionViewController") as? SelectEmotionViewController
+                selectEmotionView!.modalTransitionStyle = .coverVertical
+                selectEmotionView!.receivedDate = self.dateFormatter.string(from: date)
+                self.navigationController?.pushViewController(selectEmotionView!, animated: true)
               })
               resultAlert.addAction(okAction)
               resultAlert.addAction(cancelAction)
               present(resultAlert, animated: true, completion: nil)
-                
+            
+        // Move DetailViewController When there is a written diary
         } else {
-            let vcName = self.storyboard?.instantiateViewController(withIdentifier: "DetailViewController") as? DetailViewController
-        vcName!.modalTransitionStyle = .coverVertical
-        vcName!.date = dateFormatter.string(from: date)
-        print("여기는?", dateFormatter.string(from: date))
-            self.navigationController?.pushViewController(vcName!, animated: true)
-//            self.present(modalPresentView, animated: true, completion: nil)
+            let detailView = self.storyboard?.instantiateViewController(withIdentifier: "DetailViewController") as? DetailViewController
+            detailView!.modalTransitionStyle = .coverVertical
+            detailView!.date = dateFormatter.string(from: date)
+            self.navigationController?.pushViewController(detailView!, animated: true)
             
         }
         // --------------------------
     }
     
-    // 날짜 선택 해제 시 콜백 메소드
-    public func calendar(_ calendar: FSCalendar, didDeselect date: Date, at monthPosition: FSCalendarMonthPosition) {
-        
-    }
+//    // 날짜 선택 해제 시 콜백 메소드
+//    public func calendar(_ calendar: FSCalendar, didDeselect date: Date, at monthPosition: FSCalendarMonthPosition) {
+//
+//    }
     
-    // 이벤트 수
+    // Set event When diaryDate of Written diary exists
     func calendar(_ calendar: FSCalendar, numberOfEventsFor date: Date) -> Int {
         if self.registerDates.contains(date){
             return 1
@@ -384,15 +378,15 @@ class HomeViewController: UIViewController, FSCalendarDataSource, FSCalendarDele
         calendar.reloadData()
 //        NotificationCenter.default.addObserver(self, selector: #selector(reloadPage(_:)), name: Notification.Name(rawValue: "callDetailPage"), object: nil)
     }
-    @objc func reloadPage(_ notification: Notification) { // add stuff }
-        dateSelectAction()
-        userInformationSearch()
-        calendar.reloadData()
-        print("여기 오나?")
-    }
+    
+//    @objc func reloadPage(_ notification: Notification) { // add stuff }
+//        dateSelectAction()
+//        userInformationSearch()
+//        calendar.reloadData()
+//    }
     //---------------------------
     
-    // 사용자 기본정보
+    // Search user's information
     func userInformationSearch() {
         var userName = ""
         var userBirth = ""
@@ -400,49 +394,65 @@ class HomeViewController: UIViewController, FSCalendarDataSource, FSCalendarDele
         let queryString = "SELECT userName, userBirth, userImage FROM dodamSetting"
         var stmt: OpaquePointer?
        
-            if sqlite3_prepare(db, queryString, -1, &stmt, nil) != SQLITE_OK {  // select하기 위한 셋팅, insert와 동일 (error msg만 바뀐다)
+            // Set sqlite for select action
+            if sqlite3_prepare(db, queryString, -1, &stmt, nil) != SQLITE_OK {
                 let errmsg = String(cString: sqlite3_errmsg(db)!)
                 print("error preparing select: \(errmsg)")
                 return
             }
             
+            // When selected data exists
             while sqlite3_step(stmt) == SQLITE_ROW{  // 읽어올 데이터가 있는지 확인
                 userName = String(cString: sqlite3_column_text(stmt, 0))
-                userBirth = String(cString: sqlite3_column_text(stmt, 1))  // db 타입은 text로 string으로 변환해야 배열에 쓸 수 있다.\
+                userBirth = String(cString: sqlite3_column_text(stmt, 1))
                 if let userImage = sqlite3_column_blob(stmt, 2){
                     let view = Int(sqlite3_column_bytes(stmt, 2))
                     dataView = Data(bytes: userImage, count: view)
                 }
             }
         
-        // 3.7 kyeongmi 입력 부분
-        // 프로필 데이터 값 존재에 따른 출력
+        
+        // When userBirth doesn't exist
         if userBirth.isEmpty == true {
+            
+            // When userName doesn't exist
             if userName.isEmpty == true {
+                
+                // When userImage doesn't exist
                 if dataView.isEmpty == true {
                     labelUserName.text = "도담 Baby 누구?"
                     imageViewUser.image = UIImage(named: "profile.png")
                     labelBirth.text = "태어나지 않았어요!"
+                    
+                // When userImage exists
                 } else {
                     labelUserName.text = "도담 Baby 누구?"
                     imageViewUser.image = UIImage(data: dataView)
                     labelBirth.text = "태어나지 않았어요!"
                 }
+                
+            // When userName exists
             } else {
+                
+                // When userImage doesn't exist
                 if dataView.isEmpty == true {
                     labelUserName.text = "\(userName)"
                     imageViewUser.image = UIImage(named: "profile.png")
                     labelBirth.text = "태어나지 않았어요!"
+                    
+                // When userImage exists
                 } else {
                     labelUserName.text = "\(userName)"
                     imageViewUser.image = UIImage(data: dataView)
                     labelBirth.text = "태어나지 않았어요!"
                 }
             }
+            
+        // When userBirth exists
         } else {
             let currentDate = NSDate()
             let formatter = DateFormatter()
-            formatter.locale = Locale(identifier: "ko") // ko : 한국형 format
+            formatter.locale = Locale(identifier: "ko")
             formatter.dateFormat = "yyyy-MM-dd"
 
             let startDate = dateFormatter.date(from: userBirth)!
@@ -452,21 +462,28 @@ class HomeViewController: UIViewController, FSCalendarDataSource, FSCalendarDele
             print("\(days)일만큼 차이납니다.")
             labelBirth.text = "+\(days)일째"
             
+            // When userName doesn't exist
             if userName.isEmpty == true {
+                // When userImage doesn't exist
                 if dataView.isEmpty == true {
                     labelUserName.text = "도담 Baby 누구?"
                     imageViewUser.image = UIImage(named: "profile.png")
-                   
+                    
+                // When userImage exists
                 } else {
                     labelUserName.text = "도담 Baby 누구?"
                     imageViewUser.image = UIImage(data: dataView)
-                    
+                
                 }
+                
+            // When userName exists
             } else {
+                // When userImage doesn't exist
                 if dataView.isEmpty == true {
                     labelUserName.text = "\(userName)"
                     imageViewUser.image = UIImage(named: "profile.png")
                     
+                // When userImage exists
                 } else {
                     labelUserName.text = "\(userName)"
                     imageViewUser.image = UIImage(data: dataView)
@@ -477,36 +494,32 @@ class HomeViewController: UIViewController, FSCalendarDataSource, FSCalendarDele
     
     }
     
-    // 날짜 선택 시
+    // Search Calendar Date for event displaying
     func dateSelectAction(){
         registerDates = []
-        let queryString = "SELECT * FROM dodamDiary"
+        let queryString = "SELECT diaryDate FROM dodamDiary"
         var stmt: OpaquePointer?
-       
-            if sqlite3_prepare(db, queryString, -1, &stmt, nil) != SQLITE_OK {  // select하기 위한 셋팅, insert와 동일 (error msg만 바뀐다)
+        
+            // Set sqlite for select action
+            if sqlite3_prepare(db, queryString, -1, &stmt, nil) != SQLITE_OK {
                 let errmsg = String(cString: sqlite3_errmsg(db)!)
                 print("error preparing select: \(errmsg)")
                 return
             }
-            
-            while sqlite3_step(stmt) == SQLITE_ROW{  // 읽어올 데이터가 있는지 확인
-//                let diaryNumber = sqlite3_column_int(stmt, 0)
-//                let diaryTitle = String(cString: sqlite3_column_text(stmt, 1))  // db 타입은 text로 string으로 변환해야 배열에 쓸 수 있다.
-//                let diaryContent = String(cString: sqlite3_column_text(stmt, 2))
-                if let diaryImage = sqlite3_column_blob(stmt, 3){
-                    let viewCondition = Int(sqlite3_column_bytes(stmt, 3))
-                    dataView = Data(bytes: diaryImage, count: viewCondition)
-                }
+        
+            // When selected data exists
+            while sqlite3_step(stmt) == SQLITE_ROW{
                 
-               diaryDate = String(cString: sqlite3_column_text(stmt, 4))
+               diaryDate = String(cString: sqlite3_column_text(stmt, 0))
                 
+                // Add data When diaryDate exists
                 if diaryDate.isEmpty == false {
                     let formatter = DateFormatter()
                      formatter.locale = Locale(identifier: "ko_KR")
                      formatter.dateFormat = "yyyy-MM-dd"
                            
-                    registerDates.append(formatter.date(from: diaryDate)!) // describing을 쓰는 이유는 한글때문이다.
-                    print("selectAction date : ", registerDates)
+                    registerDates.append(formatter.date(from: diaryDate)!)
+
                 }
             }
     }
@@ -525,6 +538,7 @@ class HomeViewController: UIViewController, FSCalendarDataSource, FSCalendarDele
         })
     }
     
+    // Transfer date to SelectEmotionViewController
     override func prepare(for segue: UIStoryboardSegue, sender: Any?) {
         if segue.identifier == "sgSelectEmotionMove" {
             let emotionView = segue.destination as! SelectEmotionViewController

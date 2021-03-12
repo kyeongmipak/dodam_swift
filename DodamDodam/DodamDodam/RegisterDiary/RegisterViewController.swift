@@ -48,6 +48,7 @@ class RegisterViewController: UIViewController, UIImagePickerControllerDelegate 
         let formatter = DateFormatter()
         formatter.locale = Locale(identifier: "ko") // ko : 한국형 format
         formatter.dateFormat = "yyyy-MM-dd"
+        
         if registerDate == "" {
             dailyDate.text = formatter.string(from: date as Date)
         } else {
@@ -59,18 +60,15 @@ class RegisterViewController: UIViewController, UIImagePickerControllerDelegate 
         
         dailyEmotion.image = UIImage(named: Share.imageFileName[emtionImage])
         
-//        placeholderSetting()
         
-        // 카메라, 앨범 실행
-        //-------------------------
+        // Connect imagePickerController
         imagePickerController.delegate = self
-        //-------------------------
 
         createDatePicker()
         dailyDate.delegate = self
         
-        // SQLite 생성하기
-        let fileURL = try! FileManager.default.url(for: .documentDirectory, in: .userDomainMask, appropriateFor: nil, create: false).appendingPathComponent("Dodam.sqlite") // sqlite 파일명 기입(파일명은 내가 설정할 수 있다. 다만 확장자는 sqlite를 써준다.)
+        // Open SQLite file
+        let fileURL = try! FileManager.default.url(for: .documentDirectory, in: .userDomainMask, appropriateFor: nil, create: false).appendingPathComponent("Dodam.sqlite")
 
         if sqlite3_open(fileURL.path, &db) != SQLITE_OK {
             print("error opening database")
@@ -102,7 +100,7 @@ class RegisterViewController: UIViewController, UIImagePickerControllerDelegate 
         
     }
     
-    // transfer data to SelectEmotionViewController
+    // Receive data to SelectEmotionViewController
     func receivedItem(selectedDate: String, selectedEmotion: Int) {
         registerDate = selectedDate
         emtionImage = selectedEmotion
@@ -118,7 +116,7 @@ class RegisterViewController: UIViewController, UIImagePickerControllerDelegate 
     }
     //-------------------------
     
-    
+    // Excute add image when imageAddBtn click
     @IBAction func imageAddBtn(_ sender: UIButton) {
         let alert =  UIAlertController(title: "사진 선택", message: "골라주세요.", preferredStyle: .actionSheet)
 
@@ -142,7 +140,7 @@ class RegisterViewController: UIViewController, UIImagePickerControllerDelegate 
     
     
     @IBAction func registerAction(_ sender: UIButton) {
-        
+        // When diary register action
         if receivedDate == "" {
             date = ""
             checkDate(dateCheck: dailyDate.text!)
@@ -237,13 +235,14 @@ class RegisterViewController: UIViewController, UIImagePickerControllerDelegate 
                 resultAlert.addAction(okAction)
                 present(resultAlert, animated: true, completion: nil)
             }
-        } else {  // 수정일때
+            
+        // When diary modify action
+        } else {
                     let resultAlert = UIAlertController(title: "결과", message: "수정되었습니다.", preferredStyle: UIAlertController.Style.alert)
                       let cancelAction = UIAlertAction(title: "아니요", style: UIAlertAction.Style.default, handler: nil)
                       let okAction = UIAlertAction(title: "네, 알겠습니다.", style: UIAlertAction.Style.default, handler: {ACTION in
                           self.updateAction()
-                          // 현재 화면 사라짐
-//                          self.dismiss(animated: true)
+                          
                         self.navigationController?.popToRootViewController(animated: true)
                         
                       })
@@ -253,16 +252,16 @@ class RegisterViewController: UIViewController, UIImagePickerControllerDelegate 
                 }
     }
 
-    
+    // TextView Place Holder
     func placeholderSetting() {
-        dailyContent.delegate = self // txtvReview가 유저가 선언한 outlet
+        dailyContent.delegate = self
         dailyContent.text = "내용을 입력해주세요."
         dailyContent.textColor = UIColor.lightGray
             
         }
         
         
-    // TextView Place Holder
+    // TextView Place Holder when beginEditing
     func textViewDidBeginEditing(_ textView: UITextView) {
         if dailyContent.textColor == UIColor.lightGray {
             dailyContent.text = nil
@@ -270,7 +269,7 @@ class RegisterViewController: UIViewController, UIImagePickerControllerDelegate 
         }
         
     }
-    // TextView Place Holder
+    // TextView Place Holder when endEditing
     func textViewDidEndEditing(_ textView: UITextView) {
         if dailyContent.text.isEmpty {
             dailyContent.text = "내용을 입력해주세요."
@@ -323,14 +322,14 @@ class RegisterViewController: UIViewController, UIImagePickerControllerDelegate 
       }
     //-------------------------
     
-    // 앨범 접근
+    // Access album
     func openLibrary(){
         imagePickerController.sourceType = .photoLibrary
         present(imagePickerController, animated: false, completion: nil)
 
     }
     
-    // 카메라 접근
+    // Access camera
     func openCamera(){
         if(UIImagePickerController .isSourceTypeAvailable(.camera)){
             imagePickerController.sourceType = .camera
@@ -384,7 +383,7 @@ class RegisterViewController: UIViewController, UIImagePickerControllerDelegate 
         }
     }
     
-    // 빈칸 체크
+    // Check blank
     func nilCheck() -> Int {
         if dailyTitle.text == "" {
             return 0
@@ -512,7 +511,7 @@ class RegisterViewController: UIViewController, UIImagePickerControllerDelegate 
   
     }
     
-    // 아무곳이나 눌러 softkeyboard 지우기
+    // Press anywhere to erase the softkeyboard
     override func touchesBegan(_ touches: Set<UITouch>, with event: UIEvent?) {
         self.view.endEditing(true)
     }

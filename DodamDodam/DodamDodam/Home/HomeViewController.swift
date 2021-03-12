@@ -303,12 +303,12 @@ class HomeViewController: UIViewController, FSCalendarDataSource, FSCalendarDele
     FSCalendarMonthPosition) {
         selectedDate = dateFormatter.string(from: date)
         
-        guard let modalPresentView = self.storyboard?.instantiateViewController(identifier: "DetailViewController") as? DetailViewController else { return }
-        
+//        guard let modalPresentView = self.storyboard?.instantiateViewController(identifier: "DetailViewController") as? DetailViewController else { return }
+//
         // 날짜를 원하는 형식으로 저장하기 위한 방법입니다.
         let dateFormatter = DateFormatter()
         dateFormatter.dateFormat = "yyyy-MM-dd"
-        modalPresentView.date = dateFormatter.string(from: date)
+//        modalPresentView.date = dateFormatter.string(from: date)
 //        self.present(modalPresentView, animated: true, completion: nil)
         
         // --------------------------
@@ -345,7 +345,12 @@ class HomeViewController: UIViewController, FSCalendarDataSource, FSCalendarDele
               present(resultAlert, animated: true, completion: nil)
                 
         } else {
-            self.present(modalPresentView, animated: true, completion: nil)
+            let vcName = self.storyboard?.instantiateViewController(withIdentifier: "DetailViewController") as? DetailViewController
+        vcName!.modalTransitionStyle = .coverVertical
+        vcName!.date = dateFormatter.string(from: date)
+        print("여기는?", dateFormatter.string(from: date))
+            self.navigationController?.pushViewController(vcName!, animated: true)
+//            self.present(modalPresentView, animated: true, completion: nil)
             
         }
         // --------------------------
@@ -377,7 +382,7 @@ class HomeViewController: UIViewController, FSCalendarDataSource, FSCalendarDele
         registerDates.removeAll()
         dateSelectAction()
         calendar.reloadData()
-        NotificationCenter.default.addObserver(self, selector: #selector(reloadPage(_:)), name: Notification.Name(rawValue: "callDetailPage"), object: nil)
+//        NotificationCenter.default.addObserver(self, selector: #selector(reloadPage(_:)), name: Notification.Name(rawValue: "callDetailPage"), object: nil)
     }
     @objc func reloadPage(_ notification: Notification) { // add stuff }
         dateSelectAction()

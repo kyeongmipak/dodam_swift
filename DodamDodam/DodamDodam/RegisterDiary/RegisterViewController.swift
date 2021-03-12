@@ -59,7 +59,7 @@ class RegisterViewController: UIViewController, UIImagePickerControllerDelegate 
         
         dailyEmotion.image = UIImage(named: Share.imageFileName[emtionImage])
         
-        placeholderSetting()
+//        placeholderSetting()
         
         // 카메라, 앨범 실행
         //-------------------------
@@ -102,6 +102,7 @@ class RegisterViewController: UIViewController, UIImagePickerControllerDelegate 
         
     }
     
+    // transfer data to SelectEmotionViewController
     func receivedItem(selectedDate: String, selectedEmotion: Int) {
         registerDate = selectedDate
         emtionImage = selectedEmotion
@@ -112,7 +113,7 @@ class RegisterViewController: UIViewController, UIImagePickerControllerDelegate 
     // 이미지 클릭 시 사진 선택 가능
     @objc func imageTapped(sender: UITapGestureRecognizer) {
         
-        guard let modalPresentView = self.storyboard?.instantiateViewController(identifier: "animated") as? SelectEmotionViewController else { return }
+        guard let modalPresentView = self.storyboard?.instantiateViewController(identifier: "SelectEmotionViewController") as? SelectEmotionViewController else { return }
         self.present(modalPresentView, animated: true, completion: nil)
     }
     //-------------------------
@@ -141,99 +142,115 @@ class RegisterViewController: UIViewController, UIImagePickerControllerDelegate 
     
     
     @IBAction func registerAction(_ sender: UIButton) {
-        date = ""
-        checkDate(dateCheck: dailyDate.text!)
-        print("date : ", date)
         
-        if date == "" || date == "null" {
+        if receivedDate == "" {
+            date = ""
+            checkDate(dateCheck: dailyDate.text!)
+            print("date : ", date)
             
-            if nilCheck() == 0 {
-                let resultAlert = UIAlertController(title: "알림", message: "제목 또는 내용을 입력해주세요.", preferredStyle: UIAlertController.Style.alert)
+            if date == "" || date == "null" {
+                
+                if nilCheck() == 0 {
+                    let resultAlert = UIAlertController(title: "알림", message: "제목 또는 내용을 입력해주세요.", preferredStyle: UIAlertController.Style.alert)
+                    let okAction = UIAlertAction(title: "네, 알겠습니다.", style: UIAlertAction.Style.default, handler: nil)
+                    
+                    resultAlert.addAction(okAction)
+                    present(resultAlert, animated: true, completion: nil)
+                } else {
+                    var daily: NSData = NSData()
+                    var stmt: OpaquePointer?  // db의 statement
+                    // 꼭 넣어줘야한다.: unsafeBitCast
+                    let SQLITE_TRANSIENT = unsafeBitCast(-1, to: sqlite3_destructor_type.self)  // <---- 한글 사용을 위해 설정
+                    
+                    let title = dailyTitle.text?.trimmingCharacters(in: .whitespacesAndNewlines.self)
+                    let content = dailyContent.text?.trimmingCharacters(in: .whitespacesAndNewlines.self)
+                    let date = dailyDate.text?.trimmingCharacters(in: .whitespacesAndNewlines.self)
+                    let imageDaily = dailyImage.image
+                    let imageCondition = String(emtionImage)
+                    if imageDaily != nil {
+                        daily = imageDaily!.pngData()! as NSData
+                    }
+                    
+                    let queryString = "INSERT INTO dodamDiary (diaryTitle, diaryContent, diaryDate, diaryImage, diaryEmotion) VALUES (?,?,?,?,?)"
+                    
+                    if sqlite3_prepare(db, queryString, -1, &stmt, nil) != SQLITE_OK {  // insert 하기 위한 셋팅
+                        let errmsg = String(cString: sqlite3_errmsg(db)!)
+                        print("error preparing insert: \(errmsg)")
+                        return
+                    }
+                    
+                    if sqlite3_bind_text(stmt, 1, title, -1, SQLITE_TRANSIENT) != SQLITE_OK {  // 첫번째 statementm, 두번째 숫자입력란에 위치 적어준다.
+                        let errmsg = String(cString: sqlite3_errmsg(db)!)
+                        print("error binding name: \(errmsg)")
+                        return
+                    }
+                    
+                    if sqlite3_bind_text(stmt, 2, content, -1, SQLITE_TRANSIENT) != SQLITE_OK { // 두번째 statement
+                        let errmsg = String(cString: sqlite3_errmsg(db)!)
+                        print("error binding dept: \(errmsg)")
+                        return
+                    }
+                    
+                    if sqlite3_bind_text(stmt, 3, date, -1, SQLITE_TRANSIENT) != SQLITE_OK { // 세번째 statement
+                        let errmsg = String(cString: sqlite3_errmsg(db)!)
+                        print("error binding phone: \(errmsg)")
+                        return
+                    }
+                    
+                    if sqlite3_bind_blob(stmt, 4, daily.bytes, Int32(daily.length), SQLITE_TRANSIENT) != SQLITE_OK { // 세번째 statement
+                        let errmsg = String(cString: sqlite3_errmsg(db)!)
+                        print("error binding phone: \(errmsg)")
+                        return
+                    }
+                    
+                    if sqlite3_bind_text(stmt, 5, imageCondition, -1, SQLITE_TRANSIENT) != SQLITE_OK { // 세번째 statement
+                        let errmsg = String(cString: sqlite3_errmsg(db)!)
+                        print("error binding phone: \(errmsg)")
+                        return
+                    }
+                    
+                    
+                    // 실행
+                    if sqlite3_step(stmt) != SQLITE_DONE{  // done : 끝났다, step : 쿼리 실행
+                        let errmsg = String(cString: sqlite3_errmsg(db)!)
+                        print("failure inserting: \(errmsg)")
+                        return
+                    }
+                    let resultAlert = UIAlertController(title: "결과", message: "입력되었습니다.", preferredStyle: UIAlertController.Style.alert)
+                    let okAction = UIAlertAction(title: "네, 알겠습니다.", style: UIAlertAction.Style.default, handler: {ACTION in
+
+                        self.navigationController?.popToRootViewController(animated: true)
+                    })
+                    
+                    resultAlert.addAction(okAction)
+                    present(resultAlert, animated: true, completion: nil)
+                    print("Diary saved successfully")
+                }
+                
+
+                
+            } else {
+                
+                let resultAlert = UIAlertController(title: "알림", message: "\(date)에 등록된 일기가 있습니다. \n날짜를 다시 선택해주세요.", preferredStyle: UIAlertController.Style.alert)
                 let okAction = UIAlertAction(title: "네, 알겠습니다.", style: UIAlertAction.Style.default, handler: nil)
                 
                 resultAlert.addAction(okAction)
                 present(resultAlert, animated: true, completion: nil)
-            } else {
-                var daily: NSData = NSData()
-                var stmt: OpaquePointer?  // db의 statement
-                // 꼭 넣어줘야한다.: unsafeBitCast
-                let SQLITE_TRANSIENT = unsafeBitCast(-1, to: sqlite3_destructor_type.self)  // <---- 한글 사용을 위해 설정
-                
-                let title = dailyTitle.text?.trimmingCharacters(in: .whitespacesAndNewlines.self)
-                let content = dailyContent.text?.trimmingCharacters(in: .whitespacesAndNewlines.self)
-                let date = dailyDate.text?.trimmingCharacters(in: .whitespacesAndNewlines.self)
-                let imageDaily = dailyImage.image
-                let imageCondition = String(emtionImage)
-                if imageDaily != nil {
-                    daily = imageDaily!.pngData()! as NSData
-                }
-                
-                let queryString = "INSERT INTO dodamDiary (diaryTitle, diaryContent, diaryDate, diaryImage, diaryEmotion) VALUES (?,?,?,?,?)"
-                
-                if sqlite3_prepare(db, queryString, -1, &stmt, nil) != SQLITE_OK {  // insert 하기 위한 셋팅
-                    let errmsg = String(cString: sqlite3_errmsg(db)!)
-                    print("error preparing insert: \(errmsg)")
-                    return
-                }
-                
-                if sqlite3_bind_text(stmt, 1, title, -1, SQLITE_TRANSIENT) != SQLITE_OK {  // 첫번째 statementm, 두번째 숫자입력란에 위치 적어준다.
-                    let errmsg = String(cString: sqlite3_errmsg(db)!)
-                    print("error binding name: \(errmsg)")
-                    return
-                }
-                
-                if sqlite3_bind_text(stmt, 2, content, -1, SQLITE_TRANSIENT) != SQLITE_OK { // 두번째 statement
-                    let errmsg = String(cString: sqlite3_errmsg(db)!)
-                    print("error binding dept: \(errmsg)")
-                    return
-                }
-                
-                if sqlite3_bind_text(stmt, 3, date, -1, SQLITE_TRANSIENT) != SQLITE_OK { // 세번째 statement
-                    let errmsg = String(cString: sqlite3_errmsg(db)!)
-                    print("error binding phone: \(errmsg)")
-                    return
-                }
-                
-                if sqlite3_bind_blob(stmt, 4, daily.bytes, Int32(daily.length), SQLITE_TRANSIENT) != SQLITE_OK { // 세번째 statement
-                    let errmsg = String(cString: sqlite3_errmsg(db)!)
-                    print("error binding phone: \(errmsg)")
-                    return
-                }
-                
-                if sqlite3_bind_text(stmt, 5, imageCondition, -1, SQLITE_TRANSIENT) != SQLITE_OK { // 세번째 statement
-                    let errmsg = String(cString: sqlite3_errmsg(db)!)
-                    print("error binding phone: \(errmsg)")
-                    return
-                }
-                
-                
-                // 실행
-                if sqlite3_step(stmt) != SQLITE_DONE{  // done : 끝났다, step : 쿼리 실행
-                    let errmsg = String(cString: sqlite3_errmsg(db)!)
-                    print("failure inserting: \(errmsg)")
-                    return
-                }
-                let resultAlert = UIAlertController(title: "결과", message: "입력되었습니다.", preferredStyle: UIAlertController.Style.alert)
-                let okAction = UIAlertAction(title: "네, 알겠습니다.", style: UIAlertAction.Style.default, handler: {ACTION in
-
-                    self.navigationController?.popToRootViewController(animated: true)
-                })
-                
-                resultAlert.addAction(okAction)
-                present(resultAlert, animated: true, completion: nil)
-                print("Diary saved successfully")
             }
-            
-
-            
-        } else {
-            
-            let resultAlert = UIAlertController(title: "알림", message: "\(date)에 등록된 일기가 있습니다. \n날짜를 다시 선택해주세요.", preferredStyle: UIAlertController.Style.alert)
-            let okAction = UIAlertAction(title: "네, 알겠습니다.", style: UIAlertAction.Style.default, handler: nil)
-            
-            resultAlert.addAction(okAction)
-            present(resultAlert, animated: true, completion: nil)
-        }
+        } else {  // 수정일때
+                    let resultAlert = UIAlertController(title: "결과", message: "수정되었습니다.", preferredStyle: UIAlertController.Style.alert)
+                      let cancelAction = UIAlertAction(title: "아니요", style: UIAlertAction.Style.default, handler: nil)
+                      let okAction = UIAlertAction(title: "네, 알겠습니다.", style: UIAlertAction.Style.default, handler: {ACTION in
+                          self.updateAction()
+                          // 현재 화면 사라짐
+//                          self.dismiss(animated: true)
+                        self.navigationController?.popToRootViewController(animated: true)
+                        
+                      })
+                      resultAlert.addAction(cancelAction)
+                      resultAlert.addAction(okAction)
+                      present(resultAlert, animated: true, completion: nil)
+                }
     }
 
     

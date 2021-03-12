@@ -58,7 +58,7 @@ class DetailViewController: UIViewController {
             let registerView = self.storyboard?.instantiateViewController(withIdentifier: "RegisterViewController") as? RegisterViewController
             registerView!.modalTransitionStyle = .coverVertical
             registerView!.receivedDate = self.diaryDate.text!
-            registerView!.emtionImage = Int(self.viewEmotion)!
+            registerView!.emotionImage = Int(self.viewEmotion)!
             registerView!.modifyCheck = 1
             self.navigationController?.pushViewController(registerView!, animated: true)
 

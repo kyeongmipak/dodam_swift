@@ -26,181 +26,229 @@ class SelectEmotionViewController: UIViewController {
     var receivedDate = ""
     var modifyCheck = 0
     
+    var delegate: DeliveryDataProtocol?
+    
     override func viewDidLoad() {
         super.viewDidLoad()
         
-        // 이미지 클릭 이벤트
+        // Move RegisterViewController when image tap
         imageAction()
-        print("viewdidload ", receivedDate)
-        
-        print("select modify check :", modifyCheck)
     
     }
-
+    
+    // Move RegisterViewController when image tap
     func imageAction() {
-        // sleep
+        // when sleep emotion tap
         let tapSleep = UITapGestureRecognizer(target: self, action: #selector(self.sleepImageTapped))
         sleepEmotion.addGestureRecognizer(tapSleep)
         sleepEmotion.isUserInteractionEnabled = true
         
-        // frown
+        // when frown emotion tap
         let tapFrown = UITapGestureRecognizer(target: self, action: #selector(self.frownImageTapped))
         frownEmotion.addGestureRecognizer(tapFrown)
         frownEmotion.isUserInteractionEnabled = true
         
-        // pain
+        // when pain emotion tap
         let tapPain = UITapGestureRecognizer(target: self, action: #selector(self.painImageTapped))
         painEmotion.addGestureRecognizer(tapPain)
         painEmotion.isUserInteractionEnabled = true
         
-        // surprised
+        // when surprised emotion tap
         let tapSurprised = UITapGestureRecognizer(target: self, action: #selector(self.surprisedImageTapped))
         surprisedEmotion.addGestureRecognizer(tapSurprised)
         surprisedEmotion.isUserInteractionEnabled = true
         
-        // angry
+        // when angry emotion tap
         let tapAngry = UITapGestureRecognizer(target: self, action: #selector(self.angryImageTapped))
         angryEmotion.addGestureRecognizer(tapAngry)
         angryEmotion.isUserInteractionEnabled = true
         
-        // lovely
+        // when lovely emotion tap
         let tapLovely = UITapGestureRecognizer(target: self, action: #selector(self.lovelyImageTapped))
         lovelyEmotion.addGestureRecognizer(tapLovely)
         lovelyEmotion.isUserInteractionEnabled = true
         
-        // sad
+        // when sad emotion tap
         let tapSad = UITapGestureRecognizer(target: self, action: #selector(self.sadImageTapped))
         sadEmotion.addGestureRecognizer(tapSad)
         sadEmotion.isUserInteractionEnabled = true
         
-        // shame
+        // when shame emotion tap
         let tapShame = UITapGestureRecognizer(target: self, action: #selector(self.shameImageTapped))
         shameEmotion.addGestureRecognizer(tapShame)
         shameEmotion.isUserInteractionEnabled = true
         
-        // pleasure
+        // when pleasure emotion tap
         let tapPleasure = UITapGestureRecognizer(target: self, action: #selector(self.pleasureImageTapped))
         pleasureEmotion.addGestureRecognizer(tapPleasure)
         pleasureEmotion.isUserInteractionEnabled = true
         
-        // normal
+        // when normal emotion tap
         let tapNormal = UITapGestureRecognizer(target: self, action: #selector(self.normalImageTapped))
         normalEmotion.addGestureRecognizer(tapNormal)
         normalEmotion.isUserInteractionEnabled = true
         
-        // normal
+        // when normal emotion tap
         let tapBored = UITapGestureRecognizer(target: self, action: #selector(self.boredImageTapped))
         boredEmotion.addGestureRecognizer(tapBored)
         boredEmotion.isUserInteractionEnabled = true
         
-        // unknown
+        // when unknown emotion tap
         let tapUnknown = UITapGestureRecognizer(target: self, action: #selector(self.unknownImageTapped))
         unknownEmotion.addGestureRecognizer(tapUnknown)
         unknownEmotion.isUserInteractionEnabled = true
     }
     
-    // sleep
+    // Execute selector when sleep emotion tapped
     @objc func sleepImageTapped(sender: UITapGestureRecognizer) {
         emotion = 0
         if modifyCheck == 1 {
-//            guard let vc = self.storyboard?.instantiateViewController(withIdentifier: "RegisterViewController") as? RegisterViewController else { return }
-//            vc.modifyEmotion = emotion
+            delegate?.deliveryData(emotion, 2)
+            self.presentingViewController?.dismiss(animated: true, completion: nil)
+        
+        } else {
+            self.performSegue(withIdentifier: "sgRegisterMove", sender: self)
+        }
+
+    }
+    
+    // Execute selector when frown emotion tapped
+    @objc func frownImageTapped(sender: UITapGestureRecognizer) {
+        emotion = 1
+        if modifyCheck == 1 {
+            delegate?.deliveryData(emotion, 2)
             self.presentingViewController?.dismiss(animated: true, completion: nil)
             
         } else {
             self.performSegue(withIdentifier: "sgRegisterMove", sender: self)
         }
-
     }
     
-    // frown
-    @objc func frownImageTapped(sender: UITapGestureRecognizer) {
-        emotion = 1
+    // Execute selector when pain emotion tapped
+    @objc func painImageTapped(sender: UITapGestureRecognizer) {
+        emotion = 2
         if modifyCheck == 1 {
-//            guard let vc = self.storyboard?.instantiateViewController(withIdentifier: "RegisterViewController") as? RegisterViewController else { return }
-//            vc.modifyEmotion = emotion
-////            self.navigationController!.pushViewController(vc, animated: true)
+            delegate?.deliveryData(emotion, 2)
             self.presentingViewController?.dismiss(animated: true, completion: nil)
+            
         } else {
             self.performSegue(withIdentifier: "sgRegisterMove", sender: self)
         }
     }
     
-    // pain
-    @objc func painImageTapped(sender: UITapGestureRecognizer) {
-        emotion = 2
-        self.performSegue(withIdentifier: "sgRegisterMove", sender: self)
-
-    }
-    
-    // surprised
+    // Execute selector when surprised emotion tapped
     @objc func surprisedImageTapped(sender: UITapGestureRecognizer) {
         emotion = 3
-        self.performSegue(withIdentifier: "sgRegisterMove", sender: self)
-
+        if modifyCheck == 1 {
+            delegate?.deliveryData(emotion, 2)
+            self.presentingViewController?.dismiss(animated: true, completion: nil)
+            
+        } else {
+            self.performSegue(withIdentifier: "sgRegisterMove", sender: self)
+        }
     }
     
-    // angry
+    // Execute selector when angry emotion tapped
     @objc func angryImageTapped(sender: UITapGestureRecognizer) {
         emotion = 4
-        self.performSegue(withIdentifier: "sgRegisterMove", sender: self)
-
+        if modifyCheck == 1 {
+            delegate?.deliveryData(emotion, 2)
+            self.presentingViewController?.dismiss(animated: true, completion: nil)
+            
+        } else {
+            self.performSegue(withIdentifier: "sgRegisterMove", sender: self)
+        }
     }
     
-    // lovely
+    // Execute selector when lovely emotion tapped
     @objc func lovelyImageTapped(sender: UITapGestureRecognizer) {
         emotion = 5
-        self.performSegue(withIdentifier: "sgRegisterMove", sender: self)
-
+        if modifyCheck == 1 {
+            delegate?.deliveryData(emotion, 2)
+            self.presentingViewController?.dismiss(animated: true, completion: nil)
+            
+        } else {
+            self.performSegue(withIdentifier: "sgRegisterMove", sender: self)
+        }
     }
     
-    // sad
+    // Execute selector when sad emotion tapped
     @objc func sadImageTapped(sender: UITapGestureRecognizer) {
         emotion = 6
-        self.performSegue(withIdentifier: "sgRegisterMove", sender: self)
-
+        if modifyCheck == 1 {
+            delegate?.deliveryData(emotion, 2)
+            self.presentingViewController?.dismiss(animated: true, completion: nil)
+            
+        } else {
+            self.performSegue(withIdentifier: "sgRegisterMove", sender: self)
+        }
     }
     
-    // shame
+    // Execute selector when shame emotion tapped
     @objc func shameImageTapped(sender: UITapGestureRecognizer) {
         emotion = 7
-        self.performSegue(withIdentifier: "sgRegisterMove", sender: self)
-
+        if modifyCheck == 1 {
+            delegate?.deliveryData(emotion, 2)
+            self.presentingViewController?.dismiss(animated: true, completion: nil)
+            
+        } else {
+            self.performSegue(withIdentifier: "sgRegisterMove", sender: self)
+        }
     }
     
-    // pleasure
+    // Execute selector when pleasure emotion tapped
     @objc func pleasureImageTapped(sender: UITapGestureRecognizer) {
         emotion = 8
-        self.performSegue(withIdentifier: "sgRegisterMove", sender: self)
-
+        if modifyCheck == 1 {
+            delegate?.deliveryData(emotion, 2)
+            self.presentingViewController?.dismiss(animated: true, completion: nil)
+            
+        } else {
+            self.performSegue(withIdentifier: "sgRegisterMove", sender: self)
+        }
     }
     
-    // normal
+    // Execute selector when normal emotion tapped
     @objc func normalImageTapped(sender: UITapGestureRecognizer) {
         emotion = 9
-        self.performSegue(withIdentifier: "sgRegisterMove", sender: self)
-
+        if modifyCheck == 1 {
+            delegate?.deliveryData(emotion, 2)
+            self.presentingViewController?.dismiss(animated: true, completion: nil)
+            
+        } else {
+            self.performSegue(withIdentifier: "sgRegisterMove", sender: self)
+        }
     }
     
-    // bored
+    // Execute selector when bored emotion tapped
     @objc func boredImageTapped(sender: UITapGestureRecognizer) {
         emotion = 10
-        self.performSegue(withIdentifier: "sgRegisterMove", sender: self)
-
+        if modifyCheck == 1 {
+            delegate?.deliveryData(emotion, 2)
+            self.presentingViewController?.dismiss(animated: true, completion: nil)
+            
+        } else {
+            self.performSegue(withIdentifier: "sgRegisterMove", sender: self)
+        }
     }
     
-    // unknown
+    // Execute selector when unknown emotion tapped
     @objc func unknownImageTapped(sender: UITapGestureRecognizer) {
         emotion = 11
-        self.performSegue(withIdentifier: "sgRegisterMove", sender: self)
-
+        if modifyCheck == 1 {
+            delegate?.deliveryData(emotion, 2)
+            self.presentingViewController?.dismiss(animated: true, completion: nil)
+            
+        } else {
+            self.performSegue(withIdentifier: "sgRegisterMove", sender: self)
+        }
     }
     
+    // Transfer data to RegisterViewController
     override func prepare(for segue: UIStoryboardSegue, sender: Any?) {
         if segue.identifier == "sgRegisterMove"{
            let registerView = segue.destination as! RegisterViewController
             registerView.receivedItem(selectedDate: receivedDate, selectedEmotion: emotion)
-            print("prepare ", receivedDate)
         }
     }
     

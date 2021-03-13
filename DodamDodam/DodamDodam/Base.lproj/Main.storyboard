@@ -164,7 +164,7 @@
                                         <rect key="frame" x="0.0" y="150" width="398" height="605"/>
                                         <subviews>
                                             <stackView opaque="NO" contentMode="scaleToFill" spacing="10" translatesAutoresizingMaskIntoConstraints="NO" id="ooH-C5-6Wd">
-                                                <rect key="frame" x="0.0" y="0.0" width="395" height="600"/>
+                                                <rect key="frame" x="0.0" y="0.0" width="388" height="600"/>
                                                 <subviews>
                                                     <stackView opaque="NO" contentMode="scaleToFill" axis="vertical" spacing="6" translatesAutoresizingMaskIntoConstraints="NO" id="MLC-Ov-zEz">
                                                         <rect key="frame" x="0.0" y="0.0" width="44" height="600"/>
@@ -251,7 +251,7 @@
                                                         </constraints>
                                                     </stackView>
                                                     <view contentMode="scaleToFill" translatesAutoresizingMaskIntoConstraints="NO" id="g7a-jj-X5W" customClass="HorizontalBarChartView" customModule="Charts">
-                                                        <rect key="frame" x="54" y="0.0" width="341" height="600"/>
+                                                        <rect key="frame" x="54" y="0.0" width="334" height="600"/>
                                                         <color key="backgroundColor" systemColor="systemBackgroundColor"/>
                                                     </view>
                                                 </subviews>
@@ -265,6 +265,7 @@
                                             <constraint firstItem="ooH-C5-6Wd" firstAttribute="leading" secondItem="G9I-aa-1zz" secondAttribute="leading" id="A12-Vw-WOO"/>
                                             <constraint firstAttribute="trailing" secondItem="ooH-C5-6Wd" secondAttribute="trailing" id="IVY-rw-EZN"/>
                                             <constraint firstAttribute="bottom" secondItem="ooH-C5-6Wd" secondAttribute="bottom" id="SkY-zq-Tju"/>
+                                            <constraint firstAttribute="trailing" secondItem="ooH-C5-6Wd" secondAttribute="trailing" id="unf-ex-3eT"/>
                                         </constraints>
                                     </scrollView>
                                 </subviews>
@@ -274,9 +275,9 @@
                         <color key="backgroundColor" systemColor="systemBackgroundColor"/>
                         <constraints>
                             <constraint firstItem="EXz-Y0-zPT" firstAttribute="trailing" secondItem="uzY-0N-dLU" secondAttribute="trailing" constant="15" id="NVe-xv-wXf"/>
-                            <constraint firstItem="ooH-C5-6Wd" firstAttribute="width" secondItem="k9L-nI-DL1" secondAttribute="width" multiplier="0.923077" id="RnQ-r1-Z45"/>
                             <constraint firstItem="uzY-0N-dLU" firstAttribute="top" secondItem="EXz-Y0-zPT" secondAttribute="top" id="ZIq-fQ-mYT"/>
                             <constraint firstItem="EXz-Y0-zPT" firstAttribute="bottom" secondItem="uzY-0N-dLU" secondAttribute="bottom" id="hf4-op-cBd"/>
+                            <constraint firstItem="ooH-C5-6Wd" firstAttribute="width" secondItem="k9L-nI-DL1" secondAttribute="width" multiplier="0.90625" id="nP9-ld-LeG"/>
                             <constraint firstItem="uzY-0N-dLU" firstAttribute="leading" secondItem="EXz-Y0-zPT" secondAttribute="leading" constant="15" id="pVB-e5-msu"/>
                         </constraints>
                     </view>

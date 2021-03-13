@@ -172,6 +172,9 @@ class MonthlyListViewController: UIViewController, UITableViewDataSource, UITabl
         diaryList.removeAll() // init diaryList
         let selectedDate = selectDate // Setting sqlite variable for question mark (selected by the user)
       
+        // if -> 실패
+        // switch -> 실패
+        // 선택안한 피커뷰는?
         print("selectedDate >>>>>>> \(selectedDate)")
         var stmt : OpaquePointer?
         let SQLITE_TRANSIENT = unsafeBitCast(-1, to: sqlite3_destructor_type.self) // Encoding in Korean

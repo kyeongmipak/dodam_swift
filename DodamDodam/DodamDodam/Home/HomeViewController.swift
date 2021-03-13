@@ -21,30 +21,30 @@ class HomeViewController: UIViewController, FSCalendarDataSource, FSCalendarDele
     // Use OpaquePointer type for DB
     var db: OpaquePointer?
     var registerDates: [Date] = []
-    var dataView:Data = Data()
+    var dataViewImage:Data = Data()
     var diaryDate = ""
     var selectedDate = ""
         
     override func viewDidLoad() {
         super.viewDidLoad()
         
-        //  init registerDates
+        // Init registerDates
         registerDates.removeAll()
         
-        // make a circle image
+        // Make a circle image
         imageViewUser.layer.cornerRadius = (imageViewUser.frame.size.width) / 2
         imageViewUser.layer.masksToBounds = true
         
-        // profile border color
+        // Set profile border color
         imageViewUser.layer.borderWidth = 1.0
         imageViewUser.layer.borderColor = UIColor.lightGray.cgColor
         
         
         // Open SQLite file
         let fileURL = try! FileManager.default.url(for: .documentDirectory, in: .userDomainMask, appropriateFor: nil, create: false).appendingPathComponent("Dodam.sqlite")
-                
+        
+          // If there is a problem opening database
           if sqlite3_open(fileURL.path, &db) != SQLITE_OK {
-              print("error opening database")
           }
         
         // Make a SQLite Table for Diary
@@ -75,8 +75,8 @@ class HomeViewController: UIViewController, FSCalendarDataSource, FSCalendarDele
         
         // Set userName, userImage, userBirth
         userInformationSearch()
-//        calendar.reloadData()
         
+        // Checking for push permission
         notificationAllow()
     }
     
@@ -89,65 +89,57 @@ class HomeViewController: UIViewController, FSCalendarDataSource, FSCalendarDele
         var stmt: OpaquePointer?
         
         if sqlite3_prepare(db, queryString, -1, &stmt, nil) != SQLITE_OK {
-            let errmsg = String(cString: sqlite3_errmsg(db)!)
-            print("error preparing select: \(errmsg)")
+            _ = String(cString: sqlite3_errmsg(db)!)
             return
         }
         
         if sqlite3_step(stmt) != SQLITE_ROW {
             
-            // 제일 처음 실행할 때 값 생성
-            // TableViewController 의 tempInsert() 부분을 전체 복붙해옴
             var stmt: OpaquePointer?
             
-            // 이게 있어야 한글을 입력해도 무관하다.
-            let SQLITE_TRANSIENT = unsafeBitCast(-1, to: sqlite3_destructor_type.self) // <-- 중요!!!!!
+            let SQLITE_TRANSIENT = unsafeBitCast(-1, to: sqlite3_destructor_type.self)
+            
             let queryString = "INSERT INTO dodamSetting (settingTheme, userName, userBirth) VALUES (?, ?, ?)"
             
-            // ? 있으니 prepare 해주기
+            // Set sqlite for insert action
             if sqlite3_prepare(db, queryString, -1, &stmt, nil) != SQLITE_OK {
-                let errmsg = String(cString: sqlite3_errmsg(db)!)
-                print("error preparing insert: \(errmsg)")
+                _ = String(cString: sqlite3_errmsg(db)!)
                 return
             }
-            // ? 첫번째 sname
+            
+            // Set settingTheme for question mark in queryString
             if sqlite3_bind_text(stmt, 1, "systemTeal", -1, SQLITE_TRANSIENT) != SQLITE_OK {
-                let errmsg = String(cString: sqlite3_errmsg(db)!)
-                print("error binding theme: \(errmsg)")
+                _ = String(cString: sqlite3_errmsg(db)!)
                 return
             }
             
-            // ? 첫번째 sname
+            // Set userName for question mark in queryString
             if sqlite3_bind_text(stmt, 2, "", -1, SQLITE_TRANSIENT) != SQLITE_OK {
-                let errmsg = String(cString: sqlite3_errmsg(db)!)
-                print("error binding theme: \(errmsg)")
+                _ = String(cString: sqlite3_errmsg(db)!)
                 return
             }
             
-            // ? 첫번째 sname
+            // Set userBirth for question mark in queryString
             if sqlite3_bind_text(stmt, 3, "", -1, SQLITE_TRANSIENT) != SQLITE_OK {
-                let errmsg = String(cString: sqlite3_errmsg(db)!)
-                print("error binding theme: \(errmsg)")
+                _ = String(cString: sqlite3_errmsg(db)!)
                 return
             }
-            // sqlite 실행
+            
+            // Excute SQL
             if sqlite3_step(stmt) != SQLITE_DONE {
-                let errmsg = String(cString: sqlite3_errmsg(db)!)
-                print("failure inserting : \(errmsg)")
+                _ = String(cString: sqlite3_errmsg(db)!)
                 return
             }
             
         }
-        // bean 에 집어 넣어서 append 시키면 일이 끝남
-        // (stmt)에 읽어올 데이터가 있는지 확인하는 과정
+        
+        // When selected data exists
         while sqlite3_step(stmt) == SQLITE_ROW {
             // 제일 처음에 들어오는 값은 키값이므로 키값으로 넣는다.
             let id = sqlite3_column_int(stmt, 0)
             // 입력받을때 text 값으로 입력했으니 Bean 에 String 값으로 생성해뒀기에 Text를 String 값으로 변환한다.
             let theme = String(cString: sqlite3_column_text(stmt, 4))
-            
-            print(id, theme)
-            
+                    
             if theme == "brown" {
                 self.navigationController?.navigationBar.barTintColor = .init(red: 220.0/255.0, green:197.0/255.0,  blue: 253.0/255.0, alpha: 1)
                 UITabBar.appearance().barTintColor = .init(red: 220.0/255.0, green:197.0/255.0,  blue: 253.0/255.0, alpha: 1)
@@ -197,13 +189,12 @@ class HomeViewController: UIViewController, FSCalendarDataSource, FSCalendarDele
     
     // 불러오기 ***********************************
     func selectTheme() {
-        
-        let queryString = "SELECT * FROM dodamSetting"
         var stmt: OpaquePointer?
+
+        let queryString = "SELECT * FROM dodamSetting"
         
         if sqlite3_prepare(db, queryString, -1, &stmt, nil) != SQLITE_OK {
-            let errmsg = String(cString: sqlite3_errmsg(db)!)
-            print("error preparing select: \(errmsg)")
+            _ = String(cString: sqlite3_errmsg(db)!)
             return
         }
         
@@ -214,9 +205,6 @@ class HomeViewController: UIViewController, FSCalendarDataSource, FSCalendarDele
             let id = sqlite3_column_int(stmt, 0)
             // 입력받을때 text 값으로 입력했으니 Bean 에 String 값으로 생성해뒀기에 Text를 String 값으로 변환한다.
             let theme = String(cString: sqlite3_column_text(stmt, 4))
-            
-            print(id, theme)
-            
             
             if theme == "brown" {
                 self.navigationController?.navigationBar.barTintColor = .init(red: 220.0/255.0, green:197.0/255.0,  blue: 253.0/255.0, alpha: 1)
@@ -304,15 +292,12 @@ class HomeViewController: UIViewController, FSCalendarDataSource, FSCalendarDele
     FSCalendarMonthPosition) {
         selectedDate = dateFormatter.string(from: date)
 
-
-        // --------------------------
-        // 3/10 추가
         let currentDate = NSDate()
         let interval = date.timeIntervalSince(currentDate as Date)
 
-        // Move SelectEmotionViewController When it is  later than the current date and there is not a written diary
+        // Move SelectEmotionViewController When it is later than the current date and there is not a written diary
         if interval > 0 && registerDates.contains(date) != true {
-            let resultAlert = UIAlertController(title: "알림", message: "작성된 다이어리가 없습니다.\n다이어리 작성하시겠습니까?", preferredStyle: UIAlertController.Style.actionSheet)
+              let resultAlert = UIAlertController(title: "알림", message: "작성된 다이어리가 없습니다.\n다이어리 작성하시겠습니까?", preferredStyle: UIAlertController.Style.actionSheet)
               let cancelAction = UIAlertAction(title: "취소", style: UIAlertAction.Style.default, handler: nil)
               let okAction = UIAlertAction(title: "작성하러가기", style: UIAlertAction.Style.default, handler: {ACTION in
                 let vcName = self.storyboard?.instantiateViewController(withIdentifier: "SelectEmotionViewController") as? SelectEmotionViewController
@@ -347,13 +332,7 @@ class HomeViewController: UIViewController, FSCalendarDataSource, FSCalendarDele
             self.navigationController?.pushViewController(detailView!, animated: true)
             
         }
-        // --------------------------
     }
-    
-//    // 날짜 선택 해제 시 콜백 메소드
-//    public func calendar(_ calendar: FSCalendar, didDeselect date: Date, at monthPosition: FSCalendarMonthPosition) {
-//
-//    }
     
     // Set event When diaryDate of Written diary exists
     func calendar(_ calendar: FSCalendar, numberOfEventsFor date: Date) -> Int {
@@ -363,12 +342,7 @@ class HomeViewController: UIViewController, FSCalendarDataSource, FSCalendarDele
         return 0
     }
     
-    // 3.9
-    //---------------------------
-    override func viewDidDisappear(_ animated: Bool) {
-//        NotificationCenter.default.removeObserver(self)
-    }
-    
+    // Redo HomeViewController
     override func viewWillAppear(_ animated: Bool) {
         // 지은 추가----------
         selectTheme()
@@ -376,41 +350,32 @@ class HomeViewController: UIViewController, FSCalendarDataSource, FSCalendarDele
         registerDates.removeAll()
         dateSelectAction()
         calendar.reloadData()
-//        NotificationCenter.default.addObserver(self, selector: #selector(reloadPage(_:)), name: Notification.Name(rawValue: "callDetailPage"), object: nil)
+
     }
-    
-//    @objc func reloadPage(_ notification: Notification) { // add stuff }
-//        dateSelectAction()
-//        userInformationSearch()
-//        calendar.reloadData()
-//    }
-    //---------------------------
     
     // Search user's information
     func userInformationSearch() {
         var userName = ""
         var userBirth = ""
-        
-        let queryString = "SELECT userName, userBirth, userImage FROM dodamSetting"
         var stmt: OpaquePointer?
-       
+
+        let queryString = "SELECT userName, userBirth, userImage FROM dodamSetting"
+        
             // Set sqlite for select action
             if sqlite3_prepare(db, queryString, -1, &stmt, nil) != SQLITE_OK {
-                let errmsg = String(cString: sqlite3_errmsg(db)!)
-                print("error preparing select: \(errmsg)")
+                _ = String(cString: sqlite3_errmsg(db)!)
                 return
             }
             
             // When selected data exists
-            while sqlite3_step(stmt) == SQLITE_ROW{  // 읽어올 데이터가 있는지 확인
+            while sqlite3_step(stmt) == SQLITE_ROW{
                 userName = String(cString: sqlite3_column_text(stmt, 0))
                 userBirth = String(cString: sqlite3_column_text(stmt, 1))
                 if let userImage = sqlite3_column_blob(stmt, 2){
                     let view = Int(sqlite3_column_bytes(stmt, 2))
-                    dataView = Data(bytes: userImage, count: view)
+                    dataViewImage = Data(bytes: userImage, count: view)
                 }
             }
-        
         
         // When userBirth doesn't exist
         if userBirth.isEmpty == true {
@@ -419,7 +384,7 @@ class HomeViewController: UIViewController, FSCalendarDataSource, FSCalendarDele
             if userName.isEmpty == true {
                 
                 // When userImage doesn't exist
-                if dataView.isEmpty == true {
+                if dataViewImage.isEmpty == true {
                     labelUserName.text = "도담 Baby 누구?"
                     imageViewUser.image = UIImage(named: "profile.png")
                     labelBirth.text = "태어나지 않았어요!"
@@ -427,7 +392,7 @@ class HomeViewController: UIViewController, FSCalendarDataSource, FSCalendarDele
                 // When userImage exists
                 } else {
                     labelUserName.text = "도담 Baby 누구?"
-                    imageViewUser.image = UIImage(data: dataView)
+                    imageViewUser.image = UIImage(data: dataViewImage)
                     labelBirth.text = "태어나지 않았어요!"
                 }
                 
@@ -435,7 +400,7 @@ class HomeViewController: UIViewController, FSCalendarDataSource, FSCalendarDele
             } else {
                 
                 // When userImage doesn't exist
-                if dataView.isEmpty == true {
+                if dataViewImage.isEmpty == true {
                     labelUserName.text = "\(userName)"
                     imageViewUser.image = UIImage(named: "profile.png")
                     labelBirth.text = "태어나지 않았어요!"
@@ -443,7 +408,7 @@ class HomeViewController: UIViewController, FSCalendarDataSource, FSCalendarDele
                 // When userImage exists
                 } else {
                     labelUserName.text = "\(userName)"
-                    imageViewUser.image = UIImage(data: dataView)
+                    imageViewUser.image = UIImage(data: dataViewImage)
                     labelBirth.text = "태어나지 않았어요!"
                 }
             }
@@ -459,34 +424,33 @@ class HomeViewController: UIViewController, FSCalendarDataSource, FSCalendarDele
 
             let interval = currentDate.timeIntervalSince(startDate)
             let days = Int(interval / 86400)
-            print("\(days)일만큼 차이납니다.")
             labelBirth.text = "+\(days)일째"
             
             // When userName doesn't exist
             if userName.isEmpty == true {
                 // When userImage doesn't exist
-                if dataView.isEmpty == true {
+                if dataViewImage.isEmpty == true {
                     labelUserName.text = "도담 Baby 누구?"
                     imageViewUser.image = UIImage(named: "profile.png")
                     
                 // When userImage exists
                 } else {
                     labelUserName.text = "도담 Baby 누구?"
-                    imageViewUser.image = UIImage(data: dataView)
+                    imageViewUser.image = UIImage(data: dataViewImage)
                 
                 }
                 
             // When userName exists
             } else {
                 // When userImage doesn't exist
-                if dataView.isEmpty == true {
+                if dataViewImage.isEmpty == true {
                     labelUserName.text = "\(userName)"
                     imageViewUser.image = UIImage(named: "profile.png")
                     
                 // When userImage exists
                 } else {
                     labelUserName.text = "\(userName)"
-                    imageViewUser.image = UIImage(data: dataView)
+                    imageViewUser.image = UIImage(data: dataViewImage)
                    
                 }
             }
@@ -496,20 +460,19 @@ class HomeViewController: UIViewController, FSCalendarDataSource, FSCalendarDele
     
     // Search Calendar Date for event displaying
     func dateSelectAction(){
+        var stmt: OpaquePointer?
+        // Init registerDates of event
         registerDates = []
         let queryString = "SELECT diaryDate FROM dodamDiary"
-        var stmt: OpaquePointer?
         
             // Set sqlite for select action
             if sqlite3_prepare(db, queryString, -1, &stmt, nil) != SQLITE_OK {
-                let errmsg = String(cString: sqlite3_errmsg(db)!)
-                print("error preparing select: \(errmsg)")
+                _ = String(cString: sqlite3_errmsg(db)!)
                 return
             }
         
             // When selected data exists
             while sqlite3_step(stmt) == SQLITE_ROW{
-                
                diaryDate = String(cString: sqlite3_column_text(stmt, 0))
                 
                 // Add data When diaryDate exists
@@ -517,23 +480,18 @@ class HomeViewController: UIViewController, FSCalendarDataSource, FSCalendarDele
                     let formatter = DateFormatter()
                      formatter.locale = Locale(identifier: "ko_KR")
                      formatter.dateFormat = "yyyy-MM-dd"
-                           
                     registerDates.append(formatter.date(from: diaryDate)!)
-
                 }
             }
     }
 
-    
-    
+    // Checking for push permission
     func notificationAllow(){
         UNUserNotificationCenter.current().requestAuthorization(options: [.alert,.sound], completionHandler: {didAllow,Error in
             if didAllow {
                 UserDefaults.standard.set("doAllow", forKey: "TimeKeeper")
-                print("Push: 권한 허용")
             } else {
                 UserDefaults.standard.set("notAllow", forKey: "TimeKeeper")
-                print("Push: 권한 거부")
             }
         })
     }
@@ -545,6 +503,5 @@ class HomeViewController: UIViewController, FSCalendarDataSource, FSCalendarDele
             emotionView.receivedDate = selectedDate
         }
     }
-    
     
 }

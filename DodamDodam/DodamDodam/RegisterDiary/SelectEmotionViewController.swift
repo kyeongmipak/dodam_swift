@@ -26,7 +26,7 @@ class SelectEmotionViewController: UIViewController {
     var receivedDate = ""
     var modifyCheck = 0
     
-    var delegate: DeliveryDataProtocol?
+    var delegate: DeliveryEmotionCheckProtocol?
     
     override func viewDidLoad() {
         super.viewDidLoad()
@@ -102,143 +102,92 @@ class SelectEmotionViewController: UIViewController {
     // Execute selector when sleep emotion tapped
     @objc func sleepImageTapped(sender: UITapGestureRecognizer) {
         emotion = 0
-        if modifyCheck == 1 {
-            delegate?.deliveryData(emotion, 2)
-            self.presentingViewController?.dismiss(animated: true, completion: nil)
-        
-        } else {
-            self.performSegue(withIdentifier: "sgRegisterMove", sender: self)
-        }
-
+        modifyEmotionCheck()
     }
     
     // Execute selector when frown emotion tapped
     @objc func frownImageTapped(sender: UITapGestureRecognizer) {
         emotion = 1
-        if modifyCheck == 1 {
-            delegate?.deliveryData(emotion, 2)
-            self.presentingViewController?.dismiss(animated: true, completion: nil)
-            
-        } else {
-            self.performSegue(withIdentifier: "sgRegisterMove", sender: self)
-        }
+        modifyEmotionCheck()
     }
     
     // Execute selector when pain emotion tapped
     @objc func painImageTapped(sender: UITapGestureRecognizer) {
         emotion = 2
-        if modifyCheck == 1 {
-            delegate?.deliveryData(emotion, 2)
-            self.presentingViewController?.dismiss(animated: true, completion: nil)
-            
-        } else {
-            self.performSegue(withIdentifier: "sgRegisterMove", sender: self)
-        }
+        modifyEmotionCheck()
+
     }
     
     // Execute selector when surprised emotion tapped
     @objc func surprisedImageTapped(sender: UITapGestureRecognizer) {
         emotion = 3
-        if modifyCheck == 1 {
-            delegate?.deliveryData(emotion, 2)
-            self.presentingViewController?.dismiss(animated: true, completion: nil)
-            
-        } else {
-            self.performSegue(withIdentifier: "sgRegisterMove", sender: self)
-        }
+        modifyEmotionCheck()
+
     }
     
     // Execute selector when angry emotion tapped
     @objc func angryImageTapped(sender: UITapGestureRecognizer) {
         emotion = 4
-        if modifyCheck == 1 {
-            delegate?.deliveryData(emotion, 2)
-            self.presentingViewController?.dismiss(animated: true, completion: nil)
-            
-        } else {
-            self.performSegue(withIdentifier: "sgRegisterMove", sender: self)
-        }
+        modifyEmotionCheck()
+
     }
     
     // Execute selector when lovely emotion tapped
     @objc func lovelyImageTapped(sender: UITapGestureRecognizer) {
         emotion = 5
-        if modifyCheck == 1 {
-            delegate?.deliveryData(emotion, 2)
-            self.presentingViewController?.dismiss(animated: true, completion: nil)
-            
-        } else {
-            self.performSegue(withIdentifier: "sgRegisterMove", sender: self)
-        }
+        modifyEmotionCheck()
+
     }
     
     // Execute selector when sad emotion tapped
     @objc func sadImageTapped(sender: UITapGestureRecognizer) {
         emotion = 6
-        if modifyCheck == 1 {
-            delegate?.deliveryData(emotion, 2)
-            self.presentingViewController?.dismiss(animated: true, completion: nil)
-            
-        } else {
-            self.performSegue(withIdentifier: "sgRegisterMove", sender: self)
-        }
+        modifyEmotionCheck()
+
     }
     
     // Execute selector when shame emotion tapped
     @objc func shameImageTapped(sender: UITapGestureRecognizer) {
         emotion = 7
-        if modifyCheck == 1 {
-            delegate?.deliveryData(emotion, 2)
-            self.presentingViewController?.dismiss(animated: true, completion: nil)
-            
-        } else {
-            self.performSegue(withIdentifier: "sgRegisterMove", sender: self)
-        }
+        modifyEmotionCheck()
+
     }
     
     // Execute selector when pleasure emotion tapped
     @objc func pleasureImageTapped(sender: UITapGestureRecognizer) {
         emotion = 8
-        if modifyCheck == 1 {
-            delegate?.deliveryData(emotion, 2)
-            self.presentingViewController?.dismiss(animated: true, completion: nil)
-            
-        } else {
-            self.performSegue(withIdentifier: "sgRegisterMove", sender: self)
-        }
+        modifyEmotionCheck()
+
     }
     
     // Execute selector when normal emotion tapped
     @objc func normalImageTapped(sender: UITapGestureRecognizer) {
         emotion = 9
-        if modifyCheck == 1 {
-            delegate?.deliveryData(emotion, 2)
-            self.presentingViewController?.dismiss(animated: true, completion: nil)
-            
-        } else {
-            self.performSegue(withIdentifier: "sgRegisterMove", sender: self)
-        }
+        modifyEmotionCheck()
+
     }
     
     // Execute selector when bored emotion tapped
     @objc func boredImageTapped(sender: UITapGestureRecognizer) {
         emotion = 10
-        if modifyCheck == 1 {
-            delegate?.deliveryData(emotion, 2)
-            self.presentingViewController?.dismiss(animated: true, completion: nil)
-            
-        } else {
-            self.performSegue(withIdentifier: "sgRegisterMove", sender: self)
-        }
+        modifyEmotionCheck()
+
     }
     
     // Execute selector when unknown emotion tapped
     @objc func unknownImageTapped(sender: UITapGestureRecognizer) {
         emotion = 11
+        modifyEmotionCheck()
+
+    }
+    
+    // Check whether it comes from modify page or register page
+    func modifyEmotionCheck() {
+        // Transfer emotion to RegisterViewController when diary modify
         if modifyCheck == 1 {
-            delegate?.deliveryData(emotion, 2)
+            delegate?.deliveryEmotionCheckData(emotion, 2)
             self.presentingViewController?.dismiss(animated: true, completion: nil)
-            
+        // Move RegisterViewController when diary write
         } else {
             self.performSegue(withIdentifier: "sgRegisterMove", sender: self)
         }

@@ -114,8 +114,9 @@
 		812B33FF25F0C2CB00DD299D /* DodamDodam */ = {
 			isa = PBXGroup;
 			children = (
-				627A01DF25FC651F00570064 /* MonthlyList */,
 				6253AB1E25F0DD680001BAEC /* Home */,
+				8176B95225FC7CAB00D104E7 /* Statistics */,
+				627A01DF25FC651F00570064 /* MonthlyList */,
 				817ECD0D25F6025A00BB3F8B /* RegisterDiary */,
 				6253AB1C25F0DD310001BAEC /* Setting */,
 				812B340025F0C2CB00DD299D /* AppDelegate.swift */,
@@ -124,10 +125,17 @@
 				812B340925F0C2CE00DD299D /* Assets.xcassets */,
 				812B340B25F0C2CE00DD299D /* LaunchScreen.storyboard */,
 				812B340E25F0C2CE00DD299D /* Info.plist */,
-				6253AB2525F0DE3C0001BAEC /* StatisticsViewController.swift */,
 				817ECD0A25F6023700BB3F8B /* Share.swift */,
 			);
 			path = DodamDodam;
+			sourceTree = "<group>";
+		};
+		8176B95225FC7CAB00D104E7 /* Statistics */ = {
+			isa = PBXGroup;
+			children = (
+				6253AB2525F0DE3C0001BAEC /* StatisticsViewController.swift */,
+			);
+			path = Statistics;
 			sourceTree = "<group>";
 		};
 		817ECD0D25F6025A00BB3F8B /* RegisterDiary */ = {

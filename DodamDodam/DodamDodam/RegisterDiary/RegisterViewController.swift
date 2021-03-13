@@ -8,12 +8,13 @@
 import UIKit
 import SQLite3
 
-protocol DeliveryDataProtocol: class {
-    func deliveryData(_ emotion: Int, _ modifyCheck: Int)
+// Bring data from SelectEmotionViewController to RegisterViewController using the protocol
+protocol DeliveryEmotionCheckProtocol: class {
+    func deliveryEmotionCheckData(_ emotion: Int, _ modifyCheck: Int)
 }
 
-class RegisterViewController: UIViewController, UIImagePickerControllerDelegate & UINavigationControllerDelegate, UITextFieldDelegate, UITextViewDelegate, DeliveryDataProtocol{
-   
+class RegisterViewController: UIViewController, UIImagePickerControllerDelegate & UINavigationControllerDelegate, UITextFieldDelegate, UITextViewDelegate, DeliveryEmotionCheckProtocol{
+    
     @IBOutlet weak var dailyEmotion: UIImageView!
     @IBOutlet weak var dailyDate: UITextField!
     @IBOutlet weak var dailyTitle: UITextField!
@@ -45,23 +46,27 @@ class RegisterViewController: UIViewController, UIImagePickerControllerDelegate 
     override func viewDidLoad() {
         super.viewDidLoad()
         
+        // Current date
         let date = NSDate()
         let formatter = DateFormatter()
-        formatter.locale = Locale(identifier: "ko") // ko : 한국형 format
+        formatter.locale = Locale(identifier: "ko")
         formatter.dateFormat = "yyyy-MM-dd"
         
+        // If there is no date to pass, set current date
         if registerDate == "" {
             dailyDate.text = formatter.string(from: date as Date)
             
+        // If there is date to pass, set date
         } else {
             dailyDate.text = registerDate
         }
       
+        // Set title border and borderColor
         dailyTitle.layer.borderWidth = 1.0
         dailyTitle.layer.borderColor = UIColor.lightGray.cgColor
         
+        // Set emotion image selected on the previous controller
         dailyEmotion.image = UIImage(named: Share.imageFileName[emotionImage])
-        
         
         // Connect imagePickerController
         imagePickerController.delegate = self
@@ -73,31 +78,28 @@ class RegisterViewController: UIViewController, UIImagePickerControllerDelegate 
         
         // Open SQLite file
         let fileURL = try! FileManager.default.url(for: .documentDirectory, in: .userDomainMask, appropriateFor: nil, create: false).appendingPathComponent("Dodam.sqlite")
-
+        
+        // If there is a problem opening database
         if sqlite3_open(fileURL.path, &db) != SQLITE_OK {
-            print("error opening database")
         }
         
-        // when emotionImage tap
+        // When emotionImage tap
         let tapGR = UITapGestureRecognizer(target: self, action: #selector(self.imageTapped))
         dailyEmotion.addGestureRecognizer(tapGR)
         dailyEmotion.isUserInteractionEnabled = true
         
-        // --------------------------
-        // 3/10 추가
+        // If If there is a date for correction, set that day diary content
         if receivedDate != "" {
             dailyDate.text = receivedDate
-            print("받앗나?", receivedDate)
             dailyDate.isUserInteractionEnabled = false
             sqlAction(receivedDate: receivedDate)
             
+        // If If there is no date for correction, init
         } else {
             createDatePicker()
             placeholderSetting()
             dailyDate.delegate = self
         }
-        // --------------------------
-
         
     }
     
@@ -108,7 +110,7 @@ class RegisterViewController: UIViewController, UIImagePickerControllerDelegate 
     }
     
     // Receive data to SelectEmotionViewController when DeliveryDataProtocol excutes
-    func deliveryData(_ emotion: Int, _ modifyCheck: Int) {
+    func deliveryEmotionCheckData(_ emotion: Int, _ modifyCheck: Int) {
         if modifyCheck == 2 && emotion != emotionImage{
             emotionImage = emotion
             dailyEmotion.image = UIImage(named: Share.imageFileName[emotion])
@@ -130,13 +132,10 @@ class RegisterViewController: UIViewController, UIImagePickerControllerDelegate 
         let alert =  UIAlertController(title: "사진 선택", message: "골라주세요.", preferredStyle: .actionSheet)
 
         let library =  UIAlertAction(title: "사진앨범", style: .default) { (action) in self.openLibrary()
-
         }
 
         let camera =  UIAlertAction(title: "카메라", style: .default) { (action) in
-
         self.openCamera()
-
         }
 
         let cancel = UIAlertAction(title: "취소", style: .cancel, handler: nil)
@@ -154,10 +153,8 @@ class RegisterViewController: UIViewController, UIImagePickerControllerDelegate 
         if receivedDate == "" {
             date = ""
             checkDate(dateCheck: dailyDate.text!)
-            print("date : ", date)
             
             if date == "" || date == "null" {
-                
                 if nilCheck() == 0 {
                     let resultAlert = UIAlertController(title: "알림", message: "제목 또는 내용을 입력해주세요.", preferredStyle: UIAlertController.Style.alert)
                     let okAction = UIAlertAction(title: "네, 알겠습니다.", style: UIAlertAction.Style.default, handler: nil)
@@ -180,46 +177,45 @@ class RegisterViewController: UIViewController, UIImagePickerControllerDelegate 
                     
                     let queryString = "INSERT INTO dodamDiary (diaryTitle, diaryContent, diaryDate, diaryImage, diaryEmotion) VALUES (?,?,?,?,?)"
                     
+                    // Set sqlite for insert action
                     if sqlite3_prepare(db, queryString, -1, &stmt, nil) != SQLITE_OK {
-                        let errmsg = String(cString: sqlite3_errmsg(db)!)
-                        print("error preparing insert: \(errmsg)")
+                        _ = String(cString: sqlite3_errmsg(db)!)
                         return
                     }
                     
+                    // Set settingTheme for question mark in queryString
                     if sqlite3_bind_text(stmt, 1, title, -1, SQLITE_TRANSIENT) != SQLITE_OK {
-                        let errmsg = String(cString: sqlite3_errmsg(db)!)
-                        print("error binding name: \(errmsg)")
+                        _ = String(cString: sqlite3_errmsg(db)!)
                         return
                     }
                     
+                    // Set settingTheme for question mark in queryString
                     if sqlite3_bind_text(stmt, 2, content, -1, SQLITE_TRANSIENT) != SQLITE_OK {
-                        let errmsg = String(cString: sqlite3_errmsg(db)!)
-                        print("error binding dept: \(errmsg)")
+                        _ = String(cString: sqlite3_errmsg(db)!)
                         return
                     }
                     
+                    // Set settingTheme for question mark in queryString
                     if sqlite3_bind_text(stmt, 3, date, -1, SQLITE_TRANSIENT) != SQLITE_OK {
-                        let errmsg = String(cString: sqlite3_errmsg(db)!)
-                        print("error binding phone: \(errmsg)")
+                        _ = String(cString: sqlite3_errmsg(db)!)
                         return
                     }
                     
+                    // Set settingTheme for question mark in queryString
                     if sqlite3_bind_blob(stmt, 4, daily.bytes, Int32(daily.length), SQLITE_TRANSIENT) != SQLITE_OK {
-                        let errmsg = String(cString: sqlite3_errmsg(db)!)
-                        print("error binding phone: \(errmsg)")
+                        _ = String(cString: sqlite3_errmsg(db)!)
                         return
                     }
                     
+                    // Set settingTheme for question mark in queryString
                     if sqlite3_bind_text(stmt, 5, imageCondition, -1, SQLITE_TRANSIENT) != SQLITE_OK {
-                        let errmsg = String(cString: sqlite3_errmsg(db)!)
-                        print("error binding phone: \(errmsg)")
+                        _ = String(cString: sqlite3_errmsg(db)!)
                         return
                     }
                     
                     
                     if sqlite3_step(stmt) != SQLITE_DONE{
-                        let errmsg = String(cString: sqlite3_errmsg(db)!)
-                        print("failure inserting: \(errmsg)")
+                        _ = String(cString: sqlite3_errmsg(db)!)
                         return
                     }
                     let resultAlert = UIAlertController(title: "결과", message: "입력되었습니다.", preferredStyle: UIAlertController.Style.alert)
@@ -227,19 +223,15 @@ class RegisterViewController: UIViewController, UIImagePickerControllerDelegate 
 
                         self.navigationController?.popToRootViewController(animated: true)
                     })
-                    
                     resultAlert.addAction(okAction)
                     present(resultAlert, animated: true, completion: nil)
                     print("Diary saved successfully")
                 }
                 
-
-                
             } else {
                 
                 let resultAlert = UIAlertController(title: "알림", message: "\(date)에 등록된 일기가 있습니다. \n날짜를 다시 선택해주세요.", preferredStyle: UIAlertController.Style.alert)
                 let okAction = UIAlertAction(title: "네, 알겠습니다.", style: UIAlertAction.Style.default, handler: nil)
-                
                 resultAlert.addAction(okAction)
                 present(resultAlert, animated: true, completion: nil)
             }
@@ -247,7 +239,7 @@ class RegisterViewController: UIViewController, UIImagePickerControllerDelegate 
         // When diary modify action
         } else {
             if nilCheck() == 1 {
-                let resultAlert = UIAlertController(title: "결과", message: "수정되었습니다.", preferredStyle: UIAlertController.Style.alert)
+                  let resultAlert = UIAlertController(title: "결과", message: "수정되었습니다.", preferredStyle: UIAlertController.Style.alert)
                   let cancelAction = UIAlertAction(title: "아니요", style: UIAlertAction.Style.default, handler: nil)
                   let okAction = UIAlertAction(title: "네, 알겠습니다.", style: UIAlertAction.Style.default, handler: {ACTION in
                       self.updateAction()
@@ -276,15 +268,14 @@ class RegisterViewController: UIViewController, UIImagePickerControllerDelegate 
             
         }
         
-        
     // TextView Place Holder when beginEditing
     func textViewDidBeginEditing(_ textView: UITextView) {
         if dailyContent.textColor == UIColor.lightGray {
             dailyContent.text = nil
             dailyContent.textColor = UIColor.black
         }
-        
     }
+    
     // TextView Place Holder when endEditing
     func textViewDidEndEditing(_ textView: UITextView) {
         if dailyContent.text.isEmpty {
@@ -338,8 +329,8 @@ class RegisterViewController: UIViewController, UIImagePickerControllerDelegate 
     // cancel action when datePicker's cancelButton click
     @objc func cancelDatePicker(){
         self.view.endEditing(true)
+        
       }
-    //-------------------------
     
     // Access album
     func openLibrary(){
@@ -355,17 +346,11 @@ class RegisterViewController: UIViewController, UIImagePickerControllerDelegate 
             present(imagePickerController, animated: false, completion: nil)
 
         }
-
-        else{
-            print("Camera not available")
-
-        }
     }
     
     // Bring image to album
     func imagePickerController(_ picker: UIImagePickerController, didFinishPickingMediaWithInfo info: [UIImagePickerController.InfoKey : Any]) {
         if let image = info[UIImagePickerController.InfoKey.originalImage] as? UIImage {
-//            dailyImage.isHidden = false
             dailyImageStackView.isHidden = false
             dailyImage.image = fixOrientation(image)
         }
@@ -373,7 +358,7 @@ class RegisterViewController: UIViewController, UIImagePickerControllerDelegate 
         dismiss(animated: true, completion: nil)
     }
     
-    // 사진 촬영이나 선택을 취소했을 때 호출되는 델리게이트 메서드
+    // Cancel imagePickerController
     func imagePickerControllerDidCancel(_ picker: UIImagePickerController) {
         // remove present view
         self.dismiss(animated: true, completion: nil)
@@ -381,7 +366,6 @@ class RegisterViewController: UIViewController, UIImagePickerControllerDelegate 
     
     // Set image for image's direction
     func fixOrientation(_ img: UIImage) -> UIImage {
-
         if (img.imageOrientation == .up) {
             return img
 
@@ -401,21 +385,23 @@ class RegisterViewController: UIViewController, UIImagePickerControllerDelegate 
     
     // Check if there is a written diary
     func checkDate(dateCheck: String) {
-        let queryString = "SELECT diaryDate FROM dodamDiary WHERE diaryDate = ?"
         var stmt: OpaquePointer?
-       
+
+        let queryString = "SELECT diaryDate FROM dodamDiary WHERE diaryDate = ?"
+        
+        // Set sqlite for select action
         if sqlite3_prepare(db, queryString, -1, &stmt, nil) != SQLITE_OK {
-            let errmsg = String(cString: sqlite3_errmsg(db)!)
-            print("error preparing insert: \(errmsg)")
+            _ = String(cString: sqlite3_errmsg(db)!)
             return
         }
-
+        
+        // Set date for question mark in queryString
         if sqlite3_bind_text(stmt, 1, dateCheck, -1, SQLITE_TRANSIENT) != SQLITE_OK {
-            let errmsg = String(cString: sqlite3_errmsg(db)!)
-            print("error binding name: \(errmsg)")
+            _ = String(cString: sqlite3_errmsg(db)!)
             return
         }
-
+        
+        // Excute SQL
         while sqlite3_step(stmt) == SQLITE_ROW{
             date = String(cString: sqlite3_column_text(stmt, 0))
 
@@ -437,120 +423,109 @@ class RegisterViewController: UIViewController, UIImagePickerControllerDelegate 
     
     // Modify diary
     func updateAction() {
-        var stmt: OpaquePointer?  // db의 statement
-        // 꼭 넣어줘야한다.: unsafeBitCast
+        var stmt: OpaquePointer?
         var dailyPicture: NSData = NSData()
         
-        let dTitle = dailyTitle.text?.trimmingCharacters(in: .whitespacesAndNewlines.self)
-        let dContent = dailyContent.text?.trimmingCharacters(in: .whitespacesAndNewlines.self)
-        let dImage = dailyImage.image
-        if dImage != nil {
-            dailyPicture = dImage!.pngData()! as NSData
+        let diaryTitle = dailyTitle.text?.trimmingCharacters(in: .whitespacesAndNewlines.self)
+        let diaryContent = dailyContent.text?.trimmingCharacters(in: .whitespacesAndNewlines.self)
+        let diaryImage = dailyImage.image
+        if diaryImage != nil {
+            dailyPicture = diaryImage!.pngData()! as NSData
         }
         
         let queryString = "UPDATE dodamDiary SET diaryTitle = ?, diaryContent = ?, diaryImage = ?, diaryEmotion = ? WHERE diaryDate = ?"
         
-        if sqlite3_prepare(db, queryString, -1, &stmt, nil) != SQLITE_OK {  // insert 하기 위한 셋팅
-            let errmsg = String(cString: sqlite3_errmsg(db)!)
-            print("error preparing insert: \(errmsg)")
+        // Set sqlite for update action
+        if sqlite3_prepare(db, queryString, -1, &stmt, nil) != SQLITE_OK {  
+            _ = String(cString: sqlite3_errmsg(db)!)
             return
         }
         
-        if sqlite3_bind_text(stmt, 1, dTitle, -1, SQLITE_TRANSIENT) != SQLITE_OK {
-            let errmsg = String(cString: sqlite3_errmsg(db)!)
-            print("error binding name: \(errmsg)")
+        // Set diary title for question mark in queryStrin
+        if sqlite3_bind_text(stmt, 1, diaryTitle, -1, SQLITE_TRANSIENT) != SQLITE_OK {
+            _ = String(cString: sqlite3_errmsg(db)!)
             return
         }
         
-        if sqlite3_bind_text(stmt, 2, dContent, -1, SQLITE_TRANSIENT) != SQLITE_OK {
-            let errmsg = String(cString: sqlite3_errmsg(db)!)
-            print("error binding name: \(errmsg)")
+        // Set diary content for question mark in queryStrin
+        if sqlite3_bind_text(stmt, 2, diaryContent, -1, SQLITE_TRANSIENT) != SQLITE_OK {
+            _ = String(cString: sqlite3_errmsg(db)!)
             return
         }
         
+        // Set diary image for question mark in queryStrin
         if sqlite3_bind_blob(stmt, 3, dailyPicture.bytes, Int32(dailyPicture.length), SQLITE_TRANSIENT) != SQLITE_OK { // 세번째 statement
-            let errmsg = String(cString: sqlite3_errmsg(db)!)
-            print("error binding phone: \(errmsg)")
+            _ = String(cString: sqlite3_errmsg(db)!)
             return
         }
         
+        // Set diary emotion for question mark in queryStrin
         if sqlite3_bind_text(stmt, 4, String(emotionImage), -1, SQLITE_TRANSIENT) != SQLITE_OK {
-            let errmsg = String(cString: sqlite3_errmsg(db)!)
-            print("error binding name: \(errmsg)")
+            _ = String(cString: sqlite3_errmsg(db)!)
             return
         }
         
+        // Set diary date for question mark in queryStrin
         if sqlite3_bind_text(stmt, 5, receivedDate, -1, SQLITE_TRANSIENT) != SQLITE_OK {
-            let errmsg = String(cString: sqlite3_errmsg(db)!)
-            print("error binding name: \(errmsg)")
+            _ = String(cString: sqlite3_errmsg(db)!)
             return
         }
         
-        // 실행
-        if sqlite3_step(stmt) != SQLITE_DONE{  // done : 끝났다, step : 쿼리 실행
-            let errmsg = String(cString: sqlite3_errmsg(db)!)
-            print("failure inserting: \(errmsg)")
+        // Excute SQL
+        if sqlite3_step(stmt) != SQLITE_DONE{ 
+            _ = String(cString: sqlite3_errmsg(db)!)
             return
         }
-        print("Diary update successfully")
-        
     }
     
-    // 수정을 위한 data select action
+    // Search a diary for selected date
     func sqlAction(receivedDate: String) {
-        var dataDaily:Data = Data()
-        
+        var dataDailyImage:Data = Data()
+        var stmt: OpaquePointer?
+
             let queryString = "SELECT diaryNumber, diaryTitle, diaryContent, diaryImage, diaryEmotion FROM dodamDiary WHERE diaryDate = ?"
-        
-            var stmt: OpaquePointer?
             
-            
+            // Set sqlite for delete action
             if sqlite3_prepare(db, queryString, -1, &stmt, nil) != SQLITE_OK {
-                let errmsg = String(cString: sqlite3_errmsg(db)!)
-                print("error preparing insert 요가?: \(errmsg)")
+                _ = String(cString: sqlite3_errmsg(db)!)
                 return
             }
-
-            if sqlite3_bind_text(stmt, 1, receivedDate, -1, SQLITE_TRANSIENT) != SQLITE_OK {  // 첫번째 statementm, 두번째 숫자입력란에 위치 적어준다.
-                let errmsg = String(cString: sqlite3_errmsg(db)!)
-                print("error binding name: \(errmsg)")
+        
+            // Set date for question mark in queryString
+            if sqlite3_bind_text(stmt, 1, receivedDate, -1, SQLITE_TRANSIENT) != SQLITE_OK {
+                _ = String(cString: sqlite3_errmsg(db)!)
                 return
             }
-
+        
+            // When selected data exists
             while sqlite3_step(stmt) == SQLITE_ROW{  // 읽어올 데이터가 있는지 확인
                 viewNumber = String(cString: sqlite3_column_text(stmt, 0))
-                viewTitle = String(cString: sqlite3_column_text(stmt, 1))  // db 타입은 text로 string으로 변환해야 배열에 쓸 수 있다.
+                viewTitle = String(cString: sqlite3_column_text(stmt, 1))
                 viewContent = String(cString: sqlite3_column_text(stmt, 2))
                 
                 if let dataBlob = sqlite3_column_blob(stmt, 3){
-                    let viewCondition = Int(sqlite3_column_bytes(stmt, 3))
-                    dataDaily = Data(bytes: dataBlob, count: viewCondition)
+                    let viewDailyImage = Int(sqlite3_column_bytes(stmt, 3))
+                    dataDailyImage = Data(bytes: dataBlob, count: viewDailyImage)
                 }
                 
                 viewEmotion = String(cString: sqlite3_column_text(stmt, 4))
 
             }
-
-            //----------------------
-            // 3/10 수정
+        
+            // Set view the diary for the selected date
             dailyTitle.text = viewTitle
             dailyContent.text = viewContent
             dailyEmotion.image = UIImage(named: Share.imageFileName[Int(viewEmotion)!])
-    
-            if dataDaily.isEmpty {
+        
+            // When diaryImage exists
+            if dataDailyImage.isEmpty {
                 dailyImageStackView.isHidden = true
 
-//                dailyImage.isHidden = true
-                
+            // When diaryImage doesn't exist
             } else {
                 dailyImageStackView.isHidden = false
-
-//                dailyImage.isHidden = false
-                dailyImage.image = UIImage(data: dataDaily)
+                dailyImage.image = UIImage(data: dataDailyImage)
             }
-
-            //----------------------
-  
     }
     
     // Press anywhere to erase the softkeyboard

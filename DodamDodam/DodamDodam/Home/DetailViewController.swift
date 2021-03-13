@@ -33,25 +33,28 @@ class DetailViewController: UIViewController {
     
     override func viewDidLoad() {
         super.viewDidLoad()
-
+        
+        // Set date to selected date
         diaryDate.text = date
         
         // Open SQLite file
-        let fileURL = try! FileManager.default.url(for: .documentDirectory, in: .userDomainMask, appropriateFor: nil, create: false).appendingPathComponent("Dodam.sqlite") // sqlite 파일명 기입(파일명은 내가 설정할 수 있다. 다만 확장자는 sqlite를 써준다.)
-                
-          if sqlite3_open(fileURL.path, &db) != SQLITE_OK {
-              print("error opening database")
-          }
+        let fileURL = try! FileManager.default.url(for: .documentDirectory, in: .userDomainMask, appropriateFor: nil, create: false).appendingPathComponent("Dodam.sqlite")
         
+        // If there is a problem opening database
+        if sqlite3_open(fileURL.path, &db) != SQLITE_OK {
+        }
+                
         // Execute SQL for watching a written diary
         sqlAction()
        
+        // Prevent diaryContent correction
         diaryContent.isUserInteractionEnabled = false
     }
     
     // Excute modify when modify's button click
     @IBAction func modifyDiaryBtn(_ sender: UIButton) {
-        let resultAlert = UIAlertController(title: "알림", message: "수정하시겠습니까?", preferredStyle: UIAlertController.Style.actionSheet)
+          // Set alert for modify
+          let resultAlert = UIAlertController(title: "알림", message: "수정하시겠습니까?", preferredStyle: UIAlertController.Style.actionSheet)
           let cancelAction = UIAlertAction(title: "아니요", style: UIAlertAction.Style.default, handler: nil)
           let okAction = UIAlertAction(title: "네, 알겠습니다.", style: UIAlertAction.Style.default, handler: {ACTION in
             // Move RegisterViewController
@@ -71,8 +74,8 @@ class DetailViewController: UIViewController {
     
     // Excute delete when delete's button click
     @IBAction func deleteDiaryBtn(_ sender: UIButton) {
-
-        let resultAlert = UIAlertController(title: "확인", message: "삭제하시겠습니까", preferredStyle: UIAlertController.Style.actionSheet)
+           // Set alert for delete
+           let resultAlert = UIAlertController(title: "확인", message: "삭제하시겠습니까", preferredStyle: UIAlertController.Style.actionSheet)
            let cancelAction = UIAlertAction(title: "아니요", style: UIAlertAction.Style.default, handler: nil)
            let okAction = UIAlertAction(title: "네", style: UIAlertAction.Style.default, handler: {ACTION in
             // Excute delete Action when okAction click
@@ -91,21 +94,19 @@ class DetailViewController: UIViewController {
     // Execute SQL for watching a written diary
     func sqlAction() {
         var dataDaily:Data = Data()
-        
+        var stmt: OpaquePointer?
+
             let queryString = "SELECT diaryNumber, diaryTitle, diaryContent, diaryImage, diaryEmotion FROM dodamDiary WHERE diaryDate = ?"
-            var stmt: OpaquePointer?
             
             // Set sqlite for select action
             if sqlite3_prepare(db, queryString, -1, &stmt, nil) != SQLITE_OK {  // insert 하기 위한 셋팅
-                let errmsg = String(cString: sqlite3_errmsg(db)!)
-                print("error preparing insert: \(errmsg)")
+                _ = String(cString: sqlite3_errmsg(db)!)
                 return
             }
             
-            // Set data for question mark in queryString
+            // Set date for question mark in queryString
             if sqlite3_bind_text(stmt, 1, date, -1, SQLITE_TRANSIENT) != SQLITE_OK {
-                let errmsg = String(cString: sqlite3_errmsg(db)!)
-                print("error binding name: \(errmsg)")
+                _ = String(cString: sqlite3_errmsg(db)!)
                 return
             }
         
@@ -124,23 +125,7 @@ class DetailViewController: UIViewController {
 
             }
             
-        // Set detail view
-//        // When diaryTitle exists
-//        if viewTitle.isEmpty == true {
-//            diaryTitle.text = "작성된 일기가 없습니다!"
-//            diaryContent.text = ""
-//            diaryContent.backgroundColor = .white
-//            emotionImage.isHidden = true
-//
-//            //----------------------
-//            // 3/10 수정
-//            // btn 보여지는것
-//            deleteButton.isHidden = true
-//            modifyButton.isHidden = true
-//            //----------------------
-//
-//        // When diaryTitle doesn't exist
-//        } else {
+            // Set view the diary for the selected date
             diaryTitle.text = viewTitle
             diaryContent.text = viewContent
             emotionImage.image = UIImage(named: Share.imageFileName[Int(viewEmotion)!])
@@ -155,15 +140,6 @@ class DetailViewController: UIViewController {
                 imageStack.isHidden = true
 
             }
-//
-//            //----------------------
-//            // 3/10 수정
-//            // btn 보여지는것
-//            deleteButton.isHidden = false
-//            modifyButton.isHidden = false
-//            //----------------------
-
-//        }
 
     }
     
@@ -173,40 +149,24 @@ class DetailViewController: UIViewController {
         
         let queryString = "DELETE FROM dodamDiary WHERE diaryNumber = ?"
         
-        // Set sqlite for select action
+        // Set sqlite for delete action
         if sqlite3_prepare(db, queryString, -1, &stmt, nil) != SQLITE_OK {
-            let errmsg = String(cString: sqlite3_errmsg(db)!)
-            print("error preparing insert: \(errmsg)")
+            _ = String(cString: sqlite3_errmsg(db)!)
             return
         }
         
         // Set data for question mark in queryString
         if sqlite3_bind_text(stmt, 1, viewNumber, -1, SQLITE_TRANSIENT) != SQLITE_OK {
-            let errmsg = String(cString: sqlite3_errmsg(db)!)
-            print("error binding name: \(errmsg)")
+            _ = String(cString: sqlite3_errmsg(db)!)
             return
         }
         
         // Excute SQL
         if sqlite3_step(stmt) != SQLITE_DONE{
-            let errmsg = String(cString: sqlite3_errmsg(db)!)
-            print("failure inserting: \(errmsg)")
+            _ = String(cString: sqlite3_errmsg(db)!)
             return
         }
         
     }
-    
-//    //----------------------
-//    // 3/10 수정
-//    override func prepare(for segue: UIStoryboardSegue, sender: Any?) {
-//        
-////        if segue.identifier == "MovediaryModify"{
-////           let modifyView = segue.destination as! RegisterViewController
-//////            modifyView.receivedDate = diaryDate.text!
-////
-////        }
-//
-//    }
-//    //----------------------
 
 }

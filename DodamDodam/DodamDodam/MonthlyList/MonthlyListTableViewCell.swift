@@ -8,7 +8,11 @@
 import UIKit
 
 class MonthlyListTableViewCell: UITableViewCell {
-
+    
+    @IBOutlet var iv_emotion: UIImageView!
+    @IBOutlet var lbl_DiaryTitle: UILabel!
+    @IBOutlet var lbl_DiaryDate: UILabel!
+    
     override func awakeFromNib() {
         super.awakeFromNib()
         // Initialization code

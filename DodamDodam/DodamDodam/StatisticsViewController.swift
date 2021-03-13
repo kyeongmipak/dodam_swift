@@ -269,12 +269,10 @@ class StatisticsViewController: UIViewController, UIPickerViewDelegate, UIPicker
         
         // Sort emotion counts
         for i in 0..<emotionCount.count{
-            var minn = emotionCount[i]
             var location : Int = i;
             for j in i+1..<emotionCount.count{
                 if(emotionCount[i]>emotionCount[j])
                 {
-                    minn = emotionCount[j];
                     location = j;
                 }
             }
@@ -295,14 +293,15 @@ class StatisticsViewController: UIViewController, UIPickerViewDelegate, UIPicker
         for i in 0 ..< emotionCount.count {
             if Int(emotionCount[i]) == 0 {
                 addChartCount = addChartCount + 1
+                removeIndex.append(i)
             }
         }
         
         //
-        for _ in 0 ..< addChartCount {
-            imageArraySorted.remove(at: 0)
-            emotionCount.remove(at: 0)
-            chartColorSorted.remove(at: 0)
+        for index in 0 ..< removeIndex.count {
+            imageArraySorted.remove(at: removeIndex[removeIndex.count - index - 1])
+            emotionCount.remove(at: removeIndex[removeIndex.count - index - 1])
+            chartColorSorted.remove(at: removeIndex[removeIndex.count - index - 1])
         }
         
         for index in (0 ..< imageArraySorted.count).reversed() {

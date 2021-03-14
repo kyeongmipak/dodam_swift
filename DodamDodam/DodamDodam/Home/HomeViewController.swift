@@ -59,9 +59,8 @@ class HomeViewController: UIViewController, FSCalendarDataSource, FSCalendarDele
             print("error creating table: \(errmsg)")
         }
         
-        // 지은 추가 +++++++
+        // Set theme
         readTheme()
-        // +++++++++
         
         // Connect Calendar
         calendar.dataSource = self
@@ -81,8 +80,7 @@ class HomeViewController: UIViewController, FSCalendarDataSource, FSCalendarDele
     }
     
     
-    // 지은 추가
-    // 불러오기 ***********************************
+    // theme select
     func readTheme() {
         
         let queryString = "SELECT * FROM dodamSetting"
@@ -96,7 +94,6 @@ class HomeViewController: UIViewController, FSCalendarDataSource, FSCalendarDele
         if sqlite3_step(stmt) != SQLITE_ROW {
             
             var stmt: OpaquePointer?
-            
             let SQLITE_TRANSIENT = unsafeBitCast(-1, to: sqlite3_destructor_type.self)
             
             let queryString = "INSERT INTO dodamSetting (settingTheme, userName, userBirth) VALUES (?, ?, ?)"
@@ -108,7 +105,7 @@ class HomeViewController: UIViewController, FSCalendarDataSource, FSCalendarDele
             }
             
             // Set settingTheme for question mark in queryString
-            if sqlite3_bind_text(stmt, 1, "systemTeal", -1, SQLITE_TRANSIENT) != SQLITE_OK {
+            if sqlite3_bind_text(stmt, 1, "Green", -1, SQLITE_TRANSIENT) != SQLITE_OK {
                 _ = String(cString: sqlite3_errmsg(db)!)
                 return
             }
@@ -135,50 +132,35 @@ class HomeViewController: UIViewController, FSCalendarDataSource, FSCalendarDele
         
         // When selected data exists
         while sqlite3_step(stmt) == SQLITE_ROW {
-            // 제일 처음에 들어오는 값은 키값이므로 키값으로 넣는다.
-            let id = sqlite3_column_int(stmt, 0)
-            // 입력받을때 text 값으로 입력했으니 Bean 에 String 값으로 생성해뒀기에 Text를 String 값으로 변환한다.
             let theme = String(cString: sqlite3_column_text(stmt, 4))
                     
-            if theme == "brown" {
+            if theme == "Purple" {
                 self.navigationController?.navigationBar.barTintColor = .init(red: 220.0/255.0, green:197.0/255.0,  blue: 253.0/255.0, alpha: 1)
                 UITabBar.appearance().barTintColor = .init(red: 220.0/255.0, green:197.0/255.0,  blue: 253.0/255.0, alpha: 1)
                 self.tabBarController?.tabBar.barTintColor = .init(red: 220.0/255.0, green:197.0/255.0,  blue: 253.0/255.0, alpha: 1)
-//                UIButton.appearance().backgroundColor = .brown
-//                Share.customButton = "blue"
-            }else if theme == "red" {
+            }else if theme == "Pink" {
                 self.navigationController?.navigationBar.barTintColor = .init(red: 253.0/255.0, green:179.0/255.0,  blue: 219.0/255.0, alpha: 1)
                 UITabBar.appearance().barTintColor = .init(red: 253.0/255.0, green:179.0/255.0,  blue: 219.0/255.0, alpha: 1)
                 self.tabBarController?.tabBar.barTintColor = .init(red: 253.0/255.0, green:179.0/255.0,  blue: 219.0/255.0, alpha: 1)
-//                UIButton.appearance().backgroundColor = .red
-//                Share.customButton = "blue"
-            }else if theme == "systemTeal" {
+            }else if theme == "Green" {
                 self.navigationController?.navigationBar.barTintColor = .init(red: 223.0/255.0, green:255.0/255.0,  blue: 230.0/255.0, alpha: 1)
                 UITabBar.appearance().barTintColor = .init(red: 223.0/255.0, green:255.0/255.0,  blue: 230.0/255.0, alpha: 1)
                 self.tabBarController?.tabBar.barTintColor = .init(red: 223.0/255.0, green:255.0/255.0,  blue: 230.0/255.0, alpha: 1)
-//                UIButton.appearance().backgroundColor = .systemTeal
-//                Share.customButton = "blue"
             }
-            else if theme == "yellow" {
+            else if theme == "Yellow" {
                 self.navigationController?.navigationBar.barTintColor = .init(red: 251.0/255.0, green:254.0/255.0,  blue: 182.0/255.0, alpha: 1)
                 UITabBar.appearance().barTintColor = .init(red: 251.0/255.0, green:254.0/255.0,  blue: 182.0/255.0, alpha: 1)
                 self.tabBarController?.tabBar.barTintColor = .init(red: 251.0/255.0, green:254.0/255.0,  blue: 182.0/255.0, alpha: 1)
-//                UIButton.appearance().backgroundColor = .yellow
-//                Share.customButton = "blue"
             }
-            else if theme == "systemPink" {
+            else if theme == "Orange" {
                 self.navigationController?.navigationBar.barTintColor = .init(red: 253.0/255.0, green:197.0/255.0,  blue: 172.0/255.0, alpha: 1)
                 UITabBar.appearance().barTintColor = .init(red: 253.0/255.0, green:197.0/255.0,  blue: 172.0/255.0, alpha: 1)
                 self.tabBarController?.tabBar.barTintColor = .init(red: 253.0/255.0, green:197.0/255.0,  blue: 172.0/255.0, alpha: 1)
-//                UIButton.appearance().backgroundColor = .systemPink
-//                Share.customButton = "blue"
             }
-            else if theme == "blue" {
+            else if theme == "Sky" {
                 self.navigationController?.navigationBar.barTintColor = .init(red: 206.0/255.0, green:221.0/255.0,  blue: 254.0/255.0, alpha: 1)
                 UITabBar.appearance().barTintColor = .init(red: 206.0/255.0, green:221.0/255.0,  blue: 254.0/255.0, alpha: 1)
                 self.tabBarController?.tabBar.barTintColor = .init(red: 206.0/255.0, green:221.0/255.0,  blue: 254.0/255.0, alpha: 1)
-//                UIButton.appearance().backgroundColor = .blue
-//                Share.customButton = "blue"
             }
             
             
@@ -187,7 +169,7 @@ class HomeViewController: UIViewController, FSCalendarDataSource, FSCalendarDele
     }
     
     
-    // 불러오기 ***********************************
+    // selectTheme
     func selectTheme() {
         var stmt: OpaquePointer?
 
@@ -198,60 +180,42 @@ class HomeViewController: UIViewController, FSCalendarDataSource, FSCalendarDele
             return
         }
         
-        // bean 에 집어 넣어서 append 시키면 일이 끝남
-        // (stmt)에 읽어올 데이터가 있는지 확인하는 과정
         while sqlite3_step(stmt) == SQLITE_ROW {
-            // 제일 처음에 들어오는 값은 키값이므로 키값으로 넣는다.
-            let id = sqlite3_column_int(stmt, 0)
-            // 입력받을때 text 값으로 입력했으니 Bean 에 String 값으로 생성해뒀기에 Text를 String 값으로 변환한다.
             let theme = String(cString: sqlite3_column_text(stmt, 4))
             
-            if theme == "brown" {
+            if theme == "Purple" {
                 self.navigationController?.navigationBar.barTintColor = .init(red: 220.0/255.0, green:197.0/255.0,  blue: 253.0/255.0, alpha: 1)
                 UITabBar.appearance().barTintColor = .init(red: 220.0/255.0, green:197.0/255.0,  blue: 253.0/255.0, alpha: 1)
                 self.tabBarController?.tabBar.barTintColor = .init(red: 220.0/255.0, green:197.0/255.0,  blue: 253.0/255.0, alpha: 1)
-//                UIButton.appearance().backgroundColor = .brown
-//                Share.customButton = "blue"
-            }else if theme == "red" {
+            }else if theme == "Pink" {
                 self.navigationController?.navigationBar.barTintColor = .init(red: 253.0/255.0, green:179.0/255.0,  blue: 219.0/255.0, alpha: 1)
                 UITabBar.appearance().barTintColor = .init(red: 253.0/255.0, green:179.0/255.0,  blue: 219.0/255.0, alpha: 1)
                 self.tabBarController?.tabBar.barTintColor = .init(red: 253.0/255.0, green:179.0/255.0,  blue: 219.0/255.0, alpha: 1)
-//                UIButton.appearance().backgroundColor = .red
-//                Share.customButton = "blue"
-            }else if theme == "systemTeal" {
+            }else if theme == "Green" {
                 self.navigationController?.navigationBar.barTintColor = .init(red: 223.0/255.0, green:255.0/255.0,  blue: 230.0/255.0, alpha: 1)
                 UITabBar.appearance().barTintColor = .init(red: 223.0/255.0, green:255.0/255.0,  blue: 230.0/255.0, alpha: 1)
                 self.tabBarController?.tabBar.barTintColor = .init(red: 223.0/255.0, green:255.0/255.0,  blue: 230.0/255.0, alpha: 1)
-//                UIButton.appearance().backgroundColor = .systemTeal
-//                Share.customButton = "blue"
             }
-            else if theme == "yellow" {
+            else if theme == "Yellow" {
                 self.navigationController?.navigationBar.barTintColor = .init(red: 251.0/255.0, green:254.0/255.0,  blue: 182.0/255.0, alpha: 1)
                 UITabBar.appearance().barTintColor = .init(red: 251.0/255.0, green:254.0/255.0,  blue: 182.0/255.0, alpha: 1)
                 self.tabBarController?.tabBar.barTintColor = .init(red: 251.0/255.0, green:254.0/255.0,  blue: 182.0/255.0, alpha: 1)
-//                UIButton.appearance().backgroundColor = .yellow
-//                Share.customButton = "blue"
             }
-            else if theme == "systemPink" {
+            else if theme == "Orange" {
                 self.navigationController?.navigationBar.barTintColor = .init(red: 253.0/255.0, green:197.0/255.0,  blue: 172.0/255.0, alpha: 1)
                 UITabBar.appearance().barTintColor = .init(red: 253.0/255.0, green:197.0/255.0,  blue: 172.0/255.0, alpha: 1)
                 self.tabBarController?.tabBar.barTintColor = .init(red: 253.0/255.0, green:197.0/255.0,  blue: 172.0/255.0, alpha: 1)
-//                UIButton.appearance().backgroundColor = .systemPink
-//                Share.customButton = "blue"
             }
-            else if theme == "blue" {
+            else if theme == "Sky" {
                 self.navigationController?.navigationBar.barTintColor = .init(red: 206.0/255.0, green:221.0/255.0,  blue: 254.0/255.0, alpha: 1)
                 UITabBar.appearance().barTintColor = .init(red: 206.0/255.0, green:221.0/255.0,  blue: 254.0/255.0, alpha: 1)
                 self.tabBarController?.tabBar.barTintColor = .init(red: 206.0/255.0, green:221.0/255.0,  blue: 254.0/255.0, alpha: 1)
-//                UIButton.appearance().backgroundColor = .blue
-//                Share.customButton = "blue"
             }
             
         }
         
     }
     
-    // 지은 추가 ***********************************
     
     
     // Set calendar
@@ -344,9 +308,7 @@ class HomeViewController: UIViewController, FSCalendarDataSource, FSCalendarDele
     
     // Redo HomeViewController
     override func viewWillAppear(_ animated: Bool) {
-        // 지은 추가----------
         selectTheme()
-        // --------------
         registerDates.removeAll()
         dateSelectAction()
         calendar.reloadData()

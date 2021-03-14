@@ -576,12 +576,12 @@
                     <navigationItem key="navigationItem" id="77s-FA-nt8"/>
                     <connections>
                         <outlet property="selectTheme" destination="LBp-ct-uKU" id="sqq-Ni-D2b"/>
-                        <outlet property="themeBlue" destination="KPR-9L-yzd" id="kSe-LO-ica"/>
-                        <outlet property="themeBrown" destination="NQA-Ez-x8m" id="RpX-Qm-z42"/>
-                        <outlet property="themePink" destination="F5m-an-gyS" id="Vxt-El-EU2"/>
-                        <outlet property="themeSky" destination="6y2-TC-4U0" id="K8f-hM-otU"/>
-                        <outlet property="themeYellow" destination="dPv-vA-irQ" id="caY-UW-cil"/>
-                        <outlet property="tnemeRed" destination="Mzh-CR-Cjq" id="Hyq-6J-A2G"/>
+                        <outlet property="themeGreen" destination="6y2-TC-4U0" id="7TO-FR-T2Q"/>
+                        <outlet property="themeOrange" destination="F5m-an-gyS" id="KiK-SM-H38"/>
+                        <outlet property="themePink" destination="Mzh-CR-Cjq" id="NMv-fN-O0t"/>
+                        <outlet property="themePurple" destination="NQA-Ez-x8m" id="Y1f-Cm-R6Q"/>
+                        <outlet property="themeSky" destination="KPR-9L-yzd" id="DYc-RF-NKJ"/>
+                        <outlet property="themeYellow" destination="dPv-vA-irQ" id="Keb-X1-Fgh"/>
                     </connections>
                 </viewController>
                 <placeholder placeholderIdentifier="IBFirstResponder" id="vj0-Uq-R0Q" userLabel="First Responder" customClass="UIResponder" sceneMemberID="firstResponder"/>
@@ -614,17 +614,20 @@
                     <navigationItem key="navigationItem" id="WLu-Kn-Q8l">
                         <barButtonItem key="leftBarButtonItem" title="Item" id="JNW-4C-bgg">
                             <imageReference key="image" image="questionmark.circle" catalog="system" symbolScale="large"/>
+                            <color key="tintColor" white="0.0" alpha="1" colorSpace="custom" customColorSpace="genericGamma22GrayColorSpace"/>
                             <connections>
                                 <segue destination="HCo-xl-SFX" kind="presentation" id="IZ8-LG-IcN"/>
                             </connections>
                         </barButtonItem>
                         <rightBarButtonItems>
                             <barButtonItem title="Item" image="square.and.pencil" catalog="system" id="D5z-L8-NG7">
+                                <color key="tintColor" white="0.0" alpha="1" colorSpace="custom" customColorSpace="genericGamma22GrayColorSpace"/>
                                 <connections>
                                     <segue destination="bxx-np-CwA" kind="show" identifier="sgSelectEmotionMove" id="B1P-rT-vGg"/>
                                 </connections>
                             </barButtonItem>
                             <barButtonItem title="Item" image="gearshape.fill" catalog="system" id="tiV-b8-jpX">
+                                <color key="tintColor" white="0.0" alpha="1" colorSpace="custom" customColorSpace="genericGamma22GrayColorSpace"/>
                                 <connections>
                                     <segue destination="LYz-Vw-hum" kind="show" id="rbU-c9-emg"/>
                                 </connections>

@@ -281,18 +281,16 @@ class StatisticsViewController: UIViewController, UIPickerViewDelegate, UIPicker
         }
         
         // Sort emotion counts
-        for i in 0..<emotionCount.count{
-            var location : Int = i;
-            for j in i+1..<emotionCount.count{
-                if(emotionCount[i]>emotionCount[j])
-                {
-                    location = j;
+        for _ in 0 ..< emotionCount.count - 1 {
+            for j in 0 ..< emotionCount.count - 1 {
+                if (emotionCount[j] > emotionCount[j+1]){
+                    let temp = emotionCount[j]
+                    emotionCount[j] = emotionCount[j+1]
+                    emotionCount[j+1] = temp
+                    let tempIndex = sortedIndex[j]
+                    sortedIndex[j] = sortedIndex[j+1]
+                    sortedIndex[j+1] = tempIndex
                 }
-            }
-
-            if i != location{
-                emotionCount.swapAt(i, location)
-                sortedIndex.swapAt(i, location)
             }
         }
         

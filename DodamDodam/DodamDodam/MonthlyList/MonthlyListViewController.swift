@@ -14,7 +14,6 @@ class MonthlyListViewController: UIViewController, UITableViewDataSource, UITabl
     @IBOutlet var yearsPicker: UIPickerView!
     @IBOutlet var monthPicker: UIPickerView!
     
-    var count:[Double] = []
     // Use OpaquePointer type for DB
     var db: OpaquePointer?
     // set instance variable of Diary
@@ -25,13 +24,17 @@ class MonthlyListViewController: UIViewController, UITableViewDataSource, UITabl
     let date = NSDate()
     var years : [String] = []
     var months : [String] = []
+    var selectCheckYearsPicker = 0
+    var selectCheckMonthsPicker = 0
     var startYear = 0
+    var selectedDate = ""
     var realMonth = ""
     var selectYear = ""
     var selectMonth = ""
     var selectedYear = ""
     var selectedMonth = ""
     var selectDate = ""
+    var year = ""
     var month = ""
     
     override func viewDidLoad() {
@@ -42,14 +45,6 @@ class MonthlyListViewController: UIViewController, UITableViewDataSource, UITabl
         
         // If there is a problem opening database
         if sqlite3_open(fileURL.path, &db) != SQLITE_OK{
-        }
-        
-        // If there is an existing table, ignore it, create it if it does not exist
-        if sqlite3_exec(db, "CREATE TABLE IF NOT EXISTS dodamDiary (diaryNumber INTEGER PRIMARY KEY AUTOINCREMENT, diaryTitle TEXT, diaryContent TEXT, diaryImage BLOB, diaryDate TEXT)", nil, nil, nil) != SQLITE_OK{
-            _ = String(cString: sqlite3_errmsg(db)!)
-        }
-        if sqlite3_exec(db,  "CREATE TABLE IF NOT EXISTS dodamSetting (userNo INTEGER PRIMARY KEY AUTOINCREMENT, userName TEXT, userBirth TEXT, userImage BLOB, settingTheme TEXT, settingFont Text, settingPassword INTEGER)", nil, nil, nil) != SQLITE_OK{
-            _ = String(cString: sqlite3_errmsg(db)!)
         }
         
         // Setting initial value of year picker
@@ -67,7 +62,6 @@ class MonthlyListViewController: UIViewController, UITableViewDataSource, UITabl
         }
         formatter.dateFormat = "MM"
         realMonth = formatter.string(from: date as Date)
-        print("\(formatter.string(from: date as Date))월")
         
         // Setting initial value
         yearsPicker.selectRow(1, inComponent: 0, animated: true)
@@ -75,7 +69,6 @@ class MonthlyListViewController: UIViewController, UITableViewDataSource, UITabl
         
         readInitialSettingValues() // Excute function for initial value of sqlite
     }
-    
     
     // selectTheme
     func selectTheme() {
@@ -118,35 +111,50 @@ class MonthlyListViewController: UIViewController, UITableViewDataSource, UITabl
                 UITabBar.appearance().barTintColor = .init(red: 206.0/255.0, green:221.0/255.0,  blue: 254.0/255.0, alpha: 1)
                 self.tabBarController?.tabBar.barTintColor = .init(red: 206.0/255.0, green:221.0/255.0,  blue: 254.0/255.0, alpha: 1)
             }
-            
         }
-        
     }
-    
-    
-    
     
     // for reload data
     override func viewWillAppear(_ animated: Bool) {
         selectTheme()
         
-        // Setting initial value
-        yearsPicker.selectRow(1, inComponent: 0, animated: true)
-        monthPicker.selectRow((Int(realMonth)!-1), inComponent: 0, animated: true)
-        readInitialSettingValues()
+        // Setting reload value
+        selectedDate = ""
+        switch selectCheckYearsPicker {
+        case 0: // The user not ran the YearPickerview
+            switch selectCheckMonthsPicker {
+            case 0: // The user did not run YearPickerview and MonthPickerview
+                selectedDate = String(startYear + 1)+"-\(realMonth)"
+            case 1: // The user not ran the YearPickerview, but ran the MonthPickerview
+                selectedDate = String(startYear + 1)+"-\(month)"
+            default:
+                break
+            }
+        case 1:  // The user ran the YearPickerview
+            switch selectCheckMonthsPicker {
+            case 0: // The user ran the YearPickerview, but not ran the MonthPickerview
+                selectedDate = "\(year)-\(realMonth)"
+            case 1: // The user ran YearPickerview and MonthPickerview
+                selectedDate = selectDate
+            default:
+                break
+            }
+        default:
+            break
+        }
+        readMonthlyListValues()
     }
     
     // Functions executed when the magnifying glass button is pressed
     @IBAction func selectDateAction(_ sender: UIButton) {
         // Truncate year and month string for sqlite
         let subyear = selectedYear.firstIndex(of: "년") ?? selectedYear.endIndex
-        let year = String(selectedYear[..<subyear])
+        year = String(selectedYear[..<subyear])
         let submonth = selectedMonth.firstIndex(of: "월") ?? selectedMonth.endIndex
         month = "0" + String(selectedMonth[..<submonth])
         
         selectDate = year + "-" + month // Set sqlite variable for user-selected data (question mark in query)
         readMonthlyListValues() // Excute function for Selected-Action value of sqlite
-        
     }
     
     // MARK: - TableView Setting
@@ -164,6 +172,7 @@ class MonthlyListViewController: UIViewController, UITableViewDataSource, UITabl
         let diary: Diary
         diary = diaryList[indexPath.row] // Set data by checking the location of diaryList for each cell
         
+        cell?.selectionStyle = MonthlyListTableViewCell.SelectionStyle.none
         cell?.lbl_DiaryTitle.text = diary.diaryTitle // Setting cell of label 'lbl_DiaryTitle'
         cell?.lbl_DiaryDate.text = diary.diaryDate // Setting cell of label 'lbl_DiaryDate'
         cell?.iv_emotion.image = UIImage(named: Share.imageFileName[Int(diary.diaryEmotion!)!]) // Setting cell of imageView 'iv_emotion'
@@ -211,18 +220,36 @@ class MonthlyListViewController: UIViewController, UITableViewDataSource, UITabl
             diaryList.append(Diary.init(diaryNumber: Int(diaryNumber)!, diaryTitle: diaryTitle, diaryContent: diaryContent, diaryDate: diaryDate, diaryEmotion: diaryEmotion))
         }
         self.MonthlyTableList.reloadData() // Reload data of Tableview
-        
     }
     
     // Search the diarylist of year-month selected by the user
     func readMonthlyListValues(){
         diaryList.removeAll() // init diaryList
-        let selectedDate = selectDate // Setting sqlite variable for question mark (selected by the user)
-      
-        // if -> 실패
-        // switch -> 실패
-        // 선택안한 피커뷰는?
-        print("selectedDate >>>>>>> \(selectedDate)")
+        selectedDate = ""
+        
+        switch selectCheckYearsPicker {
+        case 0: // The user not ran the YearPickerview
+            switch selectCheckMonthsPicker {
+            case 0: // The user did not run YearPickerview and MonthPickerview
+                selectedDate = String(startYear + 1)+"-\(realMonth)"
+            case 1: // The user not ran the YearPickerview, but ran the MonthPickerview
+                selectedDate = String(startYear + 1)+"-\(month)"
+            default:
+                break
+            }
+        case 1:  // The user ran the YearPickerview
+            switch selectCheckMonthsPicker {
+            case 0: // The user ran the YearPickerview, but not ran the MonthPickerview
+                selectedDate = "\(year)-\(realMonth)"
+            case 1: // The user ran YearPickerview and MonthPickerview
+                selectedDate = selectDate
+            default:
+                break
+            }
+        default:
+            break
+        }
+        
         var stmt : OpaquePointer?
         let SQLITE_TRANSIENT = unsafeBitCast(-1, to: sqlite3_destructor_type.self) // Encoding in Korean
         let queryString = "select diaryNumber, diaryTitle, diaryContent, diaryDate, diaryEmotion from dodamDiary where substr(diaryDate,1,7)=?"
@@ -283,9 +310,11 @@ class MonthlyListViewController: UIViewController, UITableViewDataSource, UITabl
     func pickerView(_ pickerView: UIPickerView, didSelectRow row: Int, inComponent component: Int) {
         switch pickerView {
         case yearsPicker:
+            selectCheckYearsPicker = 1
             selectedYear = years[row]
             selectedYear.remove(at: selectedYear.index(before: selectedYear.endIndex))
         case monthPicker :
+            selectCheckMonthsPicker = 1
             selectedMonth = months[row]
             selectedMonth.remove(at: selectedMonth.index(before: selectedMonth.endIndex))
         default:
@@ -301,8 +330,7 @@ class MonthlyListViewController: UIViewController, UITableViewDataSource, UITabl
             let indexPath = self.MonthlyTableList.indexPath(for: cell)
             let detailView = segue.destination as! DetailViewController
             detailView.selectedDate = diaryList[(indexPath?.row)!].diaryDate!
-            
         }
     }
     
-}
+} // END

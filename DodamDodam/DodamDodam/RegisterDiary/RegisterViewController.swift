@@ -21,6 +21,7 @@ class RegisterViewController: UIViewController, UIImagePickerControllerDelegate 
     @IBOutlet weak var dailyContent: UITextView!
     @IBOutlet weak var dailyImage: UIImageView!
     @IBOutlet weak var dailyImageStackView: UIStackView!
+    @IBOutlet weak var diaryScrollView: UIScrollView!
     
     var emotionImage = 100
     var registerDate = ""
@@ -33,7 +34,7 @@ class RegisterViewController: UIViewController, UIImagePickerControllerDelegate 
     
     var db: OpaquePointer?
     var diaryDate = ""
-    var date = ""
+    var registeredDate = ""
     
     var receivedDate = ""
     var viewNumber = ""
@@ -101,6 +102,22 @@ class RegisterViewController: UIViewController, UIImagePickerControllerDelegate 
             dailyDate.delegate = self
         }
         
+        // Press anywhere to erase the softkeyboard
+        let singleTapGestureRecognizer = UITapGestureRecognizer(target: self, action: #selector(MyTapMethod))
+        singleTapGestureRecognizer.numberOfTapsRequired = 1
+        singleTapGestureRecognizer.isEnabled = true
+        singleTapGestureRecognizer.cancelsTouchesInView = false
+        diaryScrollView.addGestureRecognizer(singleTapGestureRecognizer)
+        
+        // Change the keyboard position when entering content
+        dailyContent.delegate = self
+
+        // When keyboard show
+        NotificationCenter.default.addObserver(self, selector: #selector(keyboardWillShow(_:)), name: UIResponder.keyboardWillShowNotification, object: nil)
+
+        // When keyboard hide
+        NotificationCenter.default.addObserver(self, selector: #selector(keyboardWillHide(_:)), name: UIResponder.keyboardWillHideNotification, object: nil)
+
     }
     
     // Receive data to SelectEmotionViewController
@@ -146,21 +163,23 @@ class RegisterViewController: UIViewController, UIImagePickerControllerDelegate 
         present(alert, animated: true, completion: nil)
     }
     
-    
     // Click Done button
     @IBAction func registerAction(_ sender: UIButton) {
         // When diary register action
         if receivedDate == "" {
-            date = ""
+            registeredDate = ""
+            // Check if there is a diary on the selected date
             checkDate(dateCheck: dailyDate.text!)
             
-            if date == "" || date == "null" {
+            // If there is no diary
+            if registeredDate == "" || registeredDate == "null" {
                 if nilCheck() == 0 {
                     let resultAlert = UIAlertController(title: "알림", message: "제목 또는 내용을 입력해주세요.", preferredStyle: UIAlertController.Style.alert)
                     let okAction = UIAlertAction(title: "네, 알겠습니다.", style: UIAlertAction.Style.default, handler: nil)
                     
                     resultAlert.addAction(okAction)
                     present(resultAlert, animated: true, completion: nil)
+                    
                 } else {
                     var daily: NSData = NSData()
                     var stmt: OpaquePointer?
@@ -213,11 +232,12 @@ class RegisterViewController: UIViewController, UIImagePickerControllerDelegate 
                         return
                     }
                     
-                    
+                    // Excute SQL
                     if sqlite3_step(stmt) != SQLITE_DONE{
                         _ = String(cString: sqlite3_errmsg(db)!)
                         return
                     }
+                    
                     let resultAlert = UIAlertController(title: "결과", message: "입력되었습니다.", preferredStyle: UIAlertController.Style.alert)
                     let okAction = UIAlertAction(title: "네, 알겠습니다.", style: UIAlertAction.Style.default, handler: {ACTION in
 
@@ -225,12 +245,11 @@ class RegisterViewController: UIViewController, UIImagePickerControllerDelegate 
                     })
                     resultAlert.addAction(okAction)
                     present(resultAlert, animated: true, completion: nil)
-                    print("Diary saved successfully")
                 }
-                
+            // If there is diary
             } else {
                 
-                let resultAlert = UIAlertController(title: "알림", message: "\(date)에 등록된 일기가 있습니다. \n날짜를 다시 선택해주세요.", preferredStyle: UIAlertController.Style.alert)
+                let resultAlert = UIAlertController(title: "알림", message: "\(registeredDate)에 등록된 일기가 있습니다. \n날짜를 다시 선택해주세요.", preferredStyle: UIAlertController.Style.alert)
                 let okAction = UIAlertAction(title: "네, 알겠습니다.", style: UIAlertAction.Style.default, handler: nil)
                 resultAlert.addAction(okAction)
                 present(resultAlert, animated: true, completion: nil)
@@ -238,24 +257,27 @@ class RegisterViewController: UIViewController, UIImagePickerControllerDelegate 
             
         // When diary modify action
         } else {
-            if nilCheck() == 1 {
-                  let resultAlert = UIAlertController(title: "결과", message: "수정되었습니다.", preferredStyle: UIAlertController.Style.alert)
-                  let cancelAction = UIAlertAction(title: "아니요", style: UIAlertAction.Style.default, handler: nil)
-                  let okAction = UIAlertAction(title: "네, 알겠습니다.", style: UIAlertAction.Style.default, handler: {ACTION in
-                      self.updateAction()
-                      
-                    self.navigationController?.popToRootViewController(animated: true)
-                    
-                  })
-                  resultAlert.addAction(cancelAction)
-                  resultAlert.addAction(okAction)
-                  present(resultAlert, animated: true, completion: nil)
-            } else {
+            if nilCheck() == 0 {
                 let resultAlert = UIAlertController(title: "알림", message: "제목 또는 내용을 입력해주세요.", preferredStyle: UIAlertController.Style.actionSheet)
                 let okAction = UIAlertAction(title: "네, 알겠습니다.", style: UIAlertAction.Style.default, handler: nil)
                 
                 resultAlert.addAction(okAction)
                 present(resultAlert, animated: true, completion: nil)
+                
+            } else {
+                
+                let resultAlert = UIAlertController(title: "결과", message: "수정되었습니다.", preferredStyle: UIAlertController.Style.alert)
+                let cancelAction = UIAlertAction(title: "아니요", style: UIAlertAction.Style.default, handler: nil)
+                let okAction = UIAlertAction(title: "네, 알겠습니다.", style: UIAlertAction.Style.default, handler: {ACTION in
+                    self.updateAction()
+                    
+                  self.navigationController?.popToRootViewController(animated: true)
+                  
+                })
+                resultAlert.addAction(cancelAction)
+                resultAlert.addAction(okAction)
+                present(resultAlert, animated: true, completion: nil)
+               
             }
         }
     }
@@ -403,7 +425,7 @@ class RegisterViewController: UIViewController, UIImagePickerControllerDelegate 
         
         // Excute SQL
         while sqlite3_step(stmt) == SQLITE_ROW{
-            date = String(cString: sqlite3_column_text(stmt, 0))
+            registeredDate = String(cString: sqlite3_column_text(stmt, 0))
 
         }
     }
@@ -529,8 +551,19 @@ class RegisterViewController: UIViewController, UIImagePickerControllerDelegate 
     }
     
     // Press anywhere to erase the softkeyboard
-    override func touchesBegan(_ touches: Set<UITouch>, with event: UIEvent?) {
-        self.view.endEditing(true)
+    @objc func MyTapMethod(sender: UITapGestureRecognizer) {
+            self.view.endEditing(true)
     }
+
+    // Move view 150 points upward
+    @objc func keyboardWillShow(_ sender: Notification) {
+        self.view.frame.origin.y = -150
+    }
+
+    // Move view to original position
+     @objc func keyboardWillHide(_ sender: Notification) {
+        self.view.frame.origin.y = 0
+    }
+    
 
 }

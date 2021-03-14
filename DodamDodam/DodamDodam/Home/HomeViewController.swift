@@ -20,8 +20,9 @@ class HomeViewController: UIViewController, FSCalendarDataSource, FSCalendarDele
     
     // Use OpaquePointer type for DB
     var db: OpaquePointer?
-    var registerDates: [Date] = []
+    
     var dataViewImage:Data = Data()
+    var registerDates: [Date] = []
     var diaryDate = ""
     var selectedDate = ""
         
@@ -49,14 +50,12 @@ class HomeViewController: UIViewController, FSCalendarDataSource, FSCalendarDele
         
         // Make a SQLite Table for Diary
         if sqlite3_exec(db, "CREATE TABLE IF NOT EXISTS dodamDiary (diaryNumber INTEGER PRIMARY KEY AUTOINCREMENT, diaryTitle TEXT, diaryContent TEXT, diaryImage BLOB, diaryDate TEXT, diaryEmotion TEXT)", nil, nil, nil) != SQLITE_OK {
-            let errmsg = String(cString: sqlite3_errmsg(db)!)
-            print("error creating table: \(errmsg)")
+            _ = String(cString: sqlite3_errmsg(db)!)
         }
         
         // Make a SQLite Table for Setting
         if sqlite3_exec(db, "CREATE TABLE IF NOT EXISTS dodamSetting (userNo INTEGER PRIMARY KEY AUTOINCREMENT, userName TEXT, userBirth TEXT, userImage BLOB, settingTheme TEXT, settingFont Text, settingPassword INTEGER)", nil, nil, nil) != SQLITE_OK {
-            let errmsg = String(cString: sqlite3_errmsg(db)!)
-            print("error creating table: \(errmsg)")
+            _ = String(cString: sqlite3_errmsg(db)!)
         }
         
         // Set theme
@@ -82,9 +81,9 @@ class HomeViewController: UIViewController, FSCalendarDataSource, FSCalendarDele
     
     // theme select
     func readTheme() {
+        var stmt: OpaquePointer?
         
         let queryString = "SELECT * FROM dodamSetting"
-        var stmt: OpaquePointer?
         
         if sqlite3_prepare(db, queryString, -1, &stmt, nil) != SQLITE_OK {
             _ = String(cString: sqlite3_errmsg(db)!)
@@ -162,12 +161,9 @@ class HomeViewController: UIViewController, FSCalendarDataSource, FSCalendarDele
                 UITabBar.appearance().barTintColor = .init(red: 206.0/255.0, green:221.0/255.0,  blue: 254.0/255.0, alpha: 1)
                 self.tabBarController?.tabBar.barTintColor = .init(red: 206.0/255.0, green:221.0/255.0,  blue: 254.0/255.0, alpha: 1)
             }
-            
-            
         }
         
     }
-    
     
     // selectTheme
     func selectTheme() {
@@ -264,11 +260,10 @@ class HomeViewController: UIViewController, FSCalendarDataSource, FSCalendarDele
               let resultAlert = UIAlertController(title: "알림", message: "작성된 다이어리가 없습니다.\n다이어리 작성하시겠습니까?", preferredStyle: UIAlertController.Style.actionSheet)
               let cancelAction = UIAlertAction(title: "취소", style: UIAlertAction.Style.default, handler: nil)
               let okAction = UIAlertAction(title: "작성하러가기", style: UIAlertAction.Style.default, handler: {ACTION in
-                let vcName = self.storyboard?.instantiateViewController(withIdentifier: "SelectEmotionViewController") as? SelectEmotionViewController
-                vcName!.modalTransitionStyle = .coverVertical
-                vcName!.receivedDate = self.dateFormatter.string(from: date)
-                print("여기는?", self.dateFormatter.string(from: date))
-                    self.navigationController?.pushViewController(vcName!, animated: true)
+                let selectEmotionView = self.storyboard?.instantiateViewController(withIdentifier: "SelectEmotionViewController") as? SelectEmotionViewController
+                selectEmotionView!.modalTransitionStyle = .coverVertical
+                selectEmotionView!.receivedDate = self.dateFormatter.string(from: date)
+                    self.navigationController?.pushViewController(selectEmotionView!, animated: true)
               })
               resultAlert.addAction(okAction)
               resultAlert.addAction(cancelAction)
@@ -276,7 +271,7 @@ class HomeViewController: UIViewController, FSCalendarDataSource, FSCalendarDele
             
           // Move SelectEmotionViewController When it is earlier than the current date and there is not a written diary
         } else if interval <= 0 && registerDates.contains(date) != true {
-            let resultAlert = UIAlertController(title: "알림", message: "작성된 다이어리가 없습니다.\n다이어리 작성하시겠습니까?", preferredStyle: UIAlertController.Style.actionSheet)
+              let resultAlert = UIAlertController(title: "알림", message: "작성된 다이어리가 없습니다.\n다이어리 작성하시겠습니까?", preferredStyle: UIAlertController.Style.actionSheet)
               let cancelAction = UIAlertAction(title: "취소", style: UIAlertAction.Style.default, handler: nil)
               let okAction = UIAlertAction(title: "작성하러가기", style: UIAlertAction.Style.default, handler: {ACTION in
                     let selectEmotionView = self.storyboard?.instantiateViewController(withIdentifier: "SelectEmotionViewController") as? SelectEmotionViewController
@@ -292,7 +287,7 @@ class HomeViewController: UIViewController, FSCalendarDataSource, FSCalendarDele
         } else {
             let detailView = self.storyboard?.instantiateViewController(withIdentifier: "DetailViewController") as? DetailViewController
             detailView!.modalTransitionStyle = .coverVertical
-            detailView!.date = dateFormatter.string(from: date)
+            detailView!.selectedDate = dateFormatter.string(from: date)
             self.navigationController?.pushViewController(detailView!, animated: true)
             
         }

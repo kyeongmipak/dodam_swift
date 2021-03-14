@@ -22,10 +22,11 @@ class SelectEmotionViewController: UIViewController {
     @IBOutlet weak var boredEmotion: UIImageView!
     @IBOutlet weak var unknownEmotion: UIImageView!
     
-    var emotion = 0
     var receivedDate = ""
     var modifyCheck = 0
+    var emotion = 0
     
+    // Transfer selected emotion to RegisterViewController
     var delegate: DeliveryEmotionCheckProtocol?
     
     override func viewDidLoad() {

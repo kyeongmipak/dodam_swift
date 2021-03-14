@@ -122,13 +122,13 @@
 				627A01DF25FC651F00570064 /* MonthlyList */,
 				817ECD0D25F6025A00BB3F8B /* RegisterDiary */,
 				6253AB1C25F0DD310001BAEC /* Setting */,
+				817ECD0A25F6023700BB3F8B /* Share.swift */,
 				812B340025F0C2CB00DD299D /* AppDelegate.swift */,
 				812B340225F0C2CB00DD299D /* SceneDelegate.swift */,
 				812B340625F0C2CB00DD299D /* Main.storyboard */,
 				812B340925F0C2CE00DD299D /* Assets.xcassets */,
 				812B340B25F0C2CE00DD299D /* LaunchScreen.storyboard */,
 				812B340E25F0C2CE00DD299D /* Info.plist */,
-				817ECD0A25F6023700BB3F8B /* Share.swift */,
 			);
 			path = DodamDodam;
 			sourceTree = "<group>";

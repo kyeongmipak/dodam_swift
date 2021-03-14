@@ -42,17 +42,14 @@ class MonthlyListViewController: UIViewController, UITableViewDataSource, UITabl
         
         // If there is a problem opening database
         if sqlite3_open(fileURL.path, &db) != SQLITE_OK{
-            print("error opening database")
         }
         
         // If there is an existing table, ignore it, create it if it does not exist
         if sqlite3_exec(db, "CREATE TABLE IF NOT EXISTS dodamDiary (diaryNumber INTEGER PRIMARY KEY AUTOINCREMENT, diaryTitle TEXT, diaryContent TEXT, diaryImage BLOB, diaryDate TEXT)", nil, nil, nil) != SQLITE_OK{
-            let errmsg = String(cString: sqlite3_errmsg(db)!)
-            print("error creating table: \(errmsg)")
+            _ = String(cString: sqlite3_errmsg(db)!)
         }
         if sqlite3_exec(db,  "CREATE TABLE IF NOT EXISTS dodamSetting (userNo INTEGER PRIMARY KEY AUTOINCREMENT, userName TEXT, userBirth TEXT, userImage BLOB, settingTheme TEXT, settingFont Text, settingPassword INTEGER)", nil, nil, nil) != SQLITE_OK{
-            let errmsg = String(cString: sqlite3_errmsg(db)!)
-            print("error creating table: \(errmsg)")
+            _ = String(cString: sqlite3_errmsg(db)!)
         }
         
         // Setting initial value of year picker
@@ -140,15 +137,13 @@ class MonthlyListViewController: UIViewController, UITableViewDataSource, UITabl
         
         // Set sqlite for select action
         if sqlite3_prepare(db, queryString, -1, &stmt, nil) != SQLITE_OK{
-            let errmsg = String(cString: sqlite3_errmsg(db)!)
-            print("error preparing insert: \(errmsg)")
+            _ = String(cString: sqlite3_errmsg(db)!)
             return
         }
         
         // Set value for question mark in queryString (initially setted year-month)
         if sqlite3_bind_text(stmt, 1, selectedDate, -1, SQLITE_TRANSIENT) != SQLITE_OK{
-            let errmsg = String(cString: sqlite3_errmsg(db)!)
-            print("error binding name: \(errmsg)")
+            _ = String(cString: sqlite3_errmsg(db)!)
             return
         }
         
@@ -182,15 +177,13 @@ class MonthlyListViewController: UIViewController, UITableViewDataSource, UITabl
         
         // Set sqlite for select action
         if sqlite3_prepare(db, queryString, -1, &stmt, nil) != SQLITE_OK{
-            let errmsg = String(cString: sqlite3_errmsg(db)!)
-            print("error preparing insert: \(errmsg)")
+            _ = String(cString: sqlite3_errmsg(db)!)
             return
         }
         
         // Set value for question mark in queryString (selected year-month)
         if sqlite3_bind_text(stmt, 1, selectedDate, -1, SQLITE_TRANSIENT) != SQLITE_OK{
-            let errmsg = String(cString: sqlite3_errmsg(db)!)
-            print("error binding name: \(errmsg)")
+            _ = String(cString: sqlite3_errmsg(db)!)
             return
         }
         
@@ -255,7 +248,7 @@ class MonthlyListViewController: UIViewController, UITableViewDataSource, UITabl
             let cell = sender as! UITableViewCell
             let indexPath = self.MonthlyTableList.indexPath(for: cell)
             let detailView = segue.destination as! DetailViewController
-            detailView.date = diaryList[(indexPath?.row)!].diaryDate!
+            detailView.selectedDate = diaryList[(indexPath?.row)!].diaryDate!
             
         }
     }

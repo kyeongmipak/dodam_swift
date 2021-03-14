@@ -20,7 +20,7 @@ class ProfileViewController: UIViewController,UIImagePickerControllerDelegate,UI
     
     var selectDate = ""
     var currentDate = ""
-    var db: OpaquePointer?  // <----- db는 OpaquePointer 타입을 쓴다.
+    var db: OpaquePointer?
     
     var userName = ""
     var userBirth: String? = ""
@@ -36,8 +36,8 @@ class ProfileViewController: UIViewController,UIImagePickerControllerDelegate,UI
     override func viewDidLoad() {
         super.viewDidLoad()
         datePicker.maximumDate = Date()
-        // Do any additional setup after loading the view.
-        // 이미지 둥글게 만들기
+      
+        // Round the image
         babyImage.layer.cornerRadius = (babyImage.frame.size.width) / 2
         babyImage.layer.masksToBounds = true
         
@@ -57,9 +57,10 @@ class ProfileViewController: UIViewController,UIImagePickerControllerDelegate,UI
         let fileURL = try! FileManager.default.url(for: .documentDirectory, in: .userDomainMask, appropriateFor: nil, create: false).appendingPathComponent("Dodam.sqlite")
         
         if sqlite3_open(fileURL.path, &db) != SQLITE_OK {
-            print("error opening database")
+          
         }
         userInformationSearch()
+        
     }
     
     
@@ -100,7 +101,7 @@ class ProfileViewController: UIViewController,UIImagePickerControllerDelegate,UI
             selectDate = userBirth!
         }
         
-        let SQLITE_TRANSIENT = unsafeBitCast(-1, to: sqlite3_destructor_type.self)      // <--- 한글 들어가기 위해 꼭 필요
+        let SQLITE_TRANSIENT = unsafeBitCast(-1, to: sqlite3_destructor_type.self)      // encoding
         userName = tfUserName.text!.trimmingCharacters(in: .whitespacesAndNewlines.self)
         if userName.isEmpty == true {
             let resultAlert = UIAlertController(title: "Dodam 알림", message: "아기의 이름을 입력 해주세요!", preferredStyle: UIAlertController.Style.actionSheet)
@@ -117,40 +118,40 @@ class ProfileViewController: UIViewController,UIImagePickerControllerDelegate,UI
         let queryString = "UPDATE dodamSetting SET userName = ?, userBirth = ?, userImage = ? where userNo = ?"
         
         if sqlite3_prepare(db, queryString, -1, &stmt, nil) != SQLITE_OK {
-            let errmsg = String(cString: sqlite3_errmsg(db)!)
-            print("error preparing update : \(errmsg)")
+            _ = String(cString: sqlite3_errmsg(db)!)
+     
             return
         }
         
         if sqlite3_bind_text(stmt, 1, userName, -1, SQLITE_TRANSIENT) != SQLITE_OK {
-            let errmsg = String(cString: sqlite3_errmsg(db)!)
-            print("error binding userName : \(errmsg)")
+            _ = String(cString: sqlite3_errmsg(db)!)
+            
             return
         }
         
         
         if sqlite3_bind_text(stmt, 2, selectDate, -1, SQLITE_TRANSIENT) != SQLITE_OK {
-            let errmsg = String(cString: sqlite3_errmsg(db)!)
-            print("error binding userBirth : \(errmsg)")
+            _ = String(cString: sqlite3_errmsg(db)!)
+            
             return
         }
         
         if sqlite3_bind_blob(stmt, 3, daily.bytes, Int32(daily.length), SQLITE_TRANSIENT) != SQLITE_OK {
-            let errmsg = String(cString: sqlite3_errmsg(db)!)
-            print("error binding userImage : \(errmsg)")
+            _ = String(cString: sqlite3_errmsg(db)!)
+         
             return
         }
         if sqlite3_bind_int(stmt, 4, 1) != SQLITE_OK{
-            let errmsg = String(cString: sqlite3_errmsg(db)!)
-            print("error binding userNo : \(errmsg)")
+            _ = String(cString: sqlite3_errmsg(db)!)
+   
             return
         }
         
         
-        // sqlite 실행
+        // sqlite execution
         if sqlite3_step(stmt) != SQLITE_DONE {
-            let errmsg = String(cString: sqlite3_errmsg(db)!)
-            print("failure inserting : \(errmsg)")
+            _ = String(cString: sqlite3_errmsg(db)!)
+      
             return
         }
         
@@ -167,14 +168,14 @@ class ProfileViewController: UIViewController,UIImagePickerControllerDelegate,UI
     
     
     
-    // profile image click 메소드
+    // profile image click
     @objc func clickMethod() {
-        print("tapped")
+     
         let photoAlert = UIAlertController(title: "사진 가져오기", message: "Photo Library에서 사진을 가져 옵니다.", preferredStyle: UIAlertController.Style.actionSheet)
         
         let okAction = UIAlertAction(title: "OK", style: UIAlertAction.Style.default, handler: { [self]ACTION in
             self.imagePickerController.sourceType = .photoLibrary
-            self.present(self.imagePickerController, animated: false, completion: nil) // animated: true로 해서 차이점을 확인해 보세요!
+            self.present(self.imagePickerController, animated: false, completion: nil)
         })
         let cancelAction = UIAlertAction(title: "취소", style: .cancel, handler: nil)
         
@@ -186,7 +187,7 @@ class ProfileViewController: UIViewController,UIImagePickerControllerDelegate,UI
     
     
     func imagePickerController(_ picker: UIImagePickerController, didFinishPickingMediaWithInfo info: [UIImagePickerController.InfoKey : Any]) {
-        if let image = info[UIImagePickerController.InfoKey.originalImage] as? UIImage { // 원본 이미지가 있을 경우
+        if let image = info[UIImagePickerController.InfoKey.originalImage] as? UIImage {
             
             babyImage.image = image
             imageURL = info[UIImagePickerController.InfoKey.imageURL] as? URL
@@ -202,16 +203,16 @@ class ProfileViewController: UIViewController,UIImagePickerControllerDelegate,UI
         let queryString = "SELECT userName, userBirth, userImage FROM dodamSetting"
         var stmt: OpaquePointer?
         
-        if sqlite3_prepare(db, queryString, -1, &stmt, nil) != SQLITE_OK {  // select하기 위한 셋팅, insert와 동일 (error msg만 바뀐다)
-            let errmsg = String(cString: sqlite3_errmsg(db)!)
-            print("error preparing select: \(errmsg)")
+        if sqlite3_prepare(db, queryString, -1, &stmt, nil) != SQLITE_OK {
+            _ = String(cString: sqlite3_errmsg(db)!)
+     
             return
         }
         
         
-        while sqlite3_step(stmt) == SQLITE_ROW{  // 읽어올 데이터가 있는지 확인
+        while sqlite3_step(stmt) == SQLITE_ROW{
             userName = String(cString: sqlite3_column_text(stmt, 0))
-            userBirth = String(cString: sqlite3_column_text(stmt, 1))  // db 타입은 text로 string으로 변환해야 배열에 쓸 수 있다.\
+            userBirth = String(cString: sqlite3_column_text(stmt, 1))
             if let userImage = sqlite3_column_blob(stmt, 2){
                 let view = Int(sqlite3_column_bytes(stmt, 2))
                 dataView = Data(bytes: userImage, count: view)
@@ -221,15 +222,19 @@ class ProfileViewController: UIViewController,UIImagePickerControllerDelegate,UI
         babyImage.image = UIImage(data: dataView)
         tfUserName.text = userName
         formatter.dateFormat = "yyyy-MM-dd"
-        print("userBirth",userBirth!)
         if userBirth == ""{
             
         }else{
             let dateTime = formatter.date(from: userBirth!)!
             self.datePicker.setDate(dateTime, animated: true)
         }
-        
-        
-        
     }
+    
+    
+    override func touchesBegan(_ touches: Set<UITouch>, with event: UIEvent?) {
+         self.view.endEditing(true)
+             
+     }
+    
+    
 }

@@ -76,8 +76,60 @@ class MonthlyListViewController: UIViewController, UITableViewDataSource, UITabl
         readInitialSettingValues() // Excute function for initial value of sqlite
     }
     
+    
+    // selectTheme
+    func selectTheme() {
+        let queryString = "SELECT * FROM dodamSetting"
+        var stmt: OpaquePointer?
+        
+        if sqlite3_prepare(db, queryString, -1, &stmt, nil) != SQLITE_OK {
+            _ = String(cString: sqlite3_errmsg(db)!)
+            return
+        }
+        
+        while sqlite3_step(stmt) == SQLITE_ROW {
+            let theme = String(cString: sqlite3_column_text(stmt, 4))
+            
+            if theme == "Purple" {
+                self.navigationController?.navigationBar.barTintColor = .init(red: 220.0/255.0, green:197.0/255.0,  blue: 253.0/255.0, alpha: 1)
+                UITabBar.appearance().barTintColor = .init(red: 220.0/255.0, green:197.0/255.0,  blue: 253.0/255.0, alpha: 1)
+                self.tabBarController?.tabBar.barTintColor = .init(red: 220.0/255.0, green:197.0/255.0,  blue: 253.0/255.0, alpha: 1)
+            }else if theme == "Pink" {
+                self.navigationController?.navigationBar.barTintColor = .init(red: 253.0/255.0, green:179.0/255.0,  blue: 219.0/255.0, alpha: 1)
+                UITabBar.appearance().barTintColor = .init(red: 253.0/255.0, green:179.0/255.0,  blue: 219.0/255.0, alpha: 1)
+                self.tabBarController?.tabBar.barTintColor = .init(red: 253.0/255.0, green:179.0/255.0,  blue: 219.0/255.0, alpha: 1)
+            }else if theme == "Green" {
+                self.navigationController?.navigationBar.barTintColor = .init(red: 223.0/255.0, green:255.0/255.0,  blue: 230.0/255.0, alpha: 1)
+                UITabBar.appearance().barTintColor = .init(red: 223.0/255.0, green:255.0/255.0,  blue: 230.0/255.0, alpha: 1)
+                self.tabBarController?.tabBar.barTintColor = .init(red: 223.0/255.0, green:255.0/255.0,  blue: 230.0/255.0, alpha: 1)
+            }
+            else if theme == "Yellow" {
+                self.navigationController?.navigationBar.barTintColor = .init(red: 251.0/255.0, green:254.0/255.0,  blue: 182.0/255.0, alpha: 1)
+                UITabBar.appearance().barTintColor = .init(red: 251.0/255.0, green:254.0/255.0,  blue: 182.0/255.0, alpha: 1)
+                self.tabBarController?.tabBar.barTintColor = .init(red: 251.0/255.0, green:254.0/255.0,  blue: 182.0/255.0, alpha: 1)
+            }
+            else if theme == "Orange" {
+                self.navigationController?.navigationBar.barTintColor = .init(red: 253.0/255.0, green:197.0/255.0,  blue: 172.0/255.0, alpha: 1)
+                UITabBar.appearance().barTintColor = .init(red: 253.0/255.0, green:197.0/255.0,  blue: 172.0/255.0, alpha: 1)
+                self.tabBarController?.tabBar.barTintColor = .init(red: 253.0/255.0, green:197.0/255.0,  blue: 172.0/255.0, alpha: 1)
+            }
+            else if theme == "Sky" {
+                self.navigationController?.navigationBar.barTintColor = .init(red: 206.0/255.0, green:221.0/255.0,  blue: 254.0/255.0, alpha: 1)
+                UITabBar.appearance().barTintColor = .init(red: 206.0/255.0, green:221.0/255.0,  blue: 254.0/255.0, alpha: 1)
+                self.tabBarController?.tabBar.barTintColor = .init(red: 206.0/255.0, green:221.0/255.0,  blue: 254.0/255.0, alpha: 1)
+            }
+            
+        }
+        
+    }
+    
+    
+    
+    
     // for reload data
     override func viewWillAppear(_ animated: Bool) {
+        selectTheme()
+        
         // Setting initial value
         yearsPicker.selectRow(1, inComponent: 0, animated: true)
         monthPicker.selectRow((Int(realMonth)!-1), inComponent: 0, animated: true)

@@ -30,20 +30,19 @@ class AlarmSettingViewController: UIViewController, UNUserNotificationCenterDele
 
     
     @IBAction func changeDatePicker(_ sender: UIDatePicker) {
-        // 전달된 인수 저장
+        // Save passed argument
         let datePickerView = sender
-        // DateFormatter 클래스 상수 선언
+        // DateFormatter 
         let formatter = DateFormatter()
         
-        // Locale 설정 "ko" 한국 기준
+        // Locale Settings "ko" korea
         formatter.locale = Locale(identifier: "ko")
-        // formatter의 dateFormat 속성을 설정
-        // 년도 - 월 - 일 요일 (오전/오후) 시간 : 분 : 초
+
         formatter.dateFormat = "HH:mm"
         
         selectTime = formatter.string(from: datePickerView.date)
         print(selectTime)
-//        UserDefaults.standard.set(selectTime, forKey: "TimeKeeper")
+
         alarmTime = selectTime.components(separatedBy: [":"])
         print("alarmTime",alarmTime)
         alarmHour = alarmTime[0]
@@ -97,7 +96,7 @@ class AlarmSettingViewController: UIViewController, UNUserNotificationCenterDele
         let center = UNUserNotificationCenter.current()
         let destructiveAction = UNNotificationAction(identifier: "DESID", title: "확인", options: UNNotificationActionOptions(rawValue: 0))
 
-        // ios 10 +
+       
         let category = UNNotificationCategory(
             identifier: "Dodam",
             actions: [destructiveAction],
@@ -109,7 +108,7 @@ class AlarmSettingViewController: UIViewController, UNUserNotificationCenterDele
 
         }
 
-    // Notification 에 대한 세팅
+    // Notification Settings
     func getNotificationSettings(completionHandler: @escaping (Bool) -> Void) {
         let center = UNUserNotificationCenter.current()
         center.getNotificationSettings { (settings) in

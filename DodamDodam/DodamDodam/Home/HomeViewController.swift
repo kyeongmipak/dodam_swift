@@ -307,8 +307,15 @@ class HomeViewController: UIViewController, FSCalendarDataSource, FSCalendarDele
         registerDates.removeAll()
         dateSelectAction()
         calendar.reloadData()
-
+        
+        NotificationCenter.default.addObserver(self, selector: #selector(reloadPage(_:)), name: Notification.Name(rawValue: "callDetailPage"), object: nil)
     }
+    
+    @objc func reloadPage(_ notification: Notification) { // add
+          userInformationSearch()
+
+      }
+    
     
     // Search user's information
     func userInformationSearch() {

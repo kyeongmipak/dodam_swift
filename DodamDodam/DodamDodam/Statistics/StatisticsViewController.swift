@@ -39,6 +39,7 @@ class StatisticsViewController: UIViewController, UIPickerViewDelegate, UIPicker
     var nowMonth = ""
     var selectedYear = ""
     var selectedMonth = ""
+    // Variables to verify that Picker is selected
     var selectCheckYearsPicker = 0
     var selectCheckMonthsPicker = 0
     
@@ -47,7 +48,7 @@ class StatisticsViewController: UIViewController, UIPickerViewDelegate, UIPicker
     var emotionCount : [Double] = []
     
     // For the bar chart
-    var chartColor = Share.emotionBaseColor
+    var chartColor : [UIColor] = []
     var imageArray = Share.imageFileName
     
     // To sort the data
@@ -64,7 +65,11 @@ class StatisticsViewController: UIViewController, UIPickerViewDelegate, UIPicker
     override func viewDidLoad() {
         super.viewDidLoad()
         
+        // Batch UIimageviews into arrays
         groupImageView = [totalFirst, totalSecond, totalThird, totalFourth, totalFifth, totalSixth, totalSeventh, totalEighth, totalNinth, totalTenth, totalEleventh, totalTwelveth]
+        
+        // Save emotion color (use chart)
+        chartColor = [UIColor.init(red: 244.0/255.0, green: 206.0/255.0, blue: 243.0/255.0, alpha: 1), UIColor.init(red: 175.0/255.0, green: 236.0/255.0, blue: 229.0/255.0, alpha: 1), UIColor.init(red: 255.0/255.0, green: 139.0/255.0, blue: 116.0/255.0, alpha: 1), UIColor.init(red: 255.0/255.0, green: 209.0/255.0, blue: 80.0/255.0, alpha: 1), UIColor.init(red: 255.0/255.0, green: 65.0/255.0, blue: 56.0/255.0, alpha: 1), UIColor.init(red: 255.0/255.0, green: 175.0/255.0, blue: 181.0/255.0, alpha: 1), UIColor.init(red: 106.0/255.0, green: 151.0/255.0, blue: 255.0/255.0, alpha: 1), UIColor.init(red: 255.0/255.0, green: 207.0/255.0, blue: 197.0/255.0, alpha: 1), UIColor.init(red: 255.0/255.0, green: 224.0/255.0, blue: 131.0/255.0, alpha: 1), UIColor.init(red: 188.0/255.0, green: 238.0/255.0, blue: 151.0/255.0, alpha: 1), UIColor.init(red: 172.0/255.0, green: 238.0/255.0, blue: 255.0/255.0, alpha: 1), UIColor.init(red: 0.0/255.0, green: 203.0/255.0, blue: 194.0/255.0, alpha: 1)]
         
         // SQLite setting
         let fileURL = try! FileManager.default.url(for: .documentDirectory, in: .userDomainMask, appropriateFor: nil, create: false).appendingPathComponent("Dodam.sqlite")
@@ -84,6 +89,7 @@ class StatisticsViewController: UIViewController, UIPickerViewDelegate, UIPicker
         }
         yearsPicker.selectRow(100, inComponent: 0, animated: true)
         
+        // months picker setting
         for month in 1..<13 {
             if month < 10{
                 months.append("0\(month)월")
@@ -97,10 +103,11 @@ class StatisticsViewController: UIViewController, UIPickerViewDelegate, UIPicker
         nowMonth = formatter.string(from: date as Date)
         monthsPicker.selectRow((Int(nowMonth)!-1), inComponent: 0, animated: true)
         
+        // Load data for today's year and month
         for index in 0 ..< imageArray.count {
             readValues(index: index, year: String(nowYear), month: String(nowMonth))
         }
-       
+        
         sortData()
 
         setChart(dataPoints: imageArraySorted, values: emotionCount)
@@ -116,11 +123,12 @@ class StatisticsViewController: UIViewController, UIPickerViewDelegate, UIPicker
         sortedIndex.removeAll()
         removeIndex.removeAll()
         addChartCount = 0
-        
         for index in 0 ..< groupImageView.count {
             groupImageView[index].image = UIImage.init()
         }
         
+        
+        // Divide the number of cases depending on whether the picker is selected
         switch selectCheckYearsPicker {
         case 0:
             switch selectCheckMonthsPicker {
@@ -163,6 +171,7 @@ class StatisticsViewController: UIViewController, UIPickerViewDelegate, UIPicker
     
     */
     
+    // Setting for picker
     func numberOfComponents(in pickerView: UIPickerView) -> Int {
         return 1
     }
@@ -191,19 +200,22 @@ class StatisticsViewController: UIViewController, UIPickerViewDelegate, UIPicker
         return ""
     }
     
-    // 선택한 값 받아올 수 있음
     func pickerView(_ pickerView: UIPickerView, didSelectRow row: Int, inComponent component: Int) {
         switch pickerView {
         case yearsPicker:
+            
             selectCheckYearsPicker = 1
             selectedYear = years[row]
-            selectedYear.remove(at: selectedYear.index(before: selectedYear.endIndex))
             
+            // Remove unnecessary content from picker
+            selectedYear.remove(at: selectedYear.index(before: selectedYear.endIndex))
         case monthsPicker :
+            
             selectCheckMonthsPicker = 1
             selectedMonth = months[row]
+            
+            // Remove unnecessary content from picker
             selectedMonth.remove(at: selectedMonth.index(before: selectedMonth.endIndex))
-
         default:
             break
         }
@@ -225,7 +237,7 @@ class StatisticsViewController: UIViewController, UIPickerViewDelegate, UIPicker
         if sqlite3_bind_text(stmt, 1, String(index), -1, SQLITE_TRANSIENT) != SQLITE_OK {
         }
         
-        while sqlite3_step(stmt) == SQLITE_ROW {        // 읽어올 데이터가 있는지
+        while sqlite3_step(stmt) == SQLITE_ROW {
             let count = sqlite3_column_int(stmt, 0)
             if index == 0 {
                 emotionCount.append(Double(count))
@@ -284,13 +296,13 @@ class StatisticsViewController: UIViewController, UIPickerViewDelegate, UIPicker
             }
         }
         
-        //
+        // Sort data by sorted index
         for index in sortedIndex {
             imageArraySorted.append(imageArray[index])
             chartColorSorted.append(chartColor[index])
         }
 
-        //
+        // Store index and number of data equal to zero
         for i in 0 ..< emotionCount.count {
             if Int(emotionCount[i]) == 0 {
                 addChartCount = addChartCount + 1
@@ -298,15 +310,11 @@ class StatisticsViewController: UIViewController, UIPickerViewDelegate, UIPicker
             }
         }
         
-        //
+        // Erases arrays of zero data from large numbers.
         for index in 0 ..< removeIndex.count {
             imageArraySorted.remove(at: removeIndex[removeIndex.count - index - 1])
             emotionCount.remove(at: removeIndex[removeIndex.count - index - 1])
             chartColorSorted.remove(at: removeIndex[removeIndex.count - index - 1])
-        }
-        
-        for index in (0 ..< imageArraySorted.count).reversed() {
-            groupImageView[imageArraySorted.count - index - 1].image = UIImage(named: imageArraySorted[index])
         }
         
     }
@@ -318,63 +326,49 @@ class StatisticsViewController: UIViewController, UIPickerViewDelegate, UIPicker
     */
     
     func setChart (dataPoints : [String], values : [Double]){
+        
+        // Shows images sorted in order with the most statistics
+        for index in 0 ..< imageArraySorted.count {
+            groupImageView[imageArraySorted.count - index - 1].image = UIImage(named: imageArraySorted[index])
+        }
+        
+        // To set bar chart
         var dataEntries: [BarChartDataEntry] = []
-
         for i in 0 ..< dataPoints.count {
             let dataEntry = BarChartDataEntry(x: Double(i+addChartCount)*2, y: values[i])
             dataEntries.append(dataEntry)
         }
-
         let chartDataSet = BarChartDataSet(entries: dataEntries)
         chartDataSet.colors = chartColorSorted
-        
-        
-        // 더블은 인테저로 바꿔 줌
         let format = NumberFormatter()
         format.generatesDecimalNumbers = false
         let formatter = DefaultValueFormatter(formatter: format)
         chartDataSet.valueFormatter = formatter
-        
+        chartDataSet.highlightEnabled = false
+        chartDataSet.valueFont = UIFont.systemFont(ofSize: 30)
         
         barChart.xAxis.axisMinimum = -0.6
         barChart.xAxis.axisMaximum = 12 * 2 - 1.5
-        
-        
-        // 차트 컬러
-//        chartDataSet.colors = [.systemBlue]
-
-        // 선택 안되게
-        chartDataSet.highlightEnabled = false
         barChart.legend.enabled = false
-        chartDataSet.valueFont = UIFont.systemFont(ofSize: 30)
-        
-        // 줌 안되게
         barChart.doubleTapToZoomEnabled = false
-        
-        // X축 레이블 위치 조정
-//        barChart.xAxis.labelPosition = .bottomInside
-        // X축 레이블 포맷 지정
-//        barChart.xAxis.valueFormatter = IndexAxisValueFormatter(values: emotion)
-        
-        // X축 레이블 갯수 최대로 설정 (이 코드 안쓸 시 Jan Mar May 이런식으로 띄엄띄엄 조금만 나옴)
         barChart.xAxis.setLabelCount(dataPoints.count, force: false)
-        
         barChart.rightAxis.enabled = false
-         barChart.leftAxis.enabled = false
+        barChart.leftAxis.enabled = false
         barChart.xAxis.enabled = false
-        
         barChart.leftAxis.axisMinimum = 0
-        
-        
         barChart.animate(xAxisDuration: 2.0, yAxisDuration: 2.0)
         
-        // 데이터 삽입
         let chartData = BarChartData(dataSet: chartDataSet)
         barChart.data = chartData
     }
     
+    /*
+    // MARK: - Theme Navigation
+
     
-    // selectTheme
+    */
+    
+    // selected Theme
     func selectTheme() {
         let queryString = "SELECT * FROM dodamSetting"
         var stmt: OpaquePointer?
@@ -420,7 +414,11 @@ class StatisticsViewController: UIViewController, UIPickerViewDelegate, UIPicker
         
     }
     
+    /*
+    // MARK: - viewWillAppear Navigation
+
     
+    */
     
     override func viewWillAppear(_ animated: Bool) {
         selectTheme()
@@ -432,11 +430,12 @@ class StatisticsViewController: UIViewController, UIPickerViewDelegate, UIPicker
         sortedIndex.removeAll()
         removeIndex.removeAll()
         addChartCount = 0
-        
         for index in 0 ..< groupImageView.count {
             groupImageView[index].image = UIImage.init()
         }
         
+        
+        // Divide the number of cases depending on whether the picker is selected
         switch selectCheckYearsPicker {
         case 0:
             switch selectCheckMonthsPicker {
@@ -468,9 +467,7 @@ class StatisticsViewController: UIViewController, UIPickerViewDelegate, UIPicker
             break
         }
         
-        
         sortData()
-        
         setChart(dataPoints: imageArraySorted, values: emotionCount)
     }
 }

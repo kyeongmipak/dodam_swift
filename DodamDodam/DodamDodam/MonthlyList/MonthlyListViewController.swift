@@ -70,7 +70,7 @@ class MonthlyListViewController: UIViewController, UITableViewDataSource, UITabl
         readInitialSettingValues() // Excute function for initial value of sqlite
     }
     
-    // selectTheme
+    // selected Theme
     func selectTheme() {
         let queryString = "SELECT * FROM dodamSetting"
         var stmt: OpaquePointer?

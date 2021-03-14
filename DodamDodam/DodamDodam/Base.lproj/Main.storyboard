@@ -143,6 +143,7 @@
                                             </pickerView>
                                             <button opaque="NO" contentMode="scaleToFill" contentHorizontalAlignment="center" contentVerticalAlignment="center" lineBreakMode="middleTruncation" translatesAutoresizingMaskIntoConstraints="NO" id="poD-zk-eYu">
                                                 <rect key="frame" x="245" y="63.66666666666665" width="60" height="22.666666666666664"/>
+                                                <color key="tintColor" white="0.0" alpha="1" colorSpace="custom" customColorSpace="genericGamma22GrayColorSpace"/>
                                                 <state key="normal">
                                                     <imageReference key="image" image="magnifyingglass" catalog="system" symbolScale="large"/>
                                                 </state>

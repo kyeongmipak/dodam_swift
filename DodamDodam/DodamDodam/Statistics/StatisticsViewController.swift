@@ -368,7 +368,7 @@ class StatisticsViewController: UIViewController, UIPickerViewDelegate, UIPicker
     
     */
     
-    // selected Theme
+    // select Theme
     func selectTheme() {
         let queryString = "SELECT * FROM dodamSetting"
         var stmt: OpaquePointer?

@@ -165,7 +165,7 @@ class HomeViewController: UIViewController, FSCalendarDataSource, FSCalendarDele
         
     }
     
-    // selected Theme
+    // select Theme
     func selectTheme() {
         var stmt: OpaquePointer?
 

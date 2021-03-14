@@ -59,3 +59,31 @@ diary for a child growing up without any problems
 접속기록의 보관 및 위변조 방지 개인정보처리시스템에 접속한 기록을 최소 6개월 이상 보관, 관리하고 있으며, 접속 기록이 위변조 및 도난, 분실되지 않도록 보안기능 사용하고 있습니다.
 
 개인정보에 대한 접근 제한 개인정보를 처리하는 데이터베이스시스템에 대한 접근권한의 부여,변경,말소를 통하여 개인정보에 대한 접근통제를 위하여 필요한 조치를 하고 있으며 침입차단시스템을 이용하여 외부로부터의 무단 접근을 통제하고 있습니다.
+
+
+
+## 프로젝트 소개 및 결과물
+![Dodam 001](https://user-images.githubusercontent.com/75213680/111074109-f58e6980-8524-11eb-9cee-e54e234d971e.jpeg)
+![Dodam 002](https://user-images.githubusercontent.com/75213680/111074113-f8895a00-8524-11eb-98bd-b77e90a3ecd3.jpeg)
+![Dodam 003](https://user-images.githubusercontent.com/75213680/111074115-f921f080-8524-11eb-9114-af1b7dad67af.jpeg)
+![Dodam 004](https://user-images.githubusercontent.com/75213680/111074116-f9ba8700-8524-11eb-8ca8-989c927963bf.jpeg)
+![Dodam 005](https://user-images.githubusercontent.com/75213680/111074117-fa531d80-8524-11eb-9ad1-fda252c206b0.jpeg)
+![Dodam 006](https://user-images.githubusercontent.com/75213680/111074118-faebb400-8524-11eb-87e4-1b5060efdf63.jpeg)
+![Dodam 007](https://user-images.githubusercontent.com/75213680/111074119-fb844a80-8524-11eb-8358-b211fbe8f387.jpeg)
+![Dodam 008](https://user-images.githubusercontent.com/75213680/111074120-fb844a80-8524-11eb-97e6-f07989c201ab.jpeg)
+![Dodam 009](https://user-images.githubusercontent.com/75213680/111074121-fc1ce100-8524-11eb-8ba8-795d4358d5d1.jpeg)
+![Dodam 010](https://user-images.githubusercontent.com/75213680/111074122-fcb57780-8524-11eb-8326-28d3f5dfc9d5.jpeg)
+![Dodam 011](https://user-images.githubusercontent.com/75213680/111074124-fd4e0e00-8524-11eb-8fcc-d4b1d4362aba.jpeg)
+![Dodam 012](https://user-images.githubusercontent.com/75213680/111074125-fd4e0e00-8524-11eb-923b-7fb3bf2309f5.jpeg)
+![Dodam 013](https://user-images.githubusercontent.com/75213680/111074126-fde6a480-8524-11eb-8e04-c2146846b392.jpeg)
+![Dodam 014](https://user-images.githubusercontent.com/75213680/111074127-fe7f3b00-8524-11eb-81ce-7d078c909a83.jpeg)
+![Dodam 015](https://user-images.githubusercontent.com/75213680/111074128-fe7f3b00-8524-11eb-90c0-bd69cafead13.jpeg)
+![Dodam 016](https://user-images.githubusercontent.com/75213680/111074129-ff17d180-8524-11eb-9c9f-949abd139c1a.jpeg)
+![Dodam 017](https://user-images.githubusercontent.com/75213680/111074131-ffb06800-8524-11eb-9490-a8791ed6b169.jpeg)
+![Dodam 018](https://user-images.githubusercontent.com/75213680/111074133-0048fe80-8525-11eb-82e6-7521d2fecbd1.jpeg)
+![Dodam 019](https://user-images.githubusercontent.com/75213680/111074135-0048fe80-8525-11eb-91eb-129c5df16e22.jpeg)
+![Dodam 020](https://user-images.githubusercontent.com/75213680/111074136-00e19500-8525-11eb-86a3-484bffb49f84.jpeg)
+![Dodam 021](https://user-images.githubusercontent.com/75213680/111074138-017a2b80-8525-11eb-87bf-7b7a3d6e3829.jpeg)
+![Dodam 022](https://user-images.githubusercontent.com/75213680/111074141-017a2b80-8525-11eb-8878-15bb9d06055b.jpeg)
+![Dodam 023](https://user-images.githubusercontent.com/75213680/111074144-0212c200-8525-11eb-9bbb-ee60a3cf7ac4.jpeg)
+![Dodam 024](https://user-images.githubusercontent.com/75213680/111074146-02ab5880-8525-11eb-8de0-652ca5c03a4b.jpeg)

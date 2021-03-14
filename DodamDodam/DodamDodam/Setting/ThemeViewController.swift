@@ -160,8 +160,8 @@ class ThemeViewController: UIViewController {
             return
         }
         
-        let resultAlert = UIAlertController(title: "결과", message: "수정이 완료되었습니다.", preferredStyle: UIAlertController.Style.alert)
-        let okAction = UIAlertAction(title: "네, 알겠습니다.", style: UIAlertAction.Style.default, handler: {ACTION in
+        let resultAlert = UIAlertController(title: "Dodam 알림", message: "테마 수정이 완료되었습니다.", preferredStyle: UIAlertController.Style.alert)
+        let okAction = UIAlertAction(title: "확인", style: UIAlertAction.Style.default, handler: {ACTION in
             self.navigationController?.popViewController(animated: true)   
         })
         

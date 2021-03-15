@@ -61,7 +61,7 @@ diary for a child growing up without any problems
 개인정보에 대한 접근 제한 개인정보를 처리하는 데이터베이스시스템에 대한 접근권한의 부여,변경,말소를 통하여 개인정보에 대한 접근통제를 위하여 필요한 조치를 하고 있으며 침입차단시스템을 이용하여 외부로부터의 무단 접근을 통제하고 있습니다.
 
 # 유튜브 영상보기
-적용예: [도담 유튜브 영상 보기](https://www.youtube.com/watch?v=isxmoAD25KM&list=PLy7DaoYFyc1Az36ItJGmBsOVbq53MCMIZ&index=4, "dodam link")
+[도담 유튜브 영상 보기](https://www.youtube.com/watch?v=isxmoAD25KM&list=PLy7DaoYFyc1Az36ItJGmBsOVbq53MCMIZ&index=4, "dodam link")
 
 ## 프로젝트 소개 및 결과물
 ![Dodam 001](https://user-images.githubusercontent.com/75213680/111074109-f58e6980-8524-11eb-9cee-e54e234d971e.jpeg)

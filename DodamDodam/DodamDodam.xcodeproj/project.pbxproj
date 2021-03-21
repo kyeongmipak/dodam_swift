@@ -25,6 +25,7 @@
 		812B340D25F0C2CE00DD299D /* LaunchScreen.storyboard in Resources */ = {isa = PBXBuildFile; fileRef = 812B340B25F0C2CE00DD299D /* LaunchScreen.storyboard */; };
 		817ECD0B25F6023700BB3F8B /* Share.swift in Sources */ = {isa = PBXBuildFile; fileRef = 817ECD0A25F6023700BB3F8B /* Share.swift */; };
 		817ECD0F25F6028200BB3F8B /* SelectEmotionViewController.swift in Sources */ = {isa = PBXBuildFile; fileRef = 817ECD0E25F6028200BB3F8B /* SelectEmotionViewController.swift */; };
+		8191933D26073C3D00205F90 /* DetailUploadImageViewController.swift in Sources */ = {isa = PBXBuildFile; fileRef = 8191933C26073C3D00205F90 /* DetailUploadImageViewController.swift */; };
 		B399F8CCB79CB2A9C589D9E8 /* Pods_DodamDodam.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = 99B432E3C9A7B8F8482218F5 /* Pods_DodamDodam.framework */; };
 /* End PBXBuildFile section */
 
@@ -49,6 +50,7 @@
 		812B340E25F0C2CE00DD299D /* Info.plist */ = {isa = PBXFileReference; lastKnownFileType = text.plist.xml; path = Info.plist; sourceTree = "<group>"; };
 		817ECD0A25F6023700BB3F8B /* Share.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = Share.swift; sourceTree = "<group>"; };
 		817ECD0E25F6028200BB3F8B /* SelectEmotionViewController.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = SelectEmotionViewController.swift; sourceTree = "<group>"; };
+		8191933C26073C3D00205F90 /* DetailUploadImageViewController.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = DetailUploadImageViewController.swift; sourceTree = "<group>"; };
 		99B432E3C9A7B8F8482218F5 /* Pods_DodamDodam.framework */ = {isa = PBXFileReference; explicitFileType = wrapper.framework; includeInIndex = 0; path = Pods_DodamDodam.framework; sourceTree = BUILT_PRODUCTS_DIR; };
 		B1427A6E0556CBB59E4154B8 /* Pods-DodamDodam.debug.xcconfig */ = {isa = PBXFileReference; includeInIndex = 1; lastKnownFileType = text.xcconfig; name = "Pods-DodamDodam.debug.xcconfig"; path = "Target Support Files/Pods-DodamDodam/Pods-DodamDodam.debug.xcconfig"; sourceTree = "<group>"; };
 		E84992BA5AFA07F9ECBA20A3 /* Pods-DodamDodam.release.xcconfig */ = {isa = PBXFileReference; includeInIndex = 1; lastKnownFileType = text.xcconfig; name = "Pods-DodamDodam.release.xcconfig"; path = "Target Support Files/Pods-DodamDodam/Pods-DodamDodam.release.xcconfig"; sourceTree = "<group>"; };
@@ -82,6 +84,7 @@
 			children = (
 				6253AB2025F0DDD50001BAEC /* HomeViewController.swift */,
 				6253AB2F25F0E0BA0001BAEC /* DetailViewController.swift */,
+				8191933C26073C3D00205F90 /* DetailUploadImageViewController.swift */,
 			);
 			path = Home;
 			sourceTree = "<group>";
@@ -291,6 +294,7 @@
 				6253AB2125F0DDD50001BAEC /* HomeViewController.swift in Sources */,
 				6253AB2625F0DE3C0001BAEC /* StatisticsViewController.swift in Sources */,
 				6253AB3625F0E12F0001BAEC /* ThemeViewController.swift in Sources */,
+				8191933D26073C3D00205F90 /* DetailUploadImageViewController.swift in Sources */,
 				817ECD0B25F6023700BB3F8B /* Share.swift in Sources */,
 				62C6E1E125FCC6FD00EF7D31 /* Diary.swift in Sources */,
 				817ECD0F25F6028200BB3F8B /* SelectEmotionViewController.swift in Sources */,

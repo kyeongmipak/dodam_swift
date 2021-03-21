@@ -284,9 +284,9 @@ class StatisticsViewController: UIViewController, UIPickerViewDelegate, UIPicker
         for _ in 0 ..< emotionCount.count - 1 {
             for j in 0 ..< emotionCount.count - 1 {
                 if (emotionCount[j] > emotionCount[j+1]){
-                    let temp = emotionCount[j]
+                    let tempEmotion = emotionCount[j]
                     emotionCount[j] = emotionCount[j+1]
-                    emotionCount[j+1] = temp
+                    emotionCount[j+1] = tempEmotion
                     let tempIndex = sortedIndex[j]
                     sortedIndex[j] = sortedIndex[j+1]
                     sortedIndex[j+1] = tempIndex

@@ -107,7 +107,7 @@ class RegisterViewController: UIViewController, UIImagePickerControllerDelegate 
         singleTapGestureRecognizer.numberOfTapsRequired = 1
         singleTapGestureRecognizer.isEnabled = true
         singleTapGestureRecognizer.cancelsTouchesInView = false
-        diaryScrollView.addGestureRecognizer(singleTapGestureRecognizer)
+        view.addGestureRecognizer(singleTapGestureRecognizer)
         
         // Change the keyboard position when entering content
         dailyContent.delegate = self
@@ -117,9 +117,21 @@ class RegisterViewController: UIViewController, UIImagePickerControllerDelegate 
 
         // When keyboard hide
         NotificationCenter.default.addObserver(self, selector: #selector(keyboardWillHide(_:)), name: UIResponder.keyboardWillHideNotification, object: nil)
-
+        
+        // 21.03.21 kyeongmi
+        // Add done button bar to close keyboard
+        let toolbar = UIToolbar()
+        toolbar.sizeToFit()
+        
+        let doneButton = UIBarButtonItem(title: "닫기", style: .done, target: self, action: #selector(self.doneBtnClicked))
+        let spaceButton = UIBarButtonItem(barButtonSystemItem: UIBarButtonItem.SystemItem.flexibleSpace, target: nil, action: nil)
+        
+        toolbar.setItems([spaceButton, spaceButton,doneButton], animated: true)
+        dailyTitle.inputAccessoryView = toolbar
+        dailyContent.inputAccessoryView = toolbar
     }
     
+
     // Receive data to SelectEmotionViewController
     func receivedItem(selectedDate: String, selectedEmotion: Int) {
         registerDate = selectedDate
@@ -565,5 +577,11 @@ class RegisterViewController: UIViewController, UIImagePickerControllerDelegate 
         self.view.frame.origin.y = 0
     }
     
+    // 21.03.21 kyeongmi
+    // When done button bar clicked
+    @IBAction func doneBtnClicked (sender: Any) {
+        self.view.endEditing(true)
+        
+    }
 
 }

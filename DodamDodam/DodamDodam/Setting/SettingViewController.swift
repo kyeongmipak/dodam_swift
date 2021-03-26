@@ -48,7 +48,6 @@ class SettingViewController: UIViewController, UITableViewDelegate, UITableViewD
             [unowned self] notification in
             // Run when returning from background to foreground
             notificationAllow()
-            
         }
     }
     override func viewWillAppear(_ animated: Bool) {

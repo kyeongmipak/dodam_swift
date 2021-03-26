@@ -48,6 +48,10 @@ class DetailViewController: UIViewController {
        
         // Prevent diaryContent correction
         diaryContent.isUserInteractionEnabled = false
+        
+        // 21.03.21 kyeongmi
+        // Move DetailUploadImageViewController when daily image tapped
+        enlargeImageAction()
     }
     
     // Excute modify when modify's button click
@@ -137,7 +141,6 @@ class DetailViewController: UIViewController {
                 imageStack.isHidden = true
 
             }
-
     }
     
     // Excute delete Action
@@ -165,5 +168,27 @@ class DetailViewController: UIViewController {
         }
         
     }
+    
+    // 21.03.21 kyeongmi
+    // Move DetailUploadImageViewController when daily image tapped
+    func enlargeImageAction() {
+        // when sleep emotion tap
+        let tapDailyImage = UITapGestureRecognizer(target: self, action: #selector(self.dailyImageTapped))
+        dailyImage.addGestureRecognizer(tapDailyImage)
+        dailyImage.isUserInteractionEnabled = true
+    }
+    
+    // 21.03.21 kyeongmi
+    // Execute selector when daily image tapped
+    @objc func dailyImageTapped(sender: UITapGestureRecognizer) {
+        
+        let DetailUploadImageViewController = self.storyboard?.instantiateViewController(withIdentifier: "DetailUploadImageViewController") as? DetailUploadImageViewController
+        DetailUploadImageViewController!.modalTransitionStyle = .coverVertical
+        DetailUploadImageViewController!.diaryDate = selectedDate
+       
+        self.navigationController?.pushViewController(DetailUploadImageViewController!, animated: true)
+
+    }
+    
 
 }
